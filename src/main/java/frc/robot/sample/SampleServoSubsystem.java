@@ -16,7 +16,7 @@ public class SampleServoSubsystem extends SubsystemBase {
 
   private static SampleServoSubsystem instance = null;
 
-  private SampleServoSubsystem() {
+  public SampleServoSubsystem() {
       servo = new Servo(Ports.SERVO_PORT);
   }
 
