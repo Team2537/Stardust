@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.input.HumanInput;
+import frc.robot.nav.Navx;
 import frc.robot.sample.SampleServoSubsystem;
 
 /**
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
   public static HumanInput humanInput;
   public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
 
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -40,6 +42,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     humanInput = new HumanInput();
+
+    Navx.getInstance().reset();
   }
 
   /**
@@ -89,13 +93,28 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
   }
 
+
+
+  @Override
+  public void teleopInit() {
+    Navx.getInstance().reset();
+  }
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run(); 
+
+
+    System.out.println("Angle: " + Navx.getInstance().getAngle());
+    System.out.println("Yaw: " + Navx.getInstance().getYaw());
+    System.out.println("Pitch: " + Navx.getInstance().getPitch());
+    System.out.println("Roll: " + Navx.getInstance().getRoll());
+
   }
+
+  
 
   /**
    * This function is called periodically during test mode.
@@ -103,5 +122,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     Scheduler.getInstance().run(); 
+
   }
 }
