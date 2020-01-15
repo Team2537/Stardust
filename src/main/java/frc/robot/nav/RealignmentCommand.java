@@ -1,4 +1,4 @@
-package frc.robot.nav;
+ackage frc.robot.nav;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
@@ -30,7 +30,9 @@ public class RealignmentCommand extends CommandBase {
   @Override
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
-
+      double power = DEFAULT_PERCENT_OUTPUT;
+      power = Math.min(power, (Math.abs(currentAngle) / 1800)+.9) * Math.signum(currentAngle);
+          power = Math.max(power, MIN_PERCENT_OUTPUT);
   }
 
   // Called once the command ends or is interrupted.
