@@ -76,6 +76,9 @@ public class ControlPanelSubsystem extends Subsystem {
      
   }
 
+  //start motor
+  //stop motor
+
   @Override
   public void initDefaultCommand() {
     
