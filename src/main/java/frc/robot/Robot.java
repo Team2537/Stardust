@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.input.HumanInput;
 import frc.robot.sample.SampleServoSubsystem;
+import frc.robot.Shooter.ShooterSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -94,7 +95,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
     Scheduler.getInstance().run(); 
+    ShooterSubsystem.startMotor(60);
+    System.out.println(ShooterSubsystem.ShooterMotor.getSelectedSensorVelocity());
+
   }
 
   /**
@@ -102,6 +107,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    Scheduler.getInstance().run(); 
+    Scheduler.getInstance().run();
+    System.out.println(ShooterSubsystem.ShooterMotor.getSelectedSensorPosition()); 
   }
 }
