@@ -1,5 +1,7 @@
 package frc.robot.drive;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -30,25 +32,30 @@ public class DriveSubsystem extends SubsystemBase{
     public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kCoast;
     public static final MotorType DEFAULT_MOTOR_TYPE = MotorType.kBrushless;
 
+    private static TalonSRX peanutLeft, peanutRight;
+
 
     private DriveSubsystem(){
-        driveCANFrontLeft = new CANSparkMax(Ports.DRIVE_FRONT_LEFT, DEFAULT_MOTOR_TYPE);
-        driveCANBackLeft = new CANSparkMax(Ports.DRIVE_BACK_LEFT, DEFAULT_MOTOR_TYPE);
-        driveCANFrontRight = new CANSparkMax(Ports.DRIVE_FRONT_RIGHT, DEFAULT_MOTOR_TYPE);
-        driveCANBackRight = new CANSparkMax(Ports.DRIVE_BACK_RIGHT, DEFAULT_MOTOR_TYPE);
-        setIdleMode(DEFAULT_IDLE_MODE);
-        currentDriveMode = DriveMode.kMecanum;
+        // driveCANFrontLeft = new CANSparkMax(Ports.DRIVE_FRONT_LEFT, DEFAULT_MOTOR_TYPE);
+        // driveCANBackLeft = new CANSparkMax(Ports.DRIVE_BACK_LEFT, DEFAULT_MOTOR_TYPE);
+        // driveCANFrontRight = new CANSparkMax(Ports.DRIVE_FRONT_RIGHT, DEFAULT_MOTOR_TYPE);
+        // driveCANBackRight = new CANSparkMax(Ports.DRIVE_BACK_RIGHT, DEFAULT_MOTOR_TYPE);
+        // setIdleMode(DEFAULT_IDLE_MODE);
+        // currentDriveMode = DriveMode.kMecanum;
 
-        driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
-        driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
-        driveSolFrontRight = new Solenoid(Ports.DRIVE_SOL_FRONT_RIGHT);
-        driveSolBackRight = new Solenoid(Ports.DRIVE_SOL_BACK_RIGHT);
+        peanutLeft = new TalonSRX(0);
+        peanutRight = new TalonSRX(1);
 
-        motorsControllerLeft = new SpeedControllerGroup(driveCANFrontLeft, driveCANBackLeft);
-        motorsControllerRight = new SpeedControllerGroup(driveCANFrontRight, driveCANBackRight);
+        // driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
+        // driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
+        // driveSolFrontRight = new Solenoid(Ports.DRIVE_SOL_FRONT_RIGHT);
+        // driveSolBackRight = new Solenoid(Ports.DRIVE_SOL_BACK_RIGHT);
 
-        driveMecanum = new MecanumDrive(driveCANFrontLeft, driveCANBackLeft, driveCANFrontRight, driveCANBackRight);
-        driveDifferential = new DifferentialDrive(motorsControllerLeft, motorsControllerRight); 
+        // motorsControllerLeft = new SpeedControllerGroup(driveCANFrontLeft, driveCANBackLeft);
+        // motorsControllerRight = new SpeedControllerGroup(driveCANFrontRight, driveCANBackRight);
+
+        // driveMecanum = new MecanumDrive(driveCANFrontLeft, driveCANBackLeft, driveCANFrontRight, driveCANBackRight);
+        // driveDifferential = new DifferentialDrive(motorsControllerLeft, motorsControllerRight); 
     }
 
 
@@ -62,6 +69,15 @@ public class DriveSubsystem extends SubsystemBase{
             instance = new DriveSubsystem();
         }
         return instance;
+    }
+
+
+    public void setPeanutLeft(double speed) {
+        peanutLeft.set(ControlMode.PercentOutput, -speed);
+    }
+
+    public void setPeanutRight(double speed) {
+        peanutRight.set(ControlMode.PercentOutput, speed);
     }
 
     /**
