@@ -19,8 +19,8 @@ public class HumanInput {
       joystickLeft = new Joystick(0);
       joystickRight = new Joystick(1);
       xbox = new XboxController(2);
-      realignButton = new JoystickButton(joystickLeft, 0);
-      rotate90BUtton = new JoystickButton(joystickRight, 1)
+      realignButton = new JoystickButton(joystickLeft, 1);
+      rotate90BUtton = new JoystickButton(joystickRight, 2);
   }
 
   public double getJoystickAxis(int axis, GenericHID joystick, double deadzone){
