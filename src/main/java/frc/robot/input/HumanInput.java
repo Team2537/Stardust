@@ -13,13 +13,14 @@ public class HumanInput {
   public static final double DEADZONE = 0.05;
   public final Joystick joystickLeft, joystickRight;
   public final XboxController xbox;
-  private static JoystickButton newButton;
+  private static JoystickButton realignButton, rotate90BUtton;
 
   public HumanInput() {
       joystickLeft = new Joystick(0);
       joystickRight = new Joystick(1);
       xbox = new XboxController(2);
-      newButton = new JoystickButton(joystickLeft, 0);
+      realignButton = new JoystickButton(joystickLeft, 0);
+      rotate90BUtton = new JoystickButton(joystickRight, 1)
   }
 
   public double getJoystickAxis(int axis, GenericHID joystick, double deadzone){
@@ -40,6 +41,7 @@ public class HumanInput {
   }
 
   public void registerButtons(){
-    newButton.whenPressed(new RealignmentCommand());
+    realignButton.whenPressed(new RealignmentCommand());
+    rotate90BUtton.whenPressed(new RotateCommand(90));
   }
 }
