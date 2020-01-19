@@ -5,4 +5,7 @@ public class Ports {
     public static int OPEN_BUTTON = 1;  // A button opens mechanism
     public static int CLOSE_BUTTON = 2; // B button closes mechanism
     public static final int MOTOR_SHOOTER_PORT = 4; //Motor
+
+    public static final int LIDAR_COUNTER = 4; // DIO port for distance
+    public static final int LIDAR_MODE = 5; // DIO port for lidar
   }

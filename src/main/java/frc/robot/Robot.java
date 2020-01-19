@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
+  //public static ShooterSubsystem shooter;
   public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
 
   /**
@@ -41,7 +42,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     humanInput = new HumanInput();
-  }
+
+   /* ShooterSubsystem shooter = ShooterSubsystem.getInstance();
+
+      System.out.println( ": " + shooter.getLidarDistance()); */
+    }
+
+
+
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -98,7 +106,7 @@ public class Robot extends TimedRobot {
 
     Scheduler.getInstance().run(); 
     ShooterSubsystem.startMotor(60);
-    System.out.println(ShooterSubsystem.ShooterMotor.getSelectedSensorVelocity());
+    System.out.println(ShooterSubsystem.shooterMotor.getSelectedSensorVelocity());
 
   }
 
@@ -108,6 +116,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(ShooterSubsystem.ShooterMotor.getSelectedSensorPosition()); 
+    System.out.println(ShooterSubsystem.shooterMotor.getSelectedSensorPosition()); 
   }
 }
