@@ -30,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public static CANSparkMax ShooterMotor;
   public static CANEncoder ShooterEncoder;
   public static CANPIDController ShooterVelocityController;
-  private static double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+  private static double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;`
 
 
 
