@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     humanInput = new HumanInput();
     Robot.humanInput.registerButtons();
     Navx.getInstance().reset();
-    drivesys = new DriveSubsystem();
+    
     
     //drivesys.initDefaultCommand();
   }
