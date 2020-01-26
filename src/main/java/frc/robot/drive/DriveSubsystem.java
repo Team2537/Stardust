@@ -38,17 +38,20 @@ public class DriveSubsystem extends SubsystemBase{
         driveCANBackRight = new CANSparkMax(Ports.DRIVE_BACK_RIGHT, DEFAULT_MOTOR_TYPE);
         setIdleMode(DEFAULT_IDLE_MODE);
         currentDriveMode = DriveMode.kMecanum;
+        
 
-        driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
-        driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
-        driveSolFrontRight = new Solenoid(Ports.DRIVE_SOL_FRONT_RIGHT);
-        driveSolBackRight = new Solenoid(Ports.DRIVE_SOL_BACK_RIGHT);
+        // driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
+        // driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
+        // driveSolFrontRight = new Solenoid(Ports.DRIVE_SOL_FRONT_RIGHT);
+        // driveSolBackRight = new Solenoid(Ports.DRIVE_SOL_BACK_RIGHT);
 
         motorsControllerLeft = new SpeedControllerGroup(driveCANFrontLeft, driveCANBackLeft);
         motorsControllerRight = new SpeedControllerGroup(driveCANFrontRight, driveCANBackRight);
 
         driveMecanum = new MecanumDrive(driveCANFrontLeft, driveCANBackLeft, driveCANFrontRight, driveCANBackRight);
         driveDifferential = new DifferentialDrive(motorsControllerLeft, motorsControllerRight); 
+        driveMecanum.setSafetyEnabled(false);
+        driveDifferential.setSafetyEnabled(false);
     }
 
 
@@ -83,7 +86,7 @@ public class DriveSubsystem extends SubsystemBase{
     public void setMecanumDriveSpeed(){
         setMecanumDriveSpeed(Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Y),
                              Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_X),
-                             Robot.humanInput.getJoystickAxisLeft(HumanInput.AXIS_Z));
+                             Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Z));
     }
 
     /**
@@ -146,6 +149,6 @@ public class DriveSubsystem extends SubsystemBase{
      */
     @Override
     public void periodic(){
-        setDefaultCommand(new DriveCommand());
+        
     }
 }
