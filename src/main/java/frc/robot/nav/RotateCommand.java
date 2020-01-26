@@ -33,8 +33,8 @@ public class RotateCommand extends CommandBase {
       currentAngle = Navx.getInstance().getYaw();
       deltaAngle = (targetAngle - currentAngle);
       double power = DEFAULT_PERCENT_OUTPUT;
-      power = Math.min(power, (Math.abs(deltaAngle) / 1800)+.9) * Math.signum(deltaAngle);
-          power = Math.max(power, MIN_PERCENT_OUTPUT);
+      power = Math.min(power, (Math.abs(deltaAngle) / (targetAngle - startingAngle)) * power * ANGLE_kP) * Math.signum(deltaAngle);
+        power = Math.max(Math.abs(power), Math.abs(MIN_PERCENT_OUTPUT)) * Math.signum(power);
       Robot.drivesys.setPeanutLeft(-power);
       Robot.drivesys.setPeanutRight(power);
   }

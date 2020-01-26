@@ -8,14 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.nav.TestCommand;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.TempDriveCommand;
 import frc.robot.input.HumanInput;
 import frc.robot.nav.Navx;
-import frc.robot.sample.SampleServoSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
-  public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
   public static TempDriveCommand drivecom;
 
@@ -48,7 +47,9 @@ public class Robot extends TimedRobot {
     humanInput = new HumanInput();
     Robot.humanInput.registerButtons();
     Navx.getInstance().reset();
-
+    drivesys = new DriveSubsystem();
+    
+    //drivesys.initDefaultCommand();
   }
 
   /**
@@ -95,7 +96,7 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
 
@@ -103,7 +104,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Navx.getInstance().reset();
-    drivecom = new TempDriveCommand();
+    CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().schedule(new TestCommand());
+    CommandScheduler.getInstance().run();
+  
   }
   /**
    * This function is called periodically during operator control.
@@ -111,12 +115,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run(); 
-
-
-    System.out.println("Angle: " + Navx.getInstance().getAngle());
-    System.out.println("Yaw: " + Navx.getInstance().getYaw());
-    System.out.println("Pitch: " + Navx.getInstance().getPitch());
-    System.out.println("Roll: " + Navx.getInstance().getRoll());
+    
+    drivesys.setPeanutLeft(.2);
+    drivesys.setPeanutRight(.2);
+    // System.out.println("Angle: " + Navx.getInstance().getAngle());
+    // System.out.println("Yaw: " + Navx.getInstance().getYaw());
+    // System.out.println("Pitch: " + Navx.getInstance().getPitch());
+    // System.out.println("Roll: " + Navx.getInstance().getRoll());
 
   }
 

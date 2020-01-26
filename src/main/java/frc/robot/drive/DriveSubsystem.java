@@ -32,10 +32,10 @@ public class DriveSubsystem extends SubsystemBase{
     public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kCoast;
     public static final MotorType DEFAULT_MOTOR_TYPE = MotorType.kBrushless;
 
-    private static TalonSRX peanutLeft, peanutRight;
+    private static TalonSRX peanutFrontLeft, peanutFrontRight, peanutBackLeft, peanutBackRight;
 
 
-    private DriveSubsystem(){
+    public DriveSubsystem(){
         // driveCANFrontLeft = new CANSparkMax(Ports.DRIVE_FRONT_LEFT, DEFAULT_MOTOR_TYPE);
         // driveCANBackLeft = new CANSparkMax(Ports.DRIVE_BACK_LEFT, DEFAULT_MOTOR_TYPE);
         // driveCANFrontRight = new CANSparkMax(Ports.DRIVE_FRONT_RIGHT, DEFAULT_MOTOR_TYPE);
@@ -43,8 +43,10 @@ public class DriveSubsystem extends SubsystemBase{
         // setIdleMode(DEFAULT_IDLE_MODE);
         // currentDriveMode = DriveMode.kMecanum;
 
-        peanutLeft = new TalonSRX(3);
-        peanutRight = new TalonSRX(4);
+        peanutFrontLeft = new TalonSRX(4);
+        peanutFrontRight = new TalonSRX(3);
+        peanutBackLeft = new TalonSRX(2);
+        peanutBackRight = new TalonSRX(1);
 
         // driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
         // driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
@@ -59,10 +61,14 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
 
+    
     /**
      * Singleton design pattern 
      * @return
      */
+
+
+
 
     public static DriveSubsystem getInstance(){
         if(instance == null) {
@@ -72,12 +78,20 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
 
+    
+	public void initDefaultCommand() {
+		this.setDefaultCommand(new TempDriveCommand());
+	}
+
+
     public void setPeanutLeft(double speed) {
-        peanutLeft.set(ControlMode.PercentOutput, -speed);
+        peanutFrontLeft.set(ControlMode.PercentOutput, -speed);
+        peanutBackLeft.set(ControlMode.PercentOutput, -speed);
     }
 
     public void setPeanutRight(double speed) {
-        peanutRight.set(ControlMode.PercentOutput, speed);
+        peanutFrontRight.set(ControlMode.PercentOutput, speed);
+        peanutBackRight.set(ControlMode.PercentOutput, speed);
     }
 
     public void killPeanutMotors() {

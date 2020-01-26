@@ -11,7 +11,7 @@ public class RealignmentCommand extends CommandBase {
     private double startingAngle;
     private double currentAngle;
     private static final double DEFAULT_PERCENT_OUTPUT = 1.00;
-	private static final double MIN_PERCENT_OUTPUT = 0.90;
+	private static final double MIN_PERCENT_OUTPUT = 0.80;
     private static final double ANGLE_kP = 1;
 	private static final double TOLERANCE = 2; // degrees
 
@@ -31,8 +31,8 @@ public class RealignmentCommand extends CommandBase {
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
       double power = DEFAULT_PERCENT_OUTPUT;
-      power = Math.min(power, (Math.abs(currentAngle) / 1800)+.9) * Math.signum(currentAngle);
-          power = Math.max(power, MIN_PERCENT_OUTPUT);
+      power = Math.min(power, (Math.abs(currentAngle) / startingAngle) * power * ANGLE_kP) * Math.signum(currentAngle);
+        power = Math.max(Math.abs(power), Math.abs(MIN_PERCENT_OUTPUT)) * Math.signum(power);
       Robot.drivesys.setPeanutLeft(-power);
       Robot.drivesys.setPeanutRight(power);
   }
