@@ -4,17 +4,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class RotateCommand extends CommandBase {
-  /**
-   * Creates a new SampleOpenCommand.
-   */
 
-    private double startingAngle;
-    private double currentAngle;
-    private double targetAngle;
-    private double deltaAngle;
-    private static final double DEFAULT_PERCENT_OUTPUT = 1.00;
-	private static final double MIN_PERCENT_OUTPUT = 0.90;
-    private static final double ANGLE_kP = 1;
+  private double startingAngle;
+  private double currentAngle;
+  private double targetAngle;
+  private double deltaAngle;
+  private static final double DEFAULT_PERCENT_OUTPUT = 1.00;
+  private static final double MIN_PERCENT_OUTPUT = 0.90;
+  private static final double ANGLE_kP = 1;
 	private static final double TOLERANCE = 2; // degrees
 
   public RotateCommand(double angle) {

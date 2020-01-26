@@ -43,8 +43,8 @@ public class DriveSubsystem extends SubsystemBase{
         // setIdleMode(DEFAULT_IDLE_MODE);
         // currentDriveMode = DriveMode.kMecanum;
 
-        peanutLeft = new TalonSRX(0);
-        peanutRight = new TalonSRX(1);
+        peanutLeft = new TalonSRX(3);
+        peanutRight = new TalonSRX(4);
 
         // driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
         // driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
@@ -78,6 +78,11 @@ public class DriveSubsystem extends SubsystemBase{
 
     public void setPeanutRight(double speed) {
         peanutRight.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void killPeanutMotors() {
+        setPeanutLeft(0);
+        setPeanutRight(0);
     }
 
     /**

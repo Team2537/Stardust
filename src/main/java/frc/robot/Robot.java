@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveSubsystem;
+import frc.robot.drive.TempDriveCommand;
 import frc.robot.input.HumanInput;
 import frc.robot.nav.Navx;
 import frc.robot.sample.SampleServoSubsystem;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
   public static HumanInput humanInput;
   public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
+  public static TempDriveCommand drivecom;
 
 
   /**
@@ -44,8 +46,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     humanInput = new HumanInput();
-
+    Robot.humanInput.registerButtons();
     Navx.getInstance().reset();
+
   }
 
   /**
@@ -100,6 +103,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Navx.getInstance().reset();
+    drivecom = new TempDriveCommand();
   }
   /**
    * This function is called periodically during operator control.
