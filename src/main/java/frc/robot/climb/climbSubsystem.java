@@ -7,12 +7,15 @@
 
 package frc.robot.climb;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.CANTalon;
 
 public class climbSubsystem extends SubsystemBase {
   /**
@@ -21,16 +24,18 @@ public class climbSubsystem extends SubsystemBase {
 
   private static climbSubsystem instance = null;
 
-  private Servo pivotMotor = new Servo(1);
+  private Servo pivotMotor;
   private CANSparkMax Neo1 = new CANSparkMax(1, MotorType.kBrushless);
   private CANSparkMax Neo2 = new CANSparkMax(2, MotorType.kBrushless);
+  private CANTalon miniCim; 
   private DigitalInput upLimit = new DigitalInput(1);
   private DigitalInput downLimit = new DigitalInput(1);
 
   public boolean upDown = true;
 
   private climbSubsystem() {
-
+    pivotMotor = new Servo(0);
+    miniCim = new CANTalon(1);
   }
 
   public static climbSubsystem getInstance() {
@@ -65,6 +70,10 @@ public class climbSubsystem extends SubsystemBase {
 
   public boolean reachedBottom() {
     return downLimit.get();
+  }
+
+  public void runMiniCim (double speed) {
+    miniCim.set(speed);
   }
 
   @Override

@@ -10,11 +10,12 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class elevatorDown extends CommandBase {
+public class pivotClampsCommand extends CommandBase {
   /**
-   * Creates a new elevatorDown.
+   * Creates a new pivotClampsUp.
    */
-  public elevatorDown() {
+
+  public pivotClampsCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.climbsys);
   }
@@ -27,25 +28,17 @@ public class elevatorDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      Robot.climbsys.runNeo1(-.2);
-      Robot.climbsys.runNeo2(-.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runNeo1(0);
-    Robot.climbsys.runNeo2(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Robot.climbsys.reachedBottom()) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    Robot.climbsys.pivot();
+    return true;
   }
 }
