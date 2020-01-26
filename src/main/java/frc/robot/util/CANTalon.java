@@ -7,4 +7,13 @@
 
 package frc.robot.util;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+/**
+ * Add your docs here.
+ */
+public class CANTalon extends TalonSRX{
+    public CANTalon(int deviceNumber){
+        super(deviceNumber);
+    }
+}
