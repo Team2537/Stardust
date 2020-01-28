@@ -27,16 +27,12 @@ public class elevatorDownCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      Robot.climbsys.runNeo1(-.2);
-      Robot.climbsys.runNeo2(-.2);
       Robot.climbsys.runMiniCim(-.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runNeo1(0);
-    Robot.climbsys.runNeo2(0);
     Robot.climbsys.runMiniCim(0);
   }
 

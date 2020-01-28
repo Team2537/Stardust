@@ -25,17 +25,21 @@ public class climbSubsystem extends SubsystemBase {
   private static climbSubsystem instance = null;
 
   private Servo pivotMotor;
-  private CANSparkMax Neo1 = new CANSparkMax(1, MotorType.kBrushless);
-  private CANSparkMax Neo2 = new CANSparkMax(2, MotorType.kBrushless);
+  private CANSparkMax Neo1;
+  private CANSparkMax Neo2;
   private CANTalon miniCim; 
-  private DigitalInput upLimit = new DigitalInput(1);
-  private DigitalInput downLimit = new DigitalInput(1);
+  private DigitalInput upLimit;
+  private DigitalInput downLimit;
 
   public boolean upDown = true;
 
   private climbSubsystem() {
     pivotMotor = new Servo(0);
+    Neo1 = new CANSparkMax(1, MotorType.kBrushless);
+    Neo2 = new CANSparkMax(2, MotorType.kBrushless);
     miniCim = new CANTalon(1);
+    upLimit = new DigitalInput(1);
+    downLimit = new DigitalInput(1);
   }
 
   public static climbSubsystem getInstance() {

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.input.HumanInput;
 import frc.robot.sample.SampleServoSubsystem;
-import frc.robot.climb.climbSubsystem;
+import frc.robot.climb.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
   public static HumanInput humanInput;
   public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
   public static climbSubsystem climbsys = climbSubsystem.getInstance();
+  public static LimitTest m_limit;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -42,6 +43,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     humanInput = new HumanInput();
+
+    m_limit = new LimitTest();
   }
 
   /**
@@ -54,6 +57,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+  
   }
 
   /**
