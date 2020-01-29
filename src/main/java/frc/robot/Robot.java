@@ -8,8 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Shooter.ShooterSubsystem;
+import frc.robot.input.HumanInput;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,7 +20,8 @@ import frc.robot.Shooter.ShooterSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ShooterSubsystem shooter = ShooterSubsystem.getInstance();
+  public static ShooterSubsystem shooter;
+  public static HumanInput input;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -27,6 +29,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    shooter = ShooterSubsystem.getInstance();
+    input = new HumanInput();
+    HumanInput.registerButtons();
 
   }
 
@@ -64,7 +69,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -73,10 +78,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    Scheduler.getInstance().run(); 
-    //ShooterSubsystem.ShooterMotor.set(0.01);
-    ShooterSubsystem.startMotor(3000);
+    CommandScheduler.getInstance().run(); 
+    //ShooterSubsystem.automaticallySetProperSpeed(150);
 
+  }
+
+
+  @Override
+  public void testInit() {
   }
 
   /**
@@ -84,6 +93,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 }
