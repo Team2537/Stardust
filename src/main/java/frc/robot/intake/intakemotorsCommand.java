@@ -8,23 +8,27 @@
 package frc.robot.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 
 public class intakemotorsCommand extends CommandBase {
   /**
-   * Creates a new intakemotorsCommand.
+   * Creates a new FlywheelCommand.
    */
   public intakemotorsCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.intakesys);
   }
-
+      
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Robot.intakesys.turnOnFlywheels(0.4);
   }
 
   // Called once the command ends or is interrupted.
