@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.input.HumanInput;
 import frc.robot.sample.SampleServoSubsystem;
+import frc.robot.vision.UDPSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
   public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
+  public static UDPSubsystem udpsys = UDPSubsystem.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be
