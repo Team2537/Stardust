@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run(); 
+    CommandScheduler.getInstance().run(); 
     
     drivesys.setPeanutLeft(.2);
     drivesys.setPeanutRight(.2);
@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    Scheduler.getInstance().run(); 
+    CommandScheduler.getInstance().run(); 
 
   }
 }
