@@ -9,11 +9,10 @@ package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Counter;
-import com.revrobotics.CANEncoder;
+
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -24,15 +23,14 @@ public class ShooterSubsystem extends SubsystemBase {
    * Creates a new ShooterSubsystem.
    */
   private static ShooterSubsystem instance = null;
-  public static TalonSRX shooterMotor;
   private DigitalOutput lidarMode;
   private static Counter lidarDistance;
-  public static CANSparkMax ShooterMotor;
-  public static CANEncoder ShooterEncoder;
-  public static CANPIDController ShooterVelocityController;
+  private static CANSparkMax ShooterMotor;
+  private static CANPIDController ShooterVelocityController;
   private static double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private static boolean runShooter;
   private static double MAX_SPEED;
+  private static CANSparkMax feederMotor;
 
   private ShooterSubsystem() {
 
@@ -55,8 +53,9 @@ public class ShooterSubsystem extends SubsystemBase {
     runShooter = false;
     MAX_SPEED = 1250;
 
-
+    feederMotor = new CANSparkMax(Ports.FEEDER_MOTOR_PORT, MotorType.kBrushless);
     ShooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
+
     ShooterVelocityController = ShooterMotor.getPIDController();
     ShooterVelocityController.setP(kP);
     ShooterVelocityController.setI(kI);
@@ -121,6 +120,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
+  public static void startFeederMotor() {
 
+    feederMotor.set(0.2);
+
+  }
 
 }

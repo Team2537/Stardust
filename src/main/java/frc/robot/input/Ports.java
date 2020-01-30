@@ -8,4 +8,5 @@ public class Ports {
     public static final int LIDAR_COUNTER = 4; // DIO port for distance
     public static final int LIDAR_MODE = 5; // DIO port for lidar
     public static final int MOTOR_SHOOTER_PORT = 1; //Motor
+    public static final int FEEDER_MOTOR_PORT = 2;
   }
