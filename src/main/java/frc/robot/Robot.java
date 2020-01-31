@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveSubsystem;
@@ -88,7 +89,7 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -96,8 +97,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
-    Scheduler.getInstance().run(); 
+    Robot.drivesys.periodic();
+    CommandScheduler.getInstance().run(); 
   }
 
   /**
@@ -105,6 +106,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    Scheduler.getInstance().run(); 
+    CommandScheduler.getInstance().run(); 
   }
 }

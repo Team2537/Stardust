@@ -149,6 +149,6 @@ public class DriveSubsystem extends SubsystemBase{
      */
     @Override
     public void periodic(){
-        
+        setDefaultCommand(new DriveCommand());
     }
 }
