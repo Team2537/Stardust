@@ -12,6 +12,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
@@ -49,20 +50,26 @@ public class ReadUDPCommand extends CommandBase {
     // Create DatagramPacket to receive the data
     DpReceive = new DatagramPacket(receive, receive.length);
 
-    // Receeive the data in byte buffer
+    // Receive the data in byte buffer
     try {
       ds.receive(DpReceive);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
+    
+
     Robot.udpsys.addToBuffer(receive);
     Target[] currentPacket = Robot.udpsys.getVisionPacket();
     
     if (System.currentTimeMillis() - lastTimePrinted >= 1000){
-      System.out.println("number of targets: " + currentPacket.length);
+      SmartDashboard.putNumber("Number Of Targets", currentPacket.length);
       for (int i = 0; i < currentPacket.length; i++) {
-          System.out.println("current target number: " + i);
+          SmartDashboard.putNumber("CurrentTargetNumber", i);
+          SmartDashboard.putNumber("Top Left X", currentPacket[i].getBoundingBox()[0].getX(CoordinateSystems.CARTESIAN_NORMALIZED));
+          SmartDashboard.putNumber("Top Left Y", currentPacket[i].getBoundingBox()[0].getY(CoordinateSystems.CARTESIAN_NORMALIZED));
+          SmartDashboard.putNumber("Bottom Right X", currentPacket[i].getBoundingBox()[1].getX(CoordinateSystems.CARTESIAN_NORMALIZED));
+          SmartDashboard.putNumber("Bottom Right Y", currentPacket[i].getBoundingBox()[1].getY(CoordinateSystems.CARTESIAN_NORMALIZED));
           System.out.println("top left point: " + currentPacket[i].getBoundingBox()[0].getX(CoordinateSystems.CARTESIAN_NORMALIZED) + ","
                   + currentPacket[i].getBoundingBox()[0].getY(CoordinateSystems.CARTESIAN_NORMALIZED));
           System.out.println("bottom right point: " + currentPacket[i].getBoundingBox()[1].getX(CoordinateSystems.CARTESIAN_NORMALIZED) + ","
@@ -78,6 +85,7 @@ public class ReadUDPCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Premature ending. uh oh");
   }
 
   // Returns true when the command should end.

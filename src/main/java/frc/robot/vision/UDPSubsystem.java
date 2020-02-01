@@ -14,7 +14,7 @@ public class UDPSubsystem extends SubsystemBase {
    * Creates a new UDPSubsystem.
    */
   private static UDPSubsystem instance = null;
-  ProtocolHandler protocolHandler;
+  ProtocolHandler protocolHandler = new ProtocolHandler();
 
   public static UDPSubsystem getInstance() {
     if (instance == null) {
@@ -59,7 +59,6 @@ public static StringBuilder data(byte[] a)
 
   @Override
   public void periodic() {
-    protocolHandler = new ProtocolHandler();
     setDefaultCommand(new ReadUDPCommand());
   }
 }

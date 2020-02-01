@@ -19,7 +19,7 @@ public class ProtocolHandler {
 	public void addToBuffer(String stringToAppend) {
 		for (int i = 0; i < stringToAppend.length(); i++) {
 			char charToAppend = stringToAppend.charAt(i);
-			if (charToAppend == '>') { // is current character opening character?
+			if (charToAppend == '<') { // is current character opening character?]
 				if(buffer.length() == 0){ // check for empty packets
 					recievedEmptyPacket = true;
 				} else {
