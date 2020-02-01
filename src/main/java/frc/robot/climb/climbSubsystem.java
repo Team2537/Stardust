@@ -15,7 +15,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 import frc.robot.util.CANTalon;
@@ -27,7 +26,6 @@ public class climbSubsystem extends SubsystemBase {
 
   private static climbSubsystem instance = null;
 
-  private Servo pivotMotor;
   private CANSparkMax Neo1;
   private CANSparkMax Neo2;
   private CANTalon miniCim; 
@@ -39,14 +37,13 @@ public class climbSubsystem extends SubsystemBase {
   public boolean upDown = true;
 
   private climbSubsystem() {
-    pivotMotor = new Servo(Ports.ServoID);
     Neo1 = new CANSparkMax(Ports.Neo1ID, MotorType.kBrushless);
     Neo2 = new CANSparkMax(Ports.Neo2ID, MotorType.kBrushless);
     miniCim = new CANTalon(Ports.MiniCimID);
     upLimit = new DigitalInput(Ports.UpLimitID);
     downLimit = new DigitalInput(Ports.DownLimitID);
-    Neo1Enc = new CANEncoder(Neo1, EncoderType.kQuadrature, 1);
-    Neo2Enc = new CANEncoder(Neo2, EncoderType.kQuadrature, 2);
+    Neo1Enc = new CANEncoder(Neo1, EncoderType.kQuadrature, 720);
+    Neo2Enc = new CANEncoder(Neo2, EncoderType.kQuadrature, 720);
   }
 
   public static climbSubsystem getInstance() {
@@ -54,17 +51,6 @@ public class climbSubsystem extends SubsystemBase {
         instance = new climbSubsystem();
     }
     return instance;
-  }
-
-  public void pivot () {
-    if(upDown) {
-      pivotMotor.setAngle(90);
-      upDown = false;
-    }
-    else {
-      pivotMotor.setAngle(0);
-      upDown = true;
-    }
   }
 
   public void runNeo1 (double speed) {

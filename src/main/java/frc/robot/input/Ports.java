@@ -6,7 +6,7 @@ public class Ports {
 
     public static int ServoID = 1;
 
-    public static int MiniCimID = 1;
+    public static int MiniCimID = 8;
 
     public static int UpLimitID = 1;
     public static int DownLimitID = 2;
