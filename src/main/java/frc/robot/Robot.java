@@ -8,12 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.input.HumanInput;
 import frc.robot.intake.intakeSubsystem;
 import frc.robot.sample.SampleServoSubsystem;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +26,7 @@ import frc.robot.sample.SampleServoSubsystem;
  */
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
+  private Joystick joy;
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -40,8 +43,10 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    joy = new Joystick(0);
 
     humanInput = new HumanInput();
+    humanInput.registerButtons();
   }
 
   /**
@@ -54,6 +59,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+
   }
 
   /**
@@ -88,7 +95,7 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
-    Scheduler.getInstance().run();
+    
   }
 
   /**
@@ -96,7 +103,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run(); 
+    
+   
   }
 
   /**
@@ -104,6 +112,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    Scheduler.getInstance().run(); 
+     
   }
 }

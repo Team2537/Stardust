@@ -7,4 +7,10 @@ public class Ports {
     public static int FLYWHEEL_PORT = 1; //flywheel speed
     public static int SOLENOID_PORT1 = 1;
     public static int SOLENOID_PORT2 = 2;
+    public static int XBOXCONTROLLER=0;
+    public static int INTAKEBUTTON=0; 
+    
+    
+      
+    
   }
