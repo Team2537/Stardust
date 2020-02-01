@@ -39,16 +39,15 @@ public class RotateCommand extends CommandBase {
       double power = DEFAULT_PERCENT_OUTPUT;
       power = Math.min(Math.abs(power), (Math.abs(deltaAngle) / (targetAngle - startingAngle) * power * ANGLE_kP)) * Math.signum(deltaAngle);
         power = Math.max(Math.abs(power), Math.abs(MIN_PERCENT_OUTPUT)) * Math.signum(power);
-      Robot.drivesys.setPeanutLeft(-power * Math.signum(deltaAngle));
-      Robot.drivesys.setPeanutRight(power * Math.signum(deltaAngle));
+      Robot.drivesys.setPeanutLeft(power * Math.signum(deltaAngle));
+      Robot.drivesys.setPeanutRight(-power * Math.signum(deltaAngle));
       System.out.println(deltaAngle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
-      Robot.drivesys.setPeanutLeft(0);
-      Robot.drivesys.setPeanutRight(0);
+      Robot.drivesys.killPeanutMotors();
   }
 
   // Returns true when the command should end.

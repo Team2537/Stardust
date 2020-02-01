@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Navx.getInstance().reset();
-    
+    Robot.drivesys.resetPeanutEnoders();
   
   }
   /**
@@ -113,6 +113,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run(); 
+    Robot.drivesys.printPeanutEncoders();
+    System.out.println("Average Encoders: " + Robot.drivesys.getAveragepeanutEncoders());
+    System.out.println("Distance: " + Robot.drivesys.getPeanutDistanceIn());
     
     // System.out.println("Angle: " + Navx.getInstance().getAngle());
     // System.out.println("Yaw: " + Navx.getInstance().getYaw());
