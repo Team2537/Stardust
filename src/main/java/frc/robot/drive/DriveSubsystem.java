@@ -78,10 +78,6 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
 
-    
-	public void initDefaultCommand() {
-		this.setDefaultCommand(new TempDriveCommand());
-	}
 
 
     public void setPeanutLeft(double speed) {
@@ -181,6 +177,6 @@ public class DriveSubsystem extends SubsystemBase{
      */
     @Override
     public void periodic(){
-        setDefaultCommand(new DriveCommand());
+        setDefaultCommand(new TempDriveCommand());
     }
 }

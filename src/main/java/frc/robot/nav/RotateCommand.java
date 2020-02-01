@@ -3,15 +3,17 @@ package frc.robot.nav;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
+//!!!!!!!!!!!!!!!!DO NOT TRY TO TURN 180 DEGREES!!!!!!!!!!!!!!!!!!!!!!
+
 public class RotateCommand extends CommandBase {
 
   private double startingAngle;
   private double currentAngle;
   private double targetAngle;
   private double deltaAngle;
-  private static final double DEFAULT_PERCENT_OUTPUT = 1.00;
-  private static final double MIN_PERCENT_OUTPUT = 0.90;
-  private static final double ANGLE_kP = 1;
+  private static final double DEFAULT_PERCENT_OUTPUT = 0.50;
+  private static final double MIN_PERCENT_OUTPUT = 0.30;
+  private static final double ANGLE_kP = 1.00;
 	private static final double TOLERANCE = 2; // degrees
 
   public RotateCommand(double angle) {
@@ -22,6 +24,8 @@ public class RotateCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+      Navx.getInstance().reset();
+      Navx.getInstance().reset();
       startingAngle = Navx.getInstance().getYaw();
       currentAngle = Navx.getInstance().getYaw();
       
@@ -33,10 +37,11 @@ public class RotateCommand extends CommandBase {
       currentAngle = Navx.getInstance().getYaw();
       deltaAngle = (targetAngle - currentAngle);
       double power = DEFAULT_PERCENT_OUTPUT;
-      power = Math.min(power, (Math.abs(deltaAngle) / (targetAngle - startingAngle)) * power * ANGLE_kP) * Math.signum(deltaAngle);
+      power = Math.min(Math.abs(power), (Math.abs(deltaAngle) / (targetAngle - startingAngle) * power * ANGLE_kP)) * Math.signum(deltaAngle);
         power = Math.max(Math.abs(power), Math.abs(MIN_PERCENT_OUTPUT)) * Math.signum(power);
-      Robot.drivesys.setPeanutLeft(-power);
-      Robot.drivesys.setPeanutRight(power);
+      Robot.drivesys.setPeanutLeft(-power * Math.signum(deltaAngle));
+      Robot.drivesys.setPeanutRight(power * Math.signum(deltaAngle));
+      System.out.println(deltaAngle);
   }
 
   // Called once the command ends or is interrupted.
@@ -49,6 +54,6 @@ public class RotateCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (deltaAngle <= TOLERANCE);                
+    return (Math.abs(deltaAngle) <= TOLERANCE);                
   }
 }

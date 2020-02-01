@@ -104,9 +104,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Navx.getInstance().reset();
-    CommandScheduler.getInstance().cancelAll();
-    CommandScheduler.getInstance().schedule(new TestCommand());
-    CommandScheduler.getInstance().run();
+    
   
   }
   /**
@@ -116,8 +114,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run(); 
     
-    drivesys.setPeanutLeft(.2);
-    drivesys.setPeanutRight(.2);
     // System.out.println("Angle: " + Navx.getInstance().getAngle());
     // System.out.println("Yaw: " + Navx.getInstance().getYaw());
     // System.out.println("Pitch: " + Navx.getInstance().getPitch());

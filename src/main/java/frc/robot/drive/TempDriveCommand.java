@@ -6,6 +6,8 @@ import frc.robot.Robot;
 
 
 public class TempDriveCommand extends CommandBase{
+    private static final double MAX_PERCENT_OUTPUT = 0.5;
+
     public TempDriveCommand(){
         addRequirements(Robot.drivesys);
     }
@@ -17,8 +19,8 @@ public class TempDriveCommand extends CommandBase{
   // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Robot.drivesys.setPeanutLeft(Robot.humanInput.xbox.getY(Hand.kLeft));
-        Robot.drivesys.setPeanutRight(Robot.humanInput.xbox.getY(Hand.kRight));
+        Robot.drivesys.setPeanutLeft(Robot.humanInput.xbox.getY(Hand.kLeft) * MAX_PERCENT_OUTPUT);
+        Robot.drivesys.setPeanutRight(Robot.humanInput.xbox.getY(Hand.kRight) * MAX_PERCENT_OUTPUT);
     }
 
     // Called once the command ends or is interrupted.

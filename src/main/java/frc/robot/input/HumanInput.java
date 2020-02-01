@@ -13,7 +13,7 @@ public class HumanInput {
   public static final double DEADZONE = 0.05;
   public final Joystick joystickLeft, joystickRight;
   public final XboxController xbox;
-  private static JoystickButton realignButton, rotate90BUtton, testCom;
+  private static JoystickButton realignButton, rotate90BUtton, rotateneg90Button, testCom;
 
   public HumanInput() {
       joystickLeft = new Joystick(0);
@@ -21,6 +21,7 @@ public class HumanInput {
       xbox = new XboxController(2);
       realignButton = new JoystickButton(xbox, 1);
       rotate90BUtton = new JoystickButton(xbox, 2);
+      rotateneg90Button = new JoystickButton(xbox, 4);
       testCom = new JoystickButton(xbox, 3);
   }
 
@@ -44,6 +45,7 @@ public class HumanInput {
   public void registerButtons(){
     realignButton.whenPressed(new RealignmentCommand());
     rotate90BUtton.whenPressed(new RotateCommand(90));
+    rotateneg90Button.whenPressed(new RotateCommand(-90));
     testCom.whenPressed(new TestCommand());
   }
 }
