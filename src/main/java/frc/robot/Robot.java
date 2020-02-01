@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.input.HumanInput;
-import frc.robot.sample.SampleServoSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,7 +28,6 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
-  public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
 
   /**
