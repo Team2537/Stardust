@@ -19,12 +19,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 import frc.robot.util.CANTalon;
 
-public class climbSubsystem extends SubsystemBase {
+public class ClimbSubsystem extends SubsystemBase {
   /**
-   * Creates a new climbSubsystem.
+   * Creates a new ClimbSubsystem.
    */
 
-  private static climbSubsystem instance = null;
+  private static ClimbSubsystem instance = null;
 
   private CANSparkMax Neo1;
   private CANSparkMax Neo2;
@@ -34,32 +34,29 @@ public class climbSubsystem extends SubsystemBase {
   private CANEncoder Neo1Enc;
   private CANEncoder Neo2Enc;
 
-  public boolean upDown = true;
-
-  private climbSubsystem() {
-    Neo1 = new CANSparkMax(Ports.Neo1ID, MotorType.kBrushless);
-    Neo2 = new CANSparkMax(Ports.Neo2ID, MotorType.kBrushless);
-    miniCim = new CANTalon(Ports.MiniCimID);
-    upLimit = new DigitalInput(Ports.UpLimitID);
-    downLimit = new DigitalInput(Ports.DownLimitID);
-    Neo1Enc = new CANEncoder(Neo1, EncoderType.kQuadrature, 720);
-    Neo2Enc = new CANEncoder(Neo2, EncoderType.kQuadrature, 720);
+  private ClimbSubsystem() {
+    Neo1 = new CANSparkMax(Ports.NEO_1, MotorType.kBrushless);
+    // Neo2 = new CANSparkMax(Ports.NEO_2, MotorType.kBrushless);
+    miniCim = new CANTalon(Ports.MINICIM);
+    upLimit = new DigitalInput(Ports.UP_LIMIT);
+    downLimit = new DigitalInput(Ports.DOWN_LIMIT);
+    Neo1Enc = new CANEncoder(Neo1);
+    // Neo2Enc = new CANEncoder(Neo2, EncoderType.kQuadrature, 720);
   }
 
-  public static climbSubsystem getInstance() {
+  public static ClimbSubsystem getInstance() {
     if (instance == null) {
-        instance = new climbSubsystem();
+        instance = new ClimbSubsystem();
     }
     return instance;
   }
 
   public void runNeo1 (double speed) {
-    Neo1Enc.setPosition(3);
-    //units are rotations
+    Neo1.set(speed);
   }
 
   public void runNeo2 (double speed) {
-    Neo2Enc.setPosition(3);
+    Neo2.set(speed);
   }
 
   public boolean reachedTop() {

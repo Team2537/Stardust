@@ -22,13 +22,14 @@ public class raiseRobotCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.climbsys.runNeo1(.2);
-    Robot.climbsys.runNeo2(.2);
+    Robot.climbsys.runNeo1(.1);
+    Robot.climbsys.runNeo2(.1);
   }
 
   // Called once the command ends or is interrupted.
