@@ -86,6 +86,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public void setTargetColor(String targetColor) {
     this.targetColor = targetColor;
     lastColor = "";
+    System.out.println("Target Color: "+targetColor);
   }
 
   public void detectColor() { // finds the current color that the sensor sees
@@ -188,14 +189,16 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public void startMotors() {
     rightPower = 0.2;
     rightMotor.set(rightPower);
+    System.out.println("started motors");
   }
 
   public boolean spinToColor() {
     setCorrectColor();
-    if (lastColor == targetColor) {
+    if (lastColor.equals(targetColor)) {
       // last color is the current color in this scenario.
       // when the setCorrectColor method is called, it sets the current color to the
       // lastColor String.
+      System.out.println(lastColor + "  " + targetColor);
 
       return true;
     } else {
@@ -214,5 +217,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public String getLastColor() {
     return lastColor;
   }
-
+  public String getTargetColor() {
+    return targetColor;
+  }
 }

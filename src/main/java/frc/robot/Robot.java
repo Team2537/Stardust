@@ -78,6 +78,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Num of yellow", Robot.controlsubsys.NumYellow());
 
     SmartDashboard.putNumber("Revolutions", Robot.controlsubsys.getRevolutions());
+    //SmartDashboard.putString("Target color", Robot.controlsubsys.getTargetColor());
+    //SmartDashboard.putString("Last color", Robot.controlsubsys.getLastColor());
 
   }
 

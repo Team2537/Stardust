@@ -22,8 +22,8 @@ public class HumanInput {
   }
 
   public void registerButtons() {
-    setColorRed.whenPressed(new SpinToColorCommand("Red"));
-    setColorGreen.whenPressed(new SpinToColorCommand("Green"));
+    setColorRed.whenPressed(new SpinToColorCommand("Green"));
+    setColorGreen.whenPressed(new SpinToColorCommand("Red"));
     setColorBlue.whenPressed(new SpinToColorCommand("Blue"));
     setColorYellow.whenPressed(new SpinToColorCommand("Yellow"));
 

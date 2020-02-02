@@ -19,8 +19,11 @@ public class SpinToColorCommand extends CommandBase {
   /**
    * Creates a new SpinToColor.
    */
+
+   private String targetColor;
   public SpinToColorCommand(String targetColor) {
-    Robot.controlsubsys.setTargetColor(targetColor);
+
+    this.targetColor = targetColor;
 
     addRequirements(Robot.controlsubsys);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,6 +32,9 @@ public class SpinToColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.controlsubsys.setTargetColor(targetColor); // put in intitalize and var passed locally because it doesn"t work in constructor without it 
+
+
     Robot.controlsubsys.startMotors();
     System.out.println("Spin to color is working in init.");
 
@@ -50,6 +56,7 @@ public class SpinToColorCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println(Robot.controlsubsys.spinToColor());
     return Robot.controlsubsys.spinToColor();
 
   }
