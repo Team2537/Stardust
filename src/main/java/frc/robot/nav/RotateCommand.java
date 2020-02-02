@@ -13,7 +13,7 @@ public class RotateCommand extends CommandBase {
   private double deltaAngle;
   private static final double DEFAULT_PERCENT_OUTPUT = 0.50;
   private static final double MIN_PERCENT_OUTPUT = 0.30;
-  private static final double ANGLE_kP = 1.50;
+  private static final double ANGLE_kP = 1.30;
 	private static final double TOLERANCE = 1.50; // degrees
 
   public RotateCommand(double angle) {
