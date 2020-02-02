@@ -96,6 +96,12 @@ public class Robot extends TimedRobot {
    * This function is called periodically during operator control.
    */
   @Override
+  public void teleopInit() {
+    Robot.drivesys.resetEncoders();
+    CommandScheduler.getInstance().run();
+  }
+
+  @Override
   public void teleopPeriodic() {
     Robot.drivesys.periodic();
     CommandScheduler.getInstance().run(); 

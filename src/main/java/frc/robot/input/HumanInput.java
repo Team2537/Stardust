@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class HumanInput {
-  public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 4;
+  public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 2;
   public static final double DEADZONE = 0.05;
   public final Joystick joystickLeft, joystickRight;
 

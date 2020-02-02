@@ -25,6 +25,7 @@ public class DriveCommand extends CommandBase{
         } else {
             System.out.println("Ya done fucked up" + Robot.drivesys.getDriveMode());
         }
+        Robot.drivesys.putEncodersToDash();
     }
 
     // Called once the command ends or is interrupted.
