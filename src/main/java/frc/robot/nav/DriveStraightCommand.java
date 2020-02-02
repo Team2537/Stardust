@@ -33,8 +33,7 @@ public class DriveStraightCommand extends CommandBase {
       currentAngle = Navx.getInstance().getYaw();
       Robot.drivesys.setPeanutLeft(DEFAULT_PERCENT_OUTPUT);
       Robot.drivesys.setPeanutRight(DEFAULT_PERCENT_OUTPUT);
-
-      
+      remainingDistance = distance - Robot.drivesys.getPeanutDistanceIn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
