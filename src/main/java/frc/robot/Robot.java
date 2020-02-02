@@ -8,11 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.controlpanel.ControlPanelSubsystem;
+import frc.robot.controlpanel.SpinToColorCommand;
 import frc.robot.input.HumanInput;
 import frc.robot.sample.SampleServoSubsystem;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,7 +30,9 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
+
   public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
+  public static ControlPanelSubsystem controlsubsys = ControlPanelSubsystem.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -40,6 +45,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     humanInput = new HumanInput();
+    controlsubsys = ControlPanelSubsystem.getInstance();
+    Robot.humanInput.registerButtons();
+    //Robot.controlsubsys.SmartDashboard();
+
   }
 
   /**
@@ -52,6 +61,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+  //  SmartDashboard.updateValues();
+  CommandScheduler.getInstance().run(); 
+
+    SmartDashboard.putString("Lastcolor", Robot.controlsubsys.getLastColor());
+
+    //SmartDashboard.putNumber("Red", Robot.controlsubsys.detectedColor.red);
+    //SmartDashboard.putNumber("Green", Robot.controlsubsys.detectedColor.green);
+    //SmartDashboard.putNumber("Blue", Robot.controlsubsys.detectedColor.blue);
+
+    SmartDashboard.putString("Detected Color", Robot.controlsubsys.getColorString());
+    // SmartDashboard.putString("CIE color", lab.colorMatch(detectedColor.red,
+    // detectedColor.green, detectedColor.blue).toString());
+
+    SmartDashboard.putNumber("Num of Red", Robot.controlsubsys.NumRed());
+    SmartDashboard.putNumber("Num of Blue", Robot.controlsubsys.NumBlue());
+    SmartDashboard.putNumber("Num of Green", Robot.controlsubsys.NumGreen());
+    SmartDashboard.putNumber("Num of yellow", Robot.controlsubsys.NumYellow());
+
+    
+
+    SmartDashboard.putNumber("Revolutions", Robot.controlsubsys.getRevolutions());
+
+
   }
 
   /**
@@ -86,22 +118,28 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
+
+
+@Override
+public void teleopInit() {
+  System.out.print("Starting teleop");
+  super.teleopInit();
+  System.out.print("Starting teleop");
+}
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run(); 
+    
   }
-
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    Scheduler.getInstance().run(); 
   }
 }
