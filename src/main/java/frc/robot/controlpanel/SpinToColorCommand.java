@@ -15,15 +15,12 @@ import javax.swing.colorchooser.ColorSelectionModel;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class SpinToColorCommand extends CommandBase {
-  private String targetColor;
-  private boolean done;
-  private String detectedColor;
 
   /**
    * Creates a new SpinToColor.
    */
   public SpinToColorCommand(String targetColor) {
-    this.targetColor = targetColor;
+    Robot.controlsubsys.setTargetColor(targetColor);
 
     addRequirements(Robot.controlsubsys);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,10 +29,8 @@ public class SpinToColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    detectedColor = "";
     Robot.controlsubsys.startMotors();
     System.out.println("Spin to color is working in init.");
-    done = false;
 
   }
 
@@ -43,51 +38,8 @@ public class SpinToColorCommand extends CommandBase {
   @Override
   public void execute() {
 
-System.out.println(done);
 
-
-System.out.println("Spin to color is working in execute.");
-
-
-
-
-    detectedColor = Robot.controlsubsys.detectColor();
-    if (Robot.controlsubsys.getColorString().equals("Red") && (Robot.controlsubsys.getLastColor().equals("Yellow") || Robot.controlsubsys.getLastColor().equals("Green") || Robot.controlsubsys.getLastColor().equals(""))) {
-      Robot.controlsubsys.setLastColor("Red");
-      if (detectedColor.equals(targetColor)){
-        done = true;
-      }
-
-    } else if (Robot.controlsubsys.getColorString().equals("Green")
-        && (Robot.controlsubsys.getLastColor().equals("Red") || Robot.controlsubsys.getLastColor().equals("Yellow") || Robot.controlsubsys.getLastColor().equals(""))) {
-      /*
-       * if (Robot.controlsubsys.getLastColor().equals("Yellow")) { numYellow--; }
-       */
-      Robot.controlsubsys.setLastColor("Green");
-      if (targetColor == "Green"){
-        done = true;
-      }
-
-    } else if (Robot.controlsubsys.getColorString().equals("Blue") && (Robot.controlsubsys.getLastColor().equals("Green") || Robot.controlsubsys.getLastColor().equals("Yellow") || Robot.controlsubsys.getLastColor().equals(""))) {
-      Robot.controlsubsys.setLastColor("Blue");
-      if (targetColor == "Blue"){
-        done = true;
-      }
-    
-
-    } else if (Robot.controlsubsys.getColorString().equals("Yellow")
-        && (Robot.controlsubsys.getLastColor().equals("Blue") || Robot.controlsubsys.getLastColor().equals("Green") || Robot.controlsubsys.getLastColor().equals(""))) {
-      /*
-       * if (Robot.controlsubsys.getLastColor().equals("Green")) numGreen--;
-       */
-      Robot.controlsubsys.setLastColor("Yellow");
-      if (targetColor == "Yellow"){
-        done = true;
-      }
-    }
-  
-    }
-  
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -98,7 +50,7 @@ System.out.println("Spin to color is working in execute.");
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return done;
+    return Robot.controlsubsys.spinToColor();
 
   }
 }

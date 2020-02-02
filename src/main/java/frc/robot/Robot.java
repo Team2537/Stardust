@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controlpanel.ControlPanelSubsystem;
 import frc.robot.controlpanel.SpinToColorCommand;
 import frc.robot.input.HumanInput;
-import frc.robot.sample.SampleServoSubsystem;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,12 +29,11 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
 
-  public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
   public static ControlPanelSubsystem controlsubsys = ControlPanelSubsystem.getInstance();
 
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
@@ -47,30 +44,31 @@ public class Robot extends TimedRobot {
     humanInput = new HumanInput();
     controlsubsys = ControlPanelSubsystem.getInstance();
     Robot.humanInput.registerButtons();
-    //Robot.controlsubsys.SmartDashboard();
+    // Robot.controlsubsys.SmartDashboard();
 
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-  //  SmartDashboard.updateValues();
-  CommandScheduler.getInstance().run(); 
+    // SmartDashboard.updateValues();
+    CommandScheduler.getInstance().run();
 
     SmartDashboard.putString("Lastcolor", Robot.controlsubsys.getLastColor());
 
-    //SmartDashboard.putNumber("Red", Robot.controlsubsys.detectedColor.red);
-    //SmartDashboard.putNumber("Green", Robot.controlsubsys.detectedColor.green);
-    //SmartDashboard.putNumber("Blue", Robot.controlsubsys.detectedColor.blue);
+    // SmartDashboard.putNumber("Red", Robot.controlsubsys.detectedColor.red);
+    // SmartDashboard.putNumber("Green", Robot.controlsubsys.detectedColor.green);
+    // SmartDashboard.putNumber("Blue", Robot.controlsubsys.detectedColor.blue);
 
-    SmartDashboard.putString("Detected Color", Robot.controlsubsys.getColorString());
+    SmartDashboard.putString("Detected Color", Robot.controlsubsys.detectedColorString());
     // SmartDashboard.putString("CIE color", lab.colorMatch(detectedColor.red,
     // detectedColor.green, detectedColor.blue).toString());
 
@@ -79,23 +77,21 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Num of Green", Robot.controlsubsys.NumGreen());
     SmartDashboard.putNumber("Num of yellow", Robot.controlsubsys.NumYellow());
 
-    
-
     SmartDashboard.putNumber("Revolutions", Robot.controlsubsys.getRevolutions());
-
 
   }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString line to get the auto name from the text box below the Gyro
+   * between different autonomous modes using the dashboard. The sendable chooser
+   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+   * remove all of the chooser code and uncomment the getString line to get the
+   * auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional comparisons to
-   * the switch structure below with additional strings. If using the
-   * SendableChooser make sure to add them to the chooser code above as well.
+   * <p>
+   * You can add additional auto modes by adding additional comparisons to the
+   * switch structure below with additional strings. If using the SendableChooser
+   * make sure to add them to the chooser code above as well.
    */
   @Override
   public void autonomousInit() {
@@ -110,32 +106,32 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+    case kCustomAuto:
+      // Put custom auto code here
+      break;
+    case kDefaultAuto:
+    default:
+      // Put default auto code here
+      break;
     }
     CommandScheduler.getInstance().run();
   }
 
-
-@Override
-public void teleopInit() {
-  System.out.print("Starting teleop");
-  super.teleopInit();
-  System.out.print("Starting teleop");
-}
+  @Override
+  public void teleopInit() {
+    System.out.print("Starting teleop");
+    super.teleopInit();
+    System.out.print("Starting teleop");
+  }
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    
+
   }
+
   /**
    * This function is called periodically during test mode.
    */

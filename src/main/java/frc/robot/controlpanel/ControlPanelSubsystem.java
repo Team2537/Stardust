@@ -7,7 +7,6 @@
 
 package frc.robot.controlpanel;
 
-
 //import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +22,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 
-
 /**
  * Add your docs here.
  */
@@ -32,11 +30,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
   // here. Call these from Commands.
   private static ControlPanelSubsystem instance = null;
 
-/*  private static enum ButtonName {
-    YBUTTON, XBUTTON, ABUTTON, BBUTTON, STARTBUTTON, NOBUTTON
-  };
-
-  private static ButtonName name;*/
+  /*
+   * private static enum ButtonName { YBUTTON, XBUTTON, ABUTTON, BBUTTON,
+   * STARTBUTTON, NOBUTTON };
+   * 
+   * private static ButtonName name;
+   */
 
   private static WPI_TalonSRX rightMotor;
   private double rightPower;
@@ -50,18 +49,16 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private final static Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final static Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-  private static String lastColor = "";
-
-  public Color detectedColor;
+  private String lastColor = "";
+  private String targetColor;
+  private String detectedColorString = "";
 
   int numRed = 0;
   int numBlue = 0;
   int numGreen = 0;
   int numYellow = 0;
 
-  int Revolutions = 0;
-
-  private String colorString = "";
+  int revolutions = 0;
 
   private ControlPanelSubsystem() {
 
@@ -70,10 +67,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
 
-    
     rightMotor = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
-  // right motor turns in opposite direction
-  rightMotor.setInverted(true);
+    // right motor turns in opposite direction
+    rightMotor.setInverted(true);
 
   }
 
@@ -83,144 +79,140 @@ public class ControlPanelSubsystem extends SubsystemBase {
       instance = new ControlPanelSubsystem();
     }
 
- 
-  return instance;
+    return instance;
 
   }
-  
 
-  public String getColorString() {
-    return colorString;
+  public void setTargetColor(String targetColor) {
+    this.targetColor = targetColor;
+    lastColor = "";
   }
 
-  public String getLastColor() {
-    return lastColor;
-  }
+  public void detectColor() { // finds the current color that the sensor sees
 
-  public void setLastColor(String color) {
-  lastColor = color;
-  }
+    Color detectedColor = m_colorSensor.getColor(); // grab raw color values from sensor
 
-
-
-  public String detectColor() {
-
-
-    detectedColor = m_colorSensor.getColor();
-
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor); // match it to find a color
 
     if (match.color == kBlueTarget) {
-      colorString = "Blue";
+      detectedColorString = "Blue";
     } else if (match.color == kRedTarget) {
-      colorString = "Red";
+      detectedColorString = "Red";
     } else if (match.color == kGreenTarget) {
-      colorString = "Green";
+      detectedColorString = "Green";
     } else if (match.color == kYellowTarget) {
-      colorString = "Yellow";
+      detectedColorString = "Yellow";
     } else {
-      colorString = "Unknown";
+      detectedColorString = "Unknown";
     }
-   
-     return colorString;
-  }
-  public void detectCorrectColor(String correctColor) {
-    correctColor = colorString;
-    //lastColour = lastColor;
-    if (colorString.equals("Red") && (lastColor.equals("Yellow") || lastColor.equals("Green") || lastColor.equals(""))) {
-      numRed++;
-      lastColor = "Red";
 
-    } else if (colorString.equals("Green")
-        && (lastColor.equals("Red") || lastColor.equals("Yellow") ||  lastColor.equals(""))) {
-      /*
-       * if (lastColor.equals("Yellow")) { numYellow--; }
-       */
+  }
+
+  public void setCorrectColor() {
+    detectColor();
+    if (detectedColorString.equals("Red")
+        && (lastColor.equals("Yellow") || lastColor.equals("Green") || lastColor.equals(""))) {
+      numRed++;
+      lastColor = "Red"; // in between red and green, yellow is read. This accounts for that.
+
+    } else if (detectedColorString.equals("Green") && (lastColor.equals("Blue") || lastColor.equals(""))) {
       numGreen++;
       lastColor = "Green";
 
-    } else if (colorString.equals("Blue") && (lastColor.equals("Green") || lastColor.equals("Yellow") || lastColor.equals(""))) {
+    } else if (detectedColorString.equals("Blue")
+        && (lastColor.equals("Green") || lastColor.equals("Yellow") || lastColor.equals(""))) {
       numBlue++;
-      lastColor = "Blue";
+      lastColor = "Blue"; // in between blue and yellow, green is read. This accounts for that.
 
-    } else if (colorString.equals("Yellow")
-        && (lastColor.equals("Blue") || lastColor.equals("Green") || lastColor.equals(""))) {
-      /*
-       * if (lastColor.equals("Green")) numGreen--;
-       */
+    } else if (detectedColorString.equals("Yellow") && (lastColor.equals("Red") || lastColor.equals(""))) {
       numYellow++;
       lastColor = "Yellow";
 
     }
 
   }
-  
-  
-  public void CalculateRevolutions() {
-    if (numRed >= Revolutions + 1 && numGreen >= Revolutions + 1 && numBlue >= Revolutions + 1
-    && numYellow >= Revolutions + 1) {
 
-  Revolutions++;
-}
-if (Revolutions == 8) {
-  rightPower = 0.0;
-  rightMotor.set(rightPower);
-}
+  public boolean calculateRevolutions() {
+    if (numRed >= revolutions + 1 && numGreen >= revolutions + 1 && numBlue >= revolutions + 1
+        && numYellow >= revolutions + 1) {
+
+      revolutions++;
+    }
+    if (revolutions == 8) {
+      rightPower = 0.0;
+      rightMotor.set(rightPower);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public int getRevolutions() {
-    return Revolutions;
+    return revolutions;
   }
+
   public int setRevolutions() {
-     Revolutions++;
-     return Revolutions;
+    revolutions++;
+    return revolutions;
   }
-  
+
   public int NumRed() {
     return numRed;
   }
+
   public int NumGreen() {
     return numGreen;
   }
+
   public int NumBlue() {
     return numBlue;
   }
+
   public int NumYellow() {
     return numYellow;
   }
-  public void ZeroNumRed() {
+
+  public void zeroCounters() {
     numRed = 0;
-  }
-  public void ZeroNumGreen() {
     numGreen = 0;
-  }
-  public void ZeroNumBlue() {
     numBlue = 0;
-  }
-  public void ZeroNumYellow() {
     numYellow = 0;
+    revolutions = 0;
   }
-  public void ZeroRevolutions() {
-    Revolutions = 0;
-  }
- 
-  
 
   public void stopMotors() {
     rightPower = 0.0;
-  rightMotor.set(rightPower);
+    rightMotor.set(rightPower);
   }
+
   public void startMotors() {
     rightPower = 0.2;
     rightMotor.set(rightPower);
   }
 
+  public boolean spinToColor() {
+    setCorrectColor();
+    if (lastColor == targetColor) {
+      // last color is the current color in this scenario.
+      // when the setCorrectColor method is called, it sets the current color to the
+      // lastColor String.
 
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+  public boolean spinXTimes() {
+    setCorrectColor();
+    return calculateRevolutions();
 
+  }
+  public String detectedColorString() {
+    return detectedColorString;
+  }
+  public String getLastColor() {
+    return lastColor;
+  }
 
-
- 
-
-  
 }
