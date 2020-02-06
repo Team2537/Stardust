@@ -11,10 +11,11 @@ public class MecanumDriveStraightCommand extends CommandBase {
   private double distance;
   private double remainingDistance;
   private String direction;
+  private double xMultiplier, yMultiplier;
   
   private static final double DEFAULT_PERCENT_OUTPUT = 0.30;
   private static final double MIN_PERCENT_OUTPUT = 0.20;
-  private static final double ANGLE_kP = 3;
+  private static final double ANGLE_kP = 0.50;
   private static final double TOLERANCE = 2; // degrees
   private static final double DISTANCE_TOLERANCE = 2;
   private static final double SLOWING_DISTANCE = 20;
@@ -33,22 +34,29 @@ public class MecanumDriveStraightCommand extends CommandBase {
       Navx.getInstance().reset();
       Robot.drivesys.resetPeanutEnoders();
       currentAngle = Navx.getInstance().getYaw();
-      
+      if (direction == "X") {
+        xMultiplier = 1;
+        yMultiplier = 0;
+      } else if (direction == "Y") {
+        xMultiplier = 0;
+        yMultiplier = 1;
+      }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
+      double power = DEFAULT_PERCENT_OUTPUT;
       
       
       
       double zRotationAdjustment = 0;
 
       if (currentAngle <= TOLERANCE) {
-          
+          zRotationAdjustment = currentAngle/180 * ANGLE_kP * power;
       }
-      
+      //mecanum drive (power*xMultiplier,power*yMultiplier,zrotationadjustment)
       
   }
 
