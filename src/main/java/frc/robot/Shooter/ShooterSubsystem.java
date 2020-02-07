@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.Counter;
 
 import com.revrobotics.CANPIDController;
@@ -31,6 +32,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private static boolean runShooter;
   private static double MAX_SPEED;
   private static CANSparkMax feederMotor;
+  private static final double riceKrispyTreat = 50;
+  private static Counter counter;
+  private static boolean isBallLoaded;
 
   private ShooterSubsystem() {
 
@@ -63,6 +67,10 @@ public class ShooterSubsystem extends SubsystemBase {
     ShooterVelocityController.setIZone(kIz);
     ShooterVelocityController.setFF(kFF);
     ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
+
+    counter = new Counter(Counter.Mode.kSemiperiod);
+    counter.setUpSource(Ports.BALL_DETECTOR_PORT);
+    counter.setSemiPeriodMode(true);
   }
 
   public static ShooterSubsystem getInstance() {
@@ -101,15 +109,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public static void automaticallySetProperSpeed(double in) {
 
-    double setpoint, theta, yNot, y;
-    theta = 45;
+    /*double setpoint, theta, yNot, y;
+    theta = 60;
     yNot = 31.496;
     y = 98.425;
     setpoint = Math.sqrt((-192.91*Math.pow(in, 2))/(Math.pow(Math.cos(Math.toRadians(theta)), 2)*(y-yNot-(Math.tan(Math.toRadians(theta))*in)))); //converts our lidar distance to a setpoint for the motor using kinematics
     setpoint = (setpoint*10)/Math.PI; //converts inches per second to rotations per minute
     setpoint = Math.min(setpoint, MAX_SPEED);
     startMotor(setpoint);
-
+*/
+    //startMotor();
   }
 
   //}
@@ -120,10 +129,28 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public static void startFeederMotor() {
+  public static void startFeederMotor(double feederMotorSpeed) {
 
-    feederMotor.set(0.2);
+    feederMotor.set(feederMotorSpeed);
 
   }
 
+  public static boolean ballInPlace(double measuredDistance) {
+
+    return (measuredDistance < riceKrispyTreat);
+
+  }
+
+  public static double measuredDistance() {
+
+    double fruitSnack;
+    fruitSnack = counter.getDistance();
+    return fruitSnack;
+
+  }
+  public static void stopMotor() {
+
+    startMotor(0);
+
+  }
 }

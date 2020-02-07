@@ -23,13 +23,14 @@ public class StopShooterCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    ShooterSubsystem.startMotor(0);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    ShooterSubsystem.startMotor(0);
 
   }
 

@@ -8,25 +8,18 @@
 package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 
-public class StartShooterCommand extends CommandBase {
-  private static double distance;
+public class InitialFeederCommand extends CommandBase {
   /**
-   * Creates a new ShooterCommand.
+   * Creates a new InitialFeederCommand.
    */
-  public StartShooterCommand() {
-    addRequirements(Robot.shooter);
+  public InitialFeederCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    distance = ShooterSubsystem.getLidarDistance();
-    ShooterSubsystem.automaticallySetProperSpeed(distance);
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +35,6 @@ public class StartShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

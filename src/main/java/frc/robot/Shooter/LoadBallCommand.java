@@ -9,13 +9,14 @@ package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.Shooter.ShooterSubsystem;
 
-public class StartShooterCommand extends CommandBase {
-  private static double distance;
+public class LoadBallCommand extends CommandBase {
   /**
-   * Creates a new ShooterCommand.
+   * Creates a new BalLocationCommand.
    */
-  public StartShooterCommand() {
+
+  public LoadBallCommand() {
     addRequirements(Robot.shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -23,10 +24,7 @@ public class StartShooterCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    distance = ShooterSubsystem.getLidarDistance();
-    ShooterSubsystem.automaticallySetProperSpeed(distance);
-    
+    ShooterSubsystem.startFeederMotor(0.2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,11 +35,13 @@ public class StartShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    ShooterSubsystem.startFeederMotor(0);
+    System.out.print("Ball in position");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return ShooterSubsystem.ballInPlace(ShooterSubsystem.measuredDistance());
   }
 }
