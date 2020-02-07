@@ -19,6 +19,15 @@ public class CommandGroup extends SequentialCommandGroup {
   public CommandGroup() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new StartShooterCommand(), new LoadBallCommand(), new WaitCommand(1), new FeedBallCommand(), new LoadBallCommand());
+    super(new StartShooterCommand(), 
+    new LoadBallCommand(), 
+    new WaitCommand(1), 
+    new FeedBallCommand(), 
+    new LoadBallCommand(),
+    new StartShooterCommand(), 
+    new LoadBallCommand(), 
+    new WaitCommand(1), 
+    new FeedBallCommand(), 
+    new LoadBallCommand());
   }
 }
