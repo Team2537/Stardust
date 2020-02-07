@@ -36,12 +36,12 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private ClimbSubsystem() {
     Neo1 = new CANSparkMax(Ports.NEO_1, MotorType.kBrushless);
-    // Neo2 = new CANSparkMax(Ports.NEO_2, MotorType.kBrushless);
+    Neo2 = new CANSparkMax(Ports.NEO_2, MotorType.kBrushless);
     miniCim = new CANTalon(Ports.MINICIM);
     upLimit = new DigitalInput(Ports.UP_LIMIT);
     downLimit = new DigitalInput(Ports.DOWN_LIMIT);
     Neo1Enc = new CANEncoder(Neo1);
-    // Neo2Enc = new CANEncoder(Neo2, EncoderType.kQuadrature, 720);
+    Neo2Enc = new CANEncoder(Neo2);
   }
 
   public static ClimbSubsystem getInstance() {

@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  // public static HumanInput humanInput;
+  public static HumanInput humanInput;
   public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
   public static ClimbSubsystem climbsys = ClimbSubsystem.getInstance();
 
@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    // humanInput = new HumanInput();
+    humanInput = new HumanInput();
   }
 
   /**
