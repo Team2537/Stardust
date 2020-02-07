@@ -22,5 +22,5 @@ public class Ports {
     public static int OPEN_BUTTON = 1;  // A button opens mechanism
     public static int CLOSE_BUTTON = 2; // B button closes mechanism
 
-    public static int TANKBUTTON = 8;
+    public static int TANKBUTTON = 1;
   }

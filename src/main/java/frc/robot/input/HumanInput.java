@@ -20,7 +20,7 @@ public class HumanInput {
       joystickLeft = new Joystick(0);
       joystickRight = new Joystick(1);
       xbox = new XboxController(Ports.XBOX_CONTROLLER);
-      tankButton = new JoystickButton(xbox, Ports.TANKBUTTON);
+      tankButton = new JoystickButton(joystickLeft, Ports.TANKBUTTON);
   }
 
   public double getJoystickAxis(int axis, GenericHID joystick, double deadzone){

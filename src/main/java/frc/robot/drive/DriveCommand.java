@@ -18,7 +18,7 @@ public class DriveCommand extends CommandBase{
     @Override
     public void execute() {
         if(Robot.drivesys.getDriveMode() == DriveMode.kMecanum){
-            Robot.drivesys.setMecanumDriveSpeed();
+            Robot.drivesys.setMecanumDriveSpeed(0.4, 0, 0);
             System.out.println("HIIII");
         } else if (Robot.drivesys.getDriveMode() == DriveMode.kTank){
             Robot.drivesys.setTankDrive();
