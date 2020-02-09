@@ -27,13 +27,13 @@ public class telescopeUpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.climbsys.runMiniCim(.2);
+    Robot.climbsys.runTeleMtr(.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runMiniCim(0);
+    Robot.climbsys.runTeleMtr(0);
   }
 
   // Returns true when the command should end.

@@ -28,12 +28,16 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private CANSparkMax Neo1;
   private CANSparkMax Neo2;
-  private CANTalon miniCim;
+  private CANTalon teleMtr;
+  private DigitalInput topSensor;
+  private DigitalInput bottomSensor;
 
   private ClimbSubsystem() {
     Neo1 = new CANSparkMax(Ports.NEO_1, MotorType.kBrushless);
     Neo2 = new CANSparkMax(Ports.NEO_2, MotorType.kBrushless);
-    miniCim = new CANTalon(Ports.MINICIM);
+    teleMtr = new CANTalon(Ports.TELEMTR);
+    topSensor = new DigitalInput(Ports.TOP_SENSOR);
+    bottomSensor = new DigitalInput(Ports.BOTTOM_SENSOR);
   }
 
   public static ClimbSubsystem getInstance() {
@@ -51,8 +55,16 @@ public class ClimbSubsystem extends SubsystemBase {
     Neo2.set(speed);
   }
 
-  public void runMiniCim (double speed) {
-    miniCim.set(speed);
+  public void runTeleMtr (double speed) {
+    teleMtr.set(speed);
+  }
+
+  public boolean getTopSensor() {
+    return topSensor.get();
+  }
+
+  public boolean getBottomSensor() {
+    return bottomSensor.get();
   }
 
   @Override

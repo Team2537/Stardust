@@ -16,7 +16,8 @@ public class HumanInput {
 
   public HumanInput() {
       upButton.whenHeld(new telescopeUpCommand());
-      downButton.whenHeld(new telescopeDownCommand());
+      position1.whenPressed(new setPositionCommand());
+      downButton.whenPressed(new telescopeDownCommand());
       raiseButton.whenHeld(new raiseRobotCommand());
   }
 }

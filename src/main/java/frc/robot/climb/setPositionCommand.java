@@ -10,12 +10,11 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class telescopeDownCommand extends CommandBase {
+public class setPositionCommand extends CommandBase {
   /**
-   * Creates a new elevatorDown.
+   * Creates a new setPositionCommand.
    */
-  public telescopeDownCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public setPositionCommand() {
     addRequirements(Robot.climbsys);
   }
 
@@ -27,7 +26,7 @@ public class telescopeDownCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      Robot.climbsys.runTeleMtr(-.2);
+    Robot.climbsys.runTeleMtr(.1);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,13 +38,11 @@ public class telescopeDownCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Robot.climbsys.getBottomSensor()) {
-      System.out.println("Not true yet");
-      return false;
-    }
-    else {
-      System.out.println("True, should be stopping");
-      return true;
-    }
+   if(Robot.climbsys.getTopSensor()) {
+     return false;
+   }
+   else {
+     return true;
+   }
   }
 }

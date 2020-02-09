@@ -3,11 +3,10 @@ package frc.robot.input;
 public class Ports {
     public static int NEO_1 = 1;
     public static int NEO_2 = 2;
+    public static int TELEMTR = 3;
 
-    public static int MINICIM = 3;
-
-    public static int UP_LIMIT = 1;
-    public static int DOWN_LIMIT = 2;
+    public static int TOP_SENSOR = 0;
+    public static int BOTTOM_SENSOR = 2;
 
     public static int UP_BUTTON = 1;  // A Button
     public static int DOWN_BUTTON = 2; // B Button
