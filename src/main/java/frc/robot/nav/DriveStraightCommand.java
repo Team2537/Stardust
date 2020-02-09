@@ -47,8 +47,6 @@ public class DriveStraightCommand extends CommandBase {
         power *= (remainingDistance / SLOWING_DISTANCE);
       }
 
-
-
       double powerAdjustment = 0;
 
       if(Math.abs(currentAngle) >= TOLERANCE) {

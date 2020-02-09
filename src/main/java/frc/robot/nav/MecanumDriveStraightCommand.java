@@ -15,7 +15,7 @@ public class MecanumDriveStraightCommand extends CommandBase {
   
   private static final double DEFAULT_PERCENT_OUTPUT = 0.30;
   private static final double MIN_PERCENT_OUTPUT = 0.20;
-  private static final double ANGLE_kP = 0.50;
+  private static final double ANGLE_kP = 0.25;
   private static final double TOLERANCE = 2; // degrees
   private static final double DISTANCE_TOLERANCE = 2;
   private static final double SLOWING_DISTANCE = 20;
@@ -47,16 +47,16 @@ public class MecanumDriveStraightCommand extends CommandBase {
   @Override
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
-      double power = DEFAULT_PERCENT_OUTPUT;
+      double power = DEFAULT_PERCENT_OUTPUT * Math.signum(distance);
       
       
       
       double zRotationAdjustment = 0;
 
-      if (currentAngle <= TOLERANCE) {
+      if (Math.abs(currentAngle) <= TOLERANCE) {
           zRotationAdjustment = currentAngle/180 * ANGLE_kP * power;
       }
-      //mecanum drive (power*xMultiplier,power*yMultiplier,zrotationadjustment)
+      //mecanum drive (power*yMultiplier, power*xMultiplier, zrotationadjustment)
       
   }
 
