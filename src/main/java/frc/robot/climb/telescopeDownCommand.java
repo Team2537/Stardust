@@ -10,11 +10,11 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class elevatorUpCommand extends CommandBase {
+public class telescopeDownCommand extends CommandBase {
   /**
-   * Creates a new moveElevator.
+   * Creates a new elevatorDown.
    */
-  public elevatorUpCommand() {
+  public telescopeDownCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.climbsys);
   }
@@ -27,7 +27,7 @@ public class elevatorUpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.climbsys.runMiniCim(.2);
+      Robot.climbsys.runMiniCim(-.2);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,11 +39,6 @@ public class elevatorUpCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Robot.climbsys.reachedTop()) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return false;
   }
 }
