@@ -182,6 +182,12 @@ public class DriveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("BackRight Encoder", driveEncBackRight.getPosition());
     }
 
+    public double getDistanceIn() {
+        double distance = 0;
+        
+        return distance;
+    }
+
     /**
      * Provides the default command
      */
