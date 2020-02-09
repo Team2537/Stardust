@@ -40,6 +40,9 @@ public class MecanumDriveStraightCommand extends CommandBase {
       } else if (direction == "Y") {
         xMultiplier = 0;
         yMultiplier = 1;
+      } else { //not good
+          xMultiplier = 0;
+          yMultiplier = 0;
       }
   }
 
