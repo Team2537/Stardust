@@ -3,7 +3,7 @@ package frc.robot.input;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Shooter.CommandGroup;
+import frc.robot.Shooter.ShootingCommandGroup;
 
 public class HumanInput {
   static XboxController xbox = new XboxController(0);
@@ -18,8 +18,8 @@ public class HumanInput {
 
   public static void registerButtons() {
 
-
-    shooterButton.whenPressed(new CommandGroup());
+    shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
+  
     //stopShooterButton.whenPressed(new StopShooterCommand());
 
   }

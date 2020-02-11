@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    shooter = ShooterSubsystem.getInstance();
+    //shooter = ShooterSubsystem.getInstance();
     input = new HumanInput();
     HumanInput.registerButtons();
 

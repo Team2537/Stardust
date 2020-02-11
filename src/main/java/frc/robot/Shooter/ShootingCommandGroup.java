@@ -8,26 +8,27 @@
 package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class CommandGroup extends SequentialCommandGroup {
+public class ShootingCommandGroup extends SequentialCommandGroup {
   /**
    * Creates a new CommandGroup.
    */
-  public CommandGroup() {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
-    super(new StartShooterCommand(), 
-    new LoadBallCommand(), 
-    new WaitCommand(1), 
-    new FeedBallCommand(), 
-    new LoadBallCommand(),
-    new StartShooterCommand(), 
-    new LoadBallCommand(), 
-    new WaitCommand(1), 
-    new FeedBallCommand(), 
-    new LoadBallCommand());
+  private static ShootingCommandGroup instance = null;
+
+  private ShootingCommandGroup() {
+    super(new InitializeShooterCommandGroup(), new FireCommandGroup());
+    //super(new TestCommmand("Hi"), new WaitCommand(1), new TestCommmand("Bye"));
+    
+  }
+
+  public static ShootingCommandGroup getInstance() {
+    if (instance == null) {
+      instance = new ShootingCommandGroup();
+    }
+    return instance;
   }
 }

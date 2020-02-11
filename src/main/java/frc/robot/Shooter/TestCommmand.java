@@ -9,17 +9,20 @@ package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class InitialFeederCommand extends CommandBase {
+public class TestCommmand extends CommandBase {
+  String output;
   /**
-   * Creates a new InitialFeederCommand.
+   * Creates a new TestCommmand.
    */
-  public InitialFeederCommand() {
+  public TestCommmand(String output) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.output = output;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println(output);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +38,6 @@ public class InitialFeederCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
