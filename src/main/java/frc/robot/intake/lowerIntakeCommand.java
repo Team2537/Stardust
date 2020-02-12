@@ -8,12 +8,12 @@
 package frc.robot.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
+
 //import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+
 public class lowerIntakeCommand extends CommandBase {
   
   /**

@@ -2,17 +2,14 @@ package frc.robot.input;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.I2C.Port;
+
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.intake.intakeSubsystem;
+
 import frc.robot.intake.lowerIntakeCommand;
-import frc.robot.sample.SampleCloseCommand;
-import frc.robot.sample.SampleOpenCommand;
-import frc.robot.intake.intakeSubsystem;
-import frc.robot.intake.lowerIntakeCommand;
+
 import frc.robot.intake.raiseIntakeCommand;
-import frc.robot.intake.intakemotorsCommand;
+
 import frc.robot.input.Ports;
 public class HumanInput {
   XboxController xbox;
