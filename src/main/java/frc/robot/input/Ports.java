@@ -11,7 +11,7 @@ public class Ports {
     public static int UP_BUTTON = 1;  // A Button
     public static int DOWN_BUTTON = 2; // B Button
     public static int RAISE_BUTTON = 3; //X Button
-    public static int POSITION1_BUTTON = 4;
+    public static int POSITION1_BUTTON = 4; //Y Button
 
     public static int SERVO_PORT;
   }
