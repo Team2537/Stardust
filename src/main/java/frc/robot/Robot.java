@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.sample.SampleServoSubsystem;
 import frc.robot.vision.UDPSubsystem;
 
 /**
@@ -26,7 +25,6 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  public static SampleServoSubsystem servosys = SampleServoSubsystem.getInstance();
   public static UDPSubsystem udpsys = UDPSubsystem.getInstance();
 
   /**

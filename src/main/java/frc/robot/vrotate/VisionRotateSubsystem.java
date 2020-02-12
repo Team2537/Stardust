@@ -5,32 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.sample;
+package frc.robot.vrotate;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.input.Ports;
 
-public class SampleServoSubsystem extends SubsystemBase {
-  private Servo servo;
+public class VisionRotateSubsystem extends SubsystemBase {
+  /**
+   * Creates a new VisionRotateSubsystem.
+   */
+  public VisionRotateSubsystem() {
 
-  private static SampleServoSubsystem instance = null;
-
-  private SampleServoSubsystem() {
-      servo = new Servo(Ports.SERVO_PORT);
   }
 
-  // Singleton design pattern
-  public static SampleServoSubsystem getInstance() {
-      if (instance == null) {
-          instance = new SampleServoSubsystem();
-      }
-      return instance;
-  }
-
-  public void setAngle(double degrees) {
-    servo.setAngle(degrees);
-  }
+  
 
   @Override
   public void periodic() {
