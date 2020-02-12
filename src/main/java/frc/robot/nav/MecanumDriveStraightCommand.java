@@ -10,7 +10,7 @@ public class MecanumDriveStraightCommand extends CommandBase {
   private double currentAngle;
   private double distance;
   private double remainingDistance;
-  private String direction;
+  private double direction;
   private double xMultiplier, yMultiplier;
   
   private static final double DEFAULT_PERCENT_OUTPUT = 0.30;
@@ -21,7 +21,7 @@ public class MecanumDriveStraightCommand extends CommandBase {
   private static final double SLOWING_DISTANCE = 20;
 
 
-  public MecanumDriveStraightCommand(double targetDistance, String targetDirection) {
+  public MecanumDriveStraightCommand(double targetDistance, double targetDirection) {
     addRequirements(Robot.drivesys);
     distance = targetDistance;
     direction = targetDirection;
@@ -30,17 +30,14 @@ public class MecanumDriveStraightCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
       Navx.getInstance().reset();
       Navx.getInstance().reset();
-      Robot.drivesys.resetPeanutEnoders();
+      Robot.drivesys.resetEncoders();
+
       currentAngle = Navx.getInstance().getYaw();
-      if (direction == "X") {
-        xMultiplier = 1;
-        yMultiplier = 0;
-      } else if (direction == "Y") {
-        xMultiplier = 0;
-        yMultiplier = 1;
-      }
+
+      
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,14 +53,14 @@ public class MecanumDriveStraightCommand extends CommandBase {
       if (Math.abs(currentAngle) <= TOLERANCE) {
           zRotationAdjustment = currentAngle/180 * ANGLE_kP * power;
       }
-      //mecanum drive (power*yMultiplier, power*xMultiplier, zrotationadjustment)
       
+      Robot.drivesys.setPolarDriveSpeed(power, direction, zRotationAdjustment);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
-      Robot.drivesys.killPeanutMotors();
+      Robot.drivesys.setTankDrive(0, 0);
   }
 
   // Returns true when the command should end.

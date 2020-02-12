@@ -47,11 +47,11 @@ public class HumanInput {
   }
 
   public void registerButtons(){
-    realignButton.whenPressed(new RealignmentCommand());
-    rotate90BUtton.whenPressed(new RotateCommand(90));
-    rotateneg90Button.whenPressed(new RotateCommand(-90));
-    driveStraightButton.whenPressed(new DriveStraightCommand(60.0));
-    testPathButton.whenPressed(new TestPath());
+    // realignButton.whenPressed(new RealignmentCommand());
+    // rotate90BUtton.whenPressed(new RotateCommand(90));
+    // rotateneg90Button.whenPressed(new RotateCommand(-90));
+    // driveStraightButton.whenPressed(new DriveStraightCommand(60.0));
+    // testPathButton.whenPressed(new TestPath());
     //testCom.whenPressed(new TestCommand());
   }
 }

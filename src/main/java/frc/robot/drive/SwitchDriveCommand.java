@@ -5,25 +5,49 @@ import frc.robot.Robot;
 import frc.robot.drive.DriveSubsystem.DriveMode;
 
 public class SwitchDriveCommand extends CommandBase{
-    public SwitchDriveCommand(){
 
+    private DriveMode mode;
+
+    public SwitchDriveCommand(DriveMode mode){
+        this.mode = mode;
+    }
+
+    public SwitchDriveCommand(){
+        mode = null;
     }
 
     @Override
     public void initialize() {
-        switch(Robot.drivesys.getDriveMode()){
-            case kMecanum:
-                Robot.drivesys.setSolenoids(true);
-                Robot.drivesys.setDriveMode(DriveMode.kTank);
-                System.out.println("Its Tanky Time");
-                break;
-            case kTank:
-                Robot.drivesys.setSolenoids(false);
-                Robot.drivesys.setDriveMode(DriveMode.kMecanum);
-                System.out.println("Its Swervy Time");
-                break;
-            default:
-                System.out.println("Oops");
+        if(mode == null){
+            switch(Robot.drivesys.getDriveMode()){
+                case kMecanum:
+                    Robot.drivesys.setSolenoids(true);
+                    Robot.drivesys.setDriveMode(DriveMode.kTank);
+                    System.out.println("Its Tanky Time");
+                    break;
+                case kTank:
+                    Robot.drivesys.setSolenoids(false);
+                    Robot.drivesys.setDriveMode(DriveMode.kMecanum);
+                    System.out.println("Its Swervy Time");
+                    break;
+                default:
+                    System.out.println("Oops");
+            }
+        } else if (Robot.drivesys.getDriveMode() != mode){
+            switch(mode){
+                case kMecanum:
+                    Robot.drivesys.setSolenoids(false);
+                    Robot.drivesys.setDriveMode(DriveMode.kMecanum);
+                    System.out.println("Its Swervy Time");
+                    break;
+                case kTank:
+                    Robot.drivesys.setSolenoids(true);
+                    Robot.drivesys.setDriveMode(DriveMode.kTank);
+                    System.out.println("Its Tanky Time");
+                    break;
+                default:
+                    System.out.println("Oops");
+            }
         }
     }
 
