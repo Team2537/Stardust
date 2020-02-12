@@ -11,14 +11,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.Counter;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+ 
 public class ShooterSubsystem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsystem.
@@ -33,8 +32,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private static double MAX_SPEED;
   private static CANSparkMax feederMotor;
   private static final double riceKrispyTreat = 50;
-  private static Counter counter;
+  private static Counter shooterIR;
   private static boolean isBallLoaded;
+  public static int ballCounter;
+  private static Counter intakeIR;
 
   private ShooterSubsystem() {
 
@@ -68,9 +69,13 @@ public class ShooterSubsystem extends SubsystemBase {
     ShooterVelocityController.setFF(kFF);
     ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
 
-    counter = new Counter(Counter.Mode.kSemiperiod);
-    counter.setUpSource(Ports.BALL_DETECTOR_PORT);
-    counter.setSemiPeriodMode(true);
+    shooterIR = new Counter(Counter.Mode.kSemiperiod);
+    shooterIR.setUpSource(Ports.BALL_DETECTOR_PORT);
+    shooterIR.setSemiPeriodMode(true);
+
+    intakeIR = new Counter(Counter.Mode.kSemiperiod);
+    intakeIR.setUpSource(Ports.INTAKE_DETECTOR_PORT);
+    intakeIR.setSemiPeriodMode(true);
   }
 
   public static ShooterSubsystem getInstance() {
@@ -102,26 +107,26 @@ public class ShooterSubsystem extends SubsystemBase {
      */
 
     double in = (lidarDistance.getPeriod() * 1000000.0 / 25.4);
-      
-      return in;
+
+    return in;
 
   }
 
   public static void automaticallySetProperSpeed(double in) {
 
-    /*double setpoint, theta, yNot, y;
-    theta = 60;
-    yNot = 31.496;
-    y = 98.425;
-    setpoint = Math.sqrt((-192.91*Math.pow(in, 2))/(Math.pow(Math.cos(Math.toRadians(theta)), 2)*(y-yNot-(Math.tan(Math.toRadians(theta))*in)))); //converts our lidar distance to a setpoint for the motor using kinematics
-    setpoint = (setpoint*10)/Math.PI; //converts inches per second to rotations per minute
-    setpoint = Math.min(setpoint, MAX_SPEED);
-    startMotor(setpoint);
-*/
-    //startMotor();
+    /*
+     * double setpoint, theta, yNot, y; theta = 60; yNot = 31.496; y = 98.425;
+     * setpoint = Math.sqrt((-192.91*Math.pow(in,
+     * 2))/(Math.pow(Math.cos(Math.toRadians(theta)),
+     * 2)*(y-yNot-(Math.tan(Math.toRadians(theta))*in)))); //converts our lidar
+     * distance to a setpoint for the motor using kinematics setpoint =
+     * (setpoint*10)/Math.PI; //converts inches per second to rotations per minute
+     * setpoint = Math.min(setpoint, MAX_SPEED); startMotor(setpoint);
+     */
+    // startMotor();
   }
 
-  //}
+  // }
 
   public static void startMotor(double MotorVelocity) {
 
@@ -144,13 +149,29 @@ public class ShooterSubsystem extends SubsystemBase {
   public static double measuredDistance() {
 
     double fruitSnack;
-    fruitSnack = counter.getDistance();
+    fruitSnack = shooterIR.getDistance();
     return fruitSnack;
 
   }
   public static void stopMotor() {
 
     startMotor(0);
+
+  }
+  
+  public static void ballIntakeCount() {
+    
+    if(intakeIR.getDistance() < riceKrispyTreat) {
+
+      ballCounter++;
+
+    }
+
+  }
+
+  public static void decreaseBallCount() {
+
+    ballCounter--;
 
   }
 }
