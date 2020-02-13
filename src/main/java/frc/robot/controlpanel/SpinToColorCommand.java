@@ -5,39 +5,59 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.sample;
+package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class SampleCloseCommand extends CommandBase {
+public class SpinToColorCommand extends CommandBase {
+
   /**
-   * Creates a new SampleCloseCommand.
+   * Creates a new SpinToColor.
    */
-  public SampleCloseCommand() {
-    addRequirements(Robot.servosys);
+
+  public SpinToColorCommand() {
+
+    addRequirements(Robot.controlsubsys);
+
+
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    System.out.println("init fun-------------");
+    
+    if (Robot.controlsubsys.isOnTargetColor()){
+       System.out.println("On color already");
+
+    } else {
+      Robot.controlsubsys.startMotors();
+      System.out.println("Spin to color is working in init.");
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.controlsubsys.stopMotors();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Close Pressed.");
-    Robot.servosys.setAngle(120);// set servo to closed position
-    return true;                 // and then finish
+    System.out.println("||||||||||||||"+Robot.controlsubsys.isOnTargetColor()+"||||||||||||||");
+    return Robot.controlsubsys.isOnTargetColor();
+
   }
+
 }

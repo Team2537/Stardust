@@ -5,39 +5,44 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.sample;
+package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class SampleOpenCommand extends CommandBase {
+public class SpinXTimesCommand extends CommandBase {
   /**
-   * Creates a new SampleOpenCommand.
+   * Creates a new SpinXTimes.
    */
-  public SampleOpenCommand() {
-    addRequirements(Robot.servosys);
+  public SpinXTimesCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.controlsubsys);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.controlsubsys.zeroCounters(); // sets the R,G,B,Y, and revolutions value to 0
+
+    Robot.controlsubsys.startMotors();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
+  public void end(boolean interrupted) {
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Open Pressed.");
-    Robot.servosys.setAngle(30); // set servo to open position
-    return true;                // and then finish
+    return Robot.controlsubsys.spinXTimes();
+
   }
 }
