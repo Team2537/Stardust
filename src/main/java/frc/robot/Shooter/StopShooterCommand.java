@@ -24,7 +24,10 @@ public class StopShooterCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    ShooterSubsystem.startMotor(0);
+    if(ShooterSubsystem.getBallCount() == 0) {
+      ShooterSubsystem.startMotor(0);
+      ShooterSubsystem.startFeederMotor(0);
+    }
 
   }
 
@@ -37,6 +40,7 @@ public class StopShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 
   // Returns true when the command should end.

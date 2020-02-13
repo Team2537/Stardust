@@ -42,6 +42,6 @@ public class LoadBallCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ShooterSubsystem.ballInPlace(ShooterSubsystem.measuredDistance());
+    return ShooterSubsystem.ballInPlace();
   }
 }

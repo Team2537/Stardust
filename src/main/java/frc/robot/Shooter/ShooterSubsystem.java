@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -31,51 +32,48 @@ public class ShooterSubsystem extends SubsystemBase {
   private static boolean runShooter;
   private static double MAX_SPEED;
   private static CANSparkMax feederMotor;
-  private static final double riceKrispyTreat = 50;
-  private static Counter shooterIR;
+  private static final double riceKrispyTreat = 5;
+  private static DigitalInput shooterIR;
   private static boolean isBallLoaded;
-  public static int ballCounter;
-  private static Counter intakeIR;
+  private static int ballCounter;
+  private static DigitalInput intakeIR;
+  private static boolean fruitsnack = true;
 
   private ShooterSubsystem() {
 
     // Connects Lidar mode control to DIO port 5
-    lidarMode = new DigitalOutput(Ports.LIDAR_MODE);
-    lidarMode.set(false); // Lidar mode is active low
+    // lidarMode = new DigitalOutput(Ports.LIDAR_MODE);
+    // lidarMode.set(false); // Lidar mode is active low
 
-    // Connects semi period mode to DIO port 4
-    lidarDistance = new Counter(Counter.Mode.kSemiperiod);
-    lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
-    lidarDistance.setSemiPeriodMode(true);
+    // // Connects semi period mode to DIO port 4
+    // lidarDistance = new Counter(Counter.Mode.kSemiperiod);
+    // lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
+    // lidarDistance.setSemiPeriodMode(true);
 
-    kP = 5e-5;
-    kI = 1e-6;
-    kD = 0;
-    kIz = 0;
-    kFF = 0;
-    kMaxOutput = 1;
-    kMinOutput = -1;
-    runShooter = false;
-    MAX_SPEED = 1250;
+    // kP = 5e-5;
+    // kI = 1e-6;
+    // kD = 0;
+    // kIz = 0;
+    // kFF = 0;
+    // kMaxOutput = 1;
+    // kMinOutput = -1;
+    // runShooter = false;
+    // MAX_SPEED = 1250;
 
-    feederMotor = new CANSparkMax(Ports.FEEDER_MOTOR_PORT, MotorType.kBrushless);
-    ShooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
+    // feederMotor = new CANSparkMax(Ports.FEEDER_MOTOR_PORT, MotorType.kBrushless);
+    // ShooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
 
-    ShooterVelocityController = ShooterMotor.getPIDController();
-    ShooterVelocityController.setP(kP);
-    ShooterVelocityController.setI(kI);
-    ShooterVelocityController.setD(kD);
-    ShooterVelocityController.setIZone(kIz);
-    ShooterVelocityController.setFF(kFF);
-    ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
+    // ShooterVelocityController = ShooterMotor.getPIDController();
+    // ShooterVelocityController.setP(kP);
+    // ShooterVelocityController.setI(kI);
+    // ShooterVelocityController.setD(kD);
+    // ShooterVelocityController.setIZone(kIz);
+    // ShooterVelocityController.setFF(kFF);
+    // ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
 
-    shooterIR = new Counter(Counter.Mode.kSemiperiod);
-    shooterIR.setUpSource(Ports.BALL_DETECTOR_PORT);
-    shooterIR.setSemiPeriodMode(true);
+    shooterIR = new DigitalInput(Ports.BALL_DETECTOR_PORT);
 
-    intakeIR = new Counter(Counter.Mode.kSemiperiod);
-    intakeIR.setUpSource(Ports.INTAKE_DETECTOR_PORT);
-    intakeIR.setSemiPeriodMode(true);
+    intakeIR = new DigitalInput(Ports.INTAKE_DETECTOR_PORT);
   }
 
   public static ShooterSubsystem getInstance() {
@@ -140,17 +138,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public static boolean ballInPlace(double measuredDistance) {
 
-    return (measuredDistance < riceKrispyTreat);
+  public static boolean ballInPlace() {
 
-  }
-
-  public static double measuredDistance() {
-
-    double fruitSnack;
-    fruitSnack = shooterIR.getDistance();
-    return fruitSnack;
+    return !shooterIR.get();
 
   }
   public static void stopMotor() {
@@ -161,10 +152,21 @@ public class ShooterSubsystem extends SubsystemBase {
   
   public static void ballIntakeCount() {
     
-    if(intakeIR.getDistance() < riceKrispyTreat) {
+    if(fruitsnack) {    
+      if(!shooterIR.get()) {
 
-      ballCounter++;
+        ballCounter++;
+        fruitsnack = false;
+        System.out.println(ballCounter);
 
+      }
+    }
+    else {
+      if(shooterIR.get()) {
+
+        fruitsnack = true;
+
+      }
     }
 
   }
@@ -172,6 +174,11 @@ public class ShooterSubsystem extends SubsystemBase {
   public static void decreaseBallCount() {
 
     ballCounter--;
+    System.out.println(ballCounter);
 
+  }
+
+  public static int getBallCount() {
+    return ballCounter;
   }
 }

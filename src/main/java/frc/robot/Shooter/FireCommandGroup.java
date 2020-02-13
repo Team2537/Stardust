@@ -20,6 +20,7 @@ public class FireCommandGroup extends SequentialCommandGroup {
   public FireCommandGroup() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new WaitCommand(1), new FeedBallCommand());
+    super(new WaitCommand(1), 
+    new FeedBallCommand());
   }
 }

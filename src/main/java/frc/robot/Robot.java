@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     //shooter = ShooterSubsystem.getInstance();
     input = new HumanInput();
-    HumanInput.registerButtons();
+    //HumanInput.registerButtons();
 
   }
 
@@ -84,6 +84,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+
+    ShooterSubsystem.getInstance();
+
   }
 
   /**
@@ -92,6 +95,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     CommandScheduler.getInstance().run();
+    ShooterSubsystem.ballIntakeCount();
   }
 }
  

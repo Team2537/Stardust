@@ -19,6 +19,7 @@ public class InitializeShooterCommandGroup extends ParallelCommandGroup {
   public InitializeShooterCommandGroup() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new StartShooterCommand(), new  LoadBallCommand());
+    super(new StartShooterCommand(), 
+    new  LoadBallCommand());
   }
 }
