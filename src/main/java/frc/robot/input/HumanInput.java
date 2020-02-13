@@ -3,12 +3,10 @@ package frc.robot.input;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.drive.SwitchDriveCommand;
+import frc.robot.input.Ports;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.nav.DriveStraightCommand;
-import frc.robot.nav.RealignmentCommand;
-import frc.robot.nav.RotateCommand;
-//import frc.robot.nav.TestCommand;
-import frc.robot.nav.TestPath;
 
 public class HumanInput {
   public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 2;
@@ -16,10 +14,14 @@ public class HumanInput {
   public final Joystick joystickLeft, joystickRight;
   private static JoystickButton realignButton, rotate90BUtton, rotateneg90Button, driveStraightButton, testPathButton/*, testCom*/;
 
+    XboxController xbox;
+    Button tankButton;
+
   public HumanInput() {
       joystickLeft = new Joystick(0);
       joystickRight = new Joystick(1);
-      // xbox = new XboxController(2);
+      xbox = new XboxController(Ports.XBOX_CONTROLLER);
+      tankButton = new JoystickButton(joystickLeft, Ports.TANKBUTTON);
   }
 
   public double getJoystickAxis(int axis, GenericHID joystick, double deadzone){
@@ -38,13 +40,7 @@ public class HumanInput {
   public double getJoystickAxisRight(int axis){
     return getJoystickAxis(axis, joystickRight, DEADZONE);
   }
-
-  public void registerButtons(){
-    // realignButton.whenPressed(new RealignmentCommand());
-    // rotate90BUtton.whenPressed(new RotateCommand(90));
-    // rotateneg90Button.whenPressed(new RotateCommand(-90));
-    // driveStraightButton.whenPressed(new DriveStraightCommand(60.0));
-    // testPathButton.whenPressed(new TestPath());
-    //testCom.whenPressed(new TestCommand());
+  public void getRegister(){
+  tankButton.whenPressed(new SwitchDriveCommand());
   }
 }

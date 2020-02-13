@@ -35,7 +35,7 @@ public class DriveSubsystem extends SubsystemBase{
     private static DifferentialDrive driveDifferential;
     private static MecanumDrive driveMecanum;
 
-    private static Solenoid driveSolFrontLeft, driveSolBackLeft, driveSolFrontRight, driveSolBackRight;
+    private static Solenoid drivePriSolFrontLeft, drivePriSolBackLeft, drivePriSolFrontRight, drivePriSolBackRight, driveSecSolFrontLeft, driveSecSolBackLeft, driveSecSolFrontRight, driveSecSolBackRight;
 
 
     public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kCoast;
@@ -53,31 +53,32 @@ public class DriveSubsystem extends SubsystemBase{
         currentDriveMode = DriveMode.kMecanum;
 
         driveEncFrontLeft = new CANEncoder(driveCANFrontLeft);
-        driveEncFrontRight = new CANEncoder(driveCANFrontRight);
         driveEncBackLeft = new CANEncoder(driveCANBackLeft);
+        driveEncFrontRight = new CANEncoder(driveCANFrontRight);
         driveEncBackRight = new CANEncoder(driveCANBackRight);
-        sparkEncArray = new CANEncoder[] {driveEncFrontLeft, driveEncFrontRight, driveEncBackLeft, driveEncBackRight};
+        sparkEncArray = new CANEncoder[]{driveEncFrontLeft, driveEncBackLeft, driveEncFrontRight,
+                                    driveEncBackRight};
 
-        // peanutFrontLeft = new TalonSRX(4);
-        // peanutFrontRight = new TalonSRX(3);
-        // peanutBackLeft = new TalonSRX(2);
-        // peanutBackRight = new TalonSRX(1);
 
-        // peanutFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		// peanutFrontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		// peanutBackLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		// peanutFrontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        
 
-        driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
-        driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
-        driveSolFrontRight = new Solenoid(Ports.DRIVE_SOL_FRONT_RIGHT);
-        driveSolBackRight = new Solenoid(Ports.DRIVE_SOL_BACK_RIGHT);
+        drivePriSolFrontLeft = new Solenoid(Ports.PRI_DRIVE_SOL_FRONT_LEFT);
+        drivePriSolBackLeft = new Solenoid(Ports.PRI_DRIVE_SOL_BACK_LEFT);
+        drivePriSolFrontRight = new Solenoid(Ports.PRI_DRIVE_SOL_FRONT_RIGHT);
+        drivePriSolBackRight = new Solenoid(Ports.PRI_DRIVE_SOL_BACK_RIGHT);
+
+        driveSecSolFrontLeft = new Solenoid(Ports.SEC_DRIVE_SOL_FRONT_LEFT);
+        driveSecSolBackLeft = new Solenoid(Ports.SEC_DRIVE_SOL_BACK_LEFT);
+        driveSecSolFrontRight = new Solenoid(Ports.SEC_DRIVE_SOL_FRONT_RIGHT);
+        driveSecSolBackRight = new Solenoid(Ports.SEC_DRIVE_SOL_BACK_RIGHT);
 
         motorsControllerLeft = new SpeedControllerGroup(driveCANFrontLeft, driveCANBackLeft);
         motorsControllerRight = new SpeedControllerGroup(driveCANFrontRight, driveCANBackRight);
 
         driveMecanum = new MecanumDrive(driveCANFrontLeft, driveCANBackLeft, driveCANFrontRight, driveCANBackRight);
         driveDifferential = new DifferentialDrive(motorsControllerLeft, motorsControllerRight); 
+        driveMecanum.setSafetyEnabled(false);
+        driveDifferential.setSafetyEnabled(false);
     }
 
 
@@ -188,11 +189,19 @@ public class DriveSubsystem extends SubsystemBase{
         driveCANBackRight.setIdleMode(mode);
     }
 
-    public void setSolenoids(boolean state){
-        driveSolFrontLeft.set(state);
-        driveSolBackLeft.set(state);
-        driveSolFrontRight.set(state);
-        driveSolBackRight.set(state);
+  
+    public void setSolenoids(boolean state, boolean antistate){
+        drivePriSolFrontLeft.set(state);
+        drivePriSolBackLeft.set(state);
+        drivePriSolFrontRight.set(state);
+        drivePriSolBackRight.set(state);
+
+        driveSecSolFrontLeft.set(antistate);
+        driveSecSolBackLeft.set(antistate);
+        driveSecSolFrontRight.set(antistate);
+        driveSecSolBackRight.set(antistate);
+
+        System.out.println(drivePriSolBackLeft);
     }
 
     public void killDriveMotors(){
@@ -200,7 +209,7 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public boolean getSolenoids(){
-        return driveSolFrontLeft.get();
+        return drivePriSolFrontLeft.get();
     }
 
     /**
@@ -232,6 +241,8 @@ public class DriveSubsystem extends SubsystemBase{
     public void setDriveMode(DriveMode mode){
         currentDriveMode = mode;
     }
+
+    
 
     /**
      * Provides the default command

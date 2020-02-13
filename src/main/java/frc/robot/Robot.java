@@ -43,11 +43,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     humanInput = new HumanInput();
-    Robot.humanInput.registerButtons();
-    Navx.getInstance().reset();
-    
-    
-    drivesys.periodic();
+    humanInput.getRegister();
   }
 
   /**
@@ -60,6 +56,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -99,28 +96,19 @@ public class Robot extends TimedRobot {
   }
 
 
-
-  @Override
-  public void teleopInit() {
-    Navx.getInstance().reset();
-    Robot.drivesys.resetEncoders();
-  
-  }
   /**
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {
-    CommandScheduler.getInstance().run(); 
-    //Robot.drivesys.printPeanutEncoders();
-    //System.out.println("Average Encoders: " + Robot.drivesys.getAveragepeanutEncoders());
-    //System.out.println("Distance: " + Robot.drivesys.getPeanutDistanceIn());
-    
-    // System.out.println("Angle: " + Navx.getInstance().getAngle());
-    // System.out.println("Yaw: " + Navx.getInstance().getYaw());
-    // System.out.println("Pitch: " + Navx.getInstance().getPitch());
-    // System.out.println("Roll: " + Navx.getInstance().getRoll());
+  public void teleopInit() {
+    Robot.drivesys.resetEncoders();
+    CommandScheduler.getInstance().run();
+  }
 
+  @Override
+  public void teleopPeriodic() {
+    Robot.drivesys.periodic();
+    CommandScheduler.getInstance().run(); 
   }
 
   
@@ -131,6 +119,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     CommandScheduler.getInstance().run(); 
-
   }
 }
