@@ -29,6 +29,7 @@ public class DriveSubsystem extends SubsystemBase{
     private static CANSparkMax driveCANFrontLeft, driveCANFrontRight, driveCANBackLeft, driveCANBackRight;
     private static CANEncoder driveEncFrontLeft, driveEncFrontRight, driveEncBackLeft, driveEncBackRight;
     private static CANEncoder[] sparkEncArray;
+    
     private static SpeedControllerGroup motorsControllerLeft, motorsControllerRight;
 
     private static DifferentialDrive driveDifferential;
@@ -40,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase{
     public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kCoast;
     public static final MotorType DEFAULT_MOTOR_TYPE = MotorType.kBrushless;
 
-    private static TalonSRX peanutFrontLeft, peanutFrontRight, peanutBackLeft, peanutBackRight;
+    // private static TalonSRX peanutFrontLeft, peanutFrontRight, peanutBackLeft, peanutBackRight;
 
 
     public DriveSubsystem(){
@@ -57,15 +58,15 @@ public class DriveSubsystem extends SubsystemBase{
         driveEncBackRight = new CANEncoder(driveCANBackRight);
         sparkEncArray = new CANEncoder[] {driveEncFrontLeft, driveEncFrontRight, driveEncBackLeft, driveEncBackRight};
 
-        peanutFrontLeft = new TalonSRX(4);
-        peanutFrontRight = new TalonSRX(3);
-        peanutBackLeft = new TalonSRX(2);
-        peanutBackRight = new TalonSRX(1);
+        // peanutFrontLeft = new TalonSRX(4);
+        // peanutFrontRight = new TalonSRX(3);
+        // peanutBackLeft = new TalonSRX(2);
+        // peanutBackRight = new TalonSRX(1);
 
-        peanutFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		peanutFrontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		peanutBackLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		peanutFrontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        // peanutFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		// peanutFrontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		// peanutBackLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		// peanutFrontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 
         driveSolFrontLeft = new Solenoid(Ports.DRIVE_SOL_FRONT_LEFT);
         driveSolBackLeft = new Solenoid(Ports.DRIVE_SOL_BACK_LEFT);
@@ -120,7 +121,7 @@ public class DriveSubsystem extends SubsystemBase{
     public void setMecanumDriveSpeed(){
         setMecanumDriveSpeed(Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Y),
                              Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_X),
-                             Robot.humanInput.getJoystickAxisLeft(HumanInput.AXIS_Z));
+                             Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Z));
     }
 
     public void setPolarDriveSpeed(double magnitude, double angle, double zRotation){
@@ -237,68 +238,69 @@ public class DriveSubsystem extends SubsystemBase{
      */
     @Override
     public void periodic(){
-        setDefaultCommand(new TempDriveCommand());
+        setDefaultCommand(new DriveCommand());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void setPeanutLeft(double speed) {
-        peanutFrontLeft.set(ControlMode.PercentOutput, speed);
-        peanutBackLeft.set(ControlMode.PercentOutput, speed);
-    }
-
-    public void setPeanutRight(double speed) {
-        peanutFrontRight.set(ControlMode.PercentOutput, -speed);
-        peanutBackRight.set(ControlMode.PercentOutput, -speed);
-    }
-
-    public void killPeanutMotors() {
-        setPeanutLeft(0);
-        setPeanutRight(0);
-    }
-
-    public double getAveragepeanutEncoders() {
-        double avg;
-        avg = (-peanutFrontRight.getSelectedSensorPosition()
-            + peanutBackLeft.getSelectedSensorPosition()
-            - peanutBackRight.getSelectedSensorPosition()) / 3;
-        return avg;
-    }
-
-    public double getPeanutDistanceIn() {
-        double distance;
-        distance = getAveragepeanutEncoders() * (8.25 * Math.PI / 1300);
-        return distance;
-    }
-
-    public void resetPeanutEnoders() {
-        peanutFrontRight.getSensorCollection().setQuadraturePosition(0, 0);
-		peanutFrontLeft.getSensorCollection().setQuadraturePosition(0, 0);
-		peanutBackRight.getSensorCollection().setQuadraturePosition(0, 0);
-		peanutBackLeft.getSensorCollection().setQuadraturePosition(0, 0);
-    }
-
-    public void printPeanutEncoders() {
-        System.out.println("peanutFrontLeft: " + (-peanutFrontLeft.getSelectedSensorPosition()));
-        System.out.println("peanutBackLeft: " + peanutBackLeft.getSelectedSensorPosition());
-        System.out.println("peanutFrontRight: " + (-peanutFrontRight.getSelectedSensorPosition()));
-        System.out.println("peanutBackRight: " + (-peanutBackRight.getSelectedSensorPosition()));
-    }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     public void setPeanutLeft(double speed) {
+//         peanutFrontLeft.set(ControlMode.PercentOutput, speed);
+//         peanutBackLeft.set(ControlMode.PercentOutput, speed);
+//     }
+
+//     public void setPeanutRight(double speed) {
+//         peanutFrontRight.set(ControlMode.PercentOutput, -speed);
+//         peanutBackRight.set(ControlMode.PercentOutput, -speed);
+//     }
+
+//     public void killPeanutMotors() {
+//         setPeanutLeft(0);
+//         setPeanutRight(0);
+//     }
+
+//     public double getAveragepeanutEncoders() {
+//         double avg;
+//         avg = (-peanutFrontRight.getSelectedSensorPosition()
+//             + peanutBackLeft.getSelectedSensorPosition()
+//             - peanutBackRight.getSelectedSensorPosition()) / 3;
+//         return avg;
+//     }
+
+//     public double getPeanutDistanceIn() {
+//         double distance;
+//         distance = getAveragepeanutEncoders() * (8.25 * Math.PI / 1300);
+//         return distance;
+//     }
+
+//     public void resetPeanutEnoders() {
+//         peanutFrontRight.getSensorCollection().setQuadraturePosition(0, 0);
+// 		peanutFrontLeft.getSensorCollection().setQuadraturePosition(0, 0);
+// 		peanutBackRight.getSensorCollection().setQuadraturePosition(0, 0);
+// 		peanutBackLeft.getSensorCollection().setQuadraturePosition(0, 0);
+//     }
+
+//     public void printPeanutEncoders() {
+//         System.out.println("peanutFrontLeft: " + (-peanutFrontLeft.getSelectedSensorPosition()));
+//         System.out.println("peanutBackLeft: " + peanutBackLeft.getSelectedSensorPosition());
+//         System.out.println("peanutFrontRight: " + (-peanutFrontRight.getSelectedSensorPosition()));
+//         System.out.println("peanutBackRight: " + (-peanutBackRight.getSelectedSensorPosition()));
+//     }
+
+// }

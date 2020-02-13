@@ -14,19 +14,12 @@ public class HumanInput {
   public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 2;
   public static final double DEADZONE = 0.05;
   public final Joystick joystickLeft, joystickRight;
-  public final XboxController xbox;
   private static JoystickButton realignButton, rotate90BUtton, rotateneg90Button, driveStraightButton, testPathButton/*, testCom*/;
 
   public HumanInput() {
       joystickLeft = new Joystick(0);
       joystickRight = new Joystick(1);
-      xbox = new XboxController(2);
-      realignButton = new JoystickButton(xbox, 1);
-      rotate90BUtton = new JoystickButton(xbox, 2);
-      rotateneg90Button = new JoystickButton(xbox, 4);
-      driveStraightButton = new JoystickButton(xbox, 3);
-      testPathButton = new JoystickButton(xbox, 5);
-      //testCom = new JoystickButton(xbox, 3);
+      // xbox = new XboxController(2);
   }
 
   public double getJoystickAxis(int axis, GenericHID joystick, double deadzone){

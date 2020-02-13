@@ -31,8 +31,6 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
-  public static TempDriveCommand drivecom;
-
 
   /**
    * This function is run when the robot is first started up and should be
@@ -49,7 +47,7 @@ public class Robot extends TimedRobot {
     Navx.getInstance().reset();
     
     
-    //drivesys.initDefaultCommand();
+    drivesys.periodic();
   }
 
   /**
@@ -80,6 +78,7 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    
   }
 
   /**
