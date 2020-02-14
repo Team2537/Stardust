@@ -24,7 +24,7 @@ public class SpinXTimesCommand extends CommandBase {
   public void initialize() {
     Robot.controlsubsys.zeroCounters(); // sets the R,G,B,Y, and revolutions value to 0
 
-    Robot.controlsubsys.startPIDMotors();
+    Robot.controlsubsys.startMotors();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -9,25 +9,20 @@ package frc.robot.controlpanel;
 
 //import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.DriverStation;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.input.Ports;
-import frc.robot.controlpanel.PID_Control;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -45,77 +40,72 @@ public class ControlPanelSubsystem extends SubsystemBase {
    * private static ButtonName name;
    */
 
- // private static WPI_TalonSRX rightMotor;
-  private static TalonSRX testMotor;
- // private double rightPower;
-  private double testPower;
-  
+  private WPI_TalonSRX rightMotor;
+  private double rightPower;
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   private final static ColorMatch m_colorMatcher = new ColorMatch();
 
-  private final static Color kBlueTarget = ColorMatch.makeColor (.14, .47, .38);
-  private final static Color kGreenTarget = ColorMatch.makeColor(.23, .63, .13);
-  private final static Color kRedTarget = ColorMatch.makeColor(.51, .35, .13);
-  private final static Color kYellowTarget = ColorMatch.makeColor(.32, .56, .11);
+  private final static Color kBlueTarget = ColorMatch.makeColor(0.14, 0.47, 0.38);
+  private final static Color kGreenTarget = ColorMatch.makeColor(0.23, 0.63 ,0.13);
+  private final static Color kRedTarget = ColorMatch.makeColor(0.51, 0.35, 0.13);
+  private final static Color kYellowTarget = ColorMatch.makeColor(0.32, 0.56, 0.11);
 
-  private String lastColor = "";
-  private String targetColor;
+  private static String lastColor = "";
+  private String targetColor = "";
   private String detectedColorString = "";
-
+  private String gameData = "";
+ // TalonSRX Spinner = new TalonSRX(Ports.RIGHT_MOTOR);
   int numRed = 0;
   int numBlue = 0;
   int numGreen = 0;
   int numYellow = 0;
 
   int revolutions = 0;
+  
 
-  double targetVelocity_UnitsPer100Ms;
-  Timer timer = new Timer();
-  TalonSRX Spinner = new TalonSRX(Ports.RIGHT_MOTOR);
-
+  
 
   private ControlPanelSubsystem() {
+    WPI_TalonSRX Spinner = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
+    Spinner.configFactoryDefault();
+
+    /* Config sensor used for Primary PID [Velocity] */
+    Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+      /**
+   * Phase sensor accordingly. 
+       * Positive Sensor Reading should match Green (blinking) Leds on Talon
+       */
+    Spinner.setSensorPhase(true);
+
+  // /* Config the peak and nominal outputs */
+  Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
+  Spinner.configNominalOutputReverse(0, Constants.kTimeoutMs);
+  Spinner.configPeakOutputForward(0.2, Constants.kTimeoutMs);
+  Spinner.configPeakOutputReverse(-0.2, Constants.kTimeoutMs);
+
+  // /* Config the Velocity closed loop gains in slot0 */
+  Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
+  Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
+  Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
+  Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
+
+
+
+
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
 
-   // rightMotor = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
-    testMotor = new TalonSRX(Ports.RIGHT_MOTOR);
+    rightMotor = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
+     
     // right motor turns in opposite direction
-   // rightMotor.setInverted(true);
-    testMotor.setInverted(false);
-    testMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-    
+    rightMotor.setInverted(true);
 
-
-     /* Factory Default all hardware to prevent unexpected behaviour */
-     Spinner.configFactoryDefault();
-
-     /* Config sensor used for Primary PID [Velocity] */
-     Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-
-       /**
-    * Phase sensor accordingly. 
-        * Positive Sensor Reading should match Green (blinking) Leds on Talon
-        */
-     Spinner.setSensorPhase(true);
-
-   // /* Config the peak and nominal outputs */
-   Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
-   Spinner.configNominalOutputReverse(0, Constants.kTimeoutMs);
-   Spinner.configPeakOutputForward(0.25, Constants.kTimeoutMs);
-   Spinner.configPeakOutputReverse(-0.2, Constants.kTimeoutMs);
-
-   // /* Config the Velocity closed loop gains in slot0 */
-   Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
-   Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
-   Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
-   Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
-   
   }
 
   // Singleton design pattern
@@ -128,10 +118,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
-  public void setTargetColor(String targetColor) {
-    this.targetColor = targetColor;
-    lastColor = "";
-    System.out.println("Target Color: "+targetColor);
+  public void setTargetColor(String color) {
+    targetColor = color;
+    //lastColor = "";
+    //System.out.println("Target Color: "+ targetColor);
   }
 
   public void detectColor() { // finds the current color that the sensor sees
@@ -139,8 +129,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
     Color detectedColor = m_colorSensor.getColor(); // grab raw color values from sensor
 
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor); // match it to find a color
-    System.out.println(m_colorSensor.getProximity());
-    System.out.println(m_colorSensor.getRawColor());
 
     if (match.color == kBlueTarget) {
       detectedColorString = "Blue";
@@ -156,12 +144,13 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
-  public void setCorrectColor() {
+  public void ignoreFalseColors() {
     detectColor();
     if (detectedColorString.equals("Red")
         && (lastColor.equals("Yellow") || lastColor.equals("Green") || lastColor.equals(""))) {
       numRed++;
       lastColor = "Red"; // in between red and green, yellow is read. This accounts for that.
+      System.out.println("Number of red: " + numRed);
 
     } else if (detectedColorString.equals("Green") && (lastColor.equals("Blue") || lastColor.equals(""))) {
       numGreen++;
@@ -187,8 +176,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
       revolutions++;
     }
     if (revolutions == 8) {
-      testPower = 0.0;
-      Spinner.set(ControlMode.Velocity, testPower);
+      rightPower = 0.0;
+      rightMotor.set(ControlMode.Velocity, rightPower);
       return true;
     } else {
       return false;
@@ -229,44 +218,82 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public void stopMotors() {
-    testPower = 0.0;
-    testMotor.set(ControlMode.Velocity, testPower);
+    rightPower = 0.0;
+    rightMotor.set(rightPower);
   }
 
-  public void startPIDMotors() {
-   // testPower = -0.3; // should spin clockwise when looking down form the top
-    //colors in order that should be seen: G, R, Y, B
-   // testMotor.set(ControlMode.Velocity, _PIDControl());
-   _PIDControl();
-    System.out.println("started PID motors");
+  public void startMotors() {
+    rightPower = 0.2;
+    rightMotor.set(rightPower);
+    System.out.println("started motors");
   }
 
-  /*public double PIDIThink() {
-    targetVelocity_UnitsPer100Ms = testPower * 120 * 103.6 / 600;
-    testMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100Ms);
-    System.out.println("Testpower works------");
-    return targetVelocity_UnitsPer100Ms;
-  }*/
-
-
-  public boolean spinToColor() {
-   // PIDIThink();
-    //System.out.println("Testpower: "+PIDIThink());
-    setCorrectColor();
-    if (lastColor.equals(targetColor)) {
-      // last color is the current color in this scenario.
-      // when the setCorrectColor method is called, it sets the current color to the
-      // lastColor String.
-      System.out.println(lastColor + "  " + targetColor);
-
+  public boolean isGameDataValid(){
+    gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
+    
+    if (gameData.equals("R") || gameData.equals("G") || gameData.equals("B") || gameData.equals("Y")){
       return true;
-    } else {
+
+    } else if (gameData.length() == 0){
+      System.out.println("Empty");
+      gameData = "Empty";
       return false;
+
+    } else {
+      System.out.println("Not valid");
+      gameData = "Unknown";
+      return false;
+
     }
   }
 
+  public String getGameData(){
+    isGameDataValid(); //called instead of setting game data in case gamedata empty
+
+      switch (gameData.charAt(0)) {
+        case 'B' :
+        //System.out.println("BLUE BLUE BLUE BLUE"); 
+        return("Blue");
+
+        case 'G' :
+        //System.out.println("GREN GREN GREN GREN GREN"); 
+        return("Green");
+
+        case 'R' :
+        //System.out.println("RED RED RED RED RED RED"); 
+        return("Red");
+
+        case 'Y' :
+        //System.out.println("YELLER YELLER YELLER YELLER"); 
+        return("Yellow");
+
+        default :
+        stopMotors();
+        gameData = "";
+        return lastColor;
+
+      }
+  }
+
+  public boolean isOnTargetColor() {
+    ignoreFalseColors();
+
+      if (lastColor.equals(targetColor)) {
+        // last color is the current color in this scenario.
+        // when the ignoreFalseColors method is called, it sets the current color to the
+        // lastColor String.
+        //System.out.println("Target Color " + lastColor + " has been found ");
+  
+        return true;
+      } else {
+  
+        return false;
+      }
+    
+  }
+
   public boolean spinXTimes() {
-    setCorrectColor();
+    ignoreFalseColors();
     return calculateRevolutions();
 
   }
@@ -276,24 +303,33 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public String getLastColor() {
     return lastColor;
   }
-  public String getTargetColor() {
-    return targetColor;
-  }
-  public void _PIDControl() {
-    timer.start();
-    System.out.println("Hello World");
-    if (timer.hasPeriodPassed(0.25)) {
-      System.out.print("Encoder: ");
-      System.out.print(Spinner.getSelectedSensorPosition());
-      System.out.print(" Speed: ");
-      System.out.println(Spinner.getSelectedSensorVelocity(Constants.kPIDLoopIdx));
-     }
+  //public String getTargetColor() {
+    // return targetColor;
+  //}
+ 
+  
+  public void SmartDashboard() {
+    SmartDashboard.putNumber("GameData", NumRed());
 
-    double targetVelocity_UnitsPer100ms = 130.6;
-    Spinner.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    setTargetColor(getGameData());
     
-  }
-  public void startMotors() {
-    Spinner.set(ControlMode.Velocity, 0.2);
+    SmartDashboard.putString("Lastcolor", getLastColor());
+    SmartDashboard.putString("Detected Color", detectedColorString());
+
+    SmartDashboard.putString("Game Data: ", getGameData());
+
+    // SmartDashboard.putString("CIE color", lab.colorMatch(detectedColor.red,
+    // detectedColor.green, detectedColor.blue).toString());
+
+    SmartDashboard.putNumber("Num of Red", NumRed());
+    SmartDashboard.putNumber("Num of Blue", NumBlue());
+    SmartDashboard.putNumber("Num of Green", NumGreen());
+    SmartDashboard.putNumber("Num of yellow", NumYellow());
+
+    SmartDashboard.putNumber("Revolutions", getRevolutions());
+
+    //SmartDashboard.putString("Target color",  getTargetColor());
+    //SmartDashboard.putString("Last color",  getLastColor());
+
   }
 }

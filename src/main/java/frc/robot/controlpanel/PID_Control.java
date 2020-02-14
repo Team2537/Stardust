@@ -28,31 +28,31 @@ public class PID_Control extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-     /* Factory Default all hardware to prevent unexpected behaviour */
-     Spinner.configFactoryDefault();
+/*    /* Factory Default all hardware to prevent unexpected behaviour */
+  //   Spinner.configFactoryDefault();
 
      /* Config sensor used for Primary PID [Velocity] */
-     Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+   //  Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
        /**
     * Phase sensor accordingly. 
         * Positive Sensor Reading should match Green (blinking) Leds on Talon
         */
-     Spinner.setSensorPhase(true);
+    // Spinner.setSensorPhase(true);
 
    // /* Config the peak and nominal outputs */
-   Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
+ /*  Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
    Spinner.configNominalOutputReverse(0, Constants.kTimeoutMs);
    Spinner.configPeakOutputForward(0.2, Constants.kTimeoutMs);
    Spinner.configPeakOutputReverse(-0.2, Constants.kTimeoutMs);
-
+*\
    // /* Config the Velocity closed loop gains in slot0 */
-   Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
-   Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
-   Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
-   Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
+  //  Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
+  //  Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
+  //  Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
+  //  Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
    
-     timer.start();
+       timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run

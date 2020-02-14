@@ -10,39 +10,39 @@ package frc.robot.controlpanel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-import javax.swing.colorchooser.ColorSelectionModel;
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 public class SpinToColorCommand extends CommandBase {
 
   /**
    * Creates a new SpinToColor.
    */
 
-   private String targetColor;
-  public SpinToColorCommand(String targetColor) {
-
-    this.targetColor = targetColor;
+  public SpinToColorCommand() {
 
     addRequirements(Robot.controlsubsys);
+
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    System.out.println("init fun-------------");
     
-    Robot.controlsubsys.setTargetColor(targetColor); // put in intitalize and var passed locally because it doesn"t work in constructor without it 
-    Robot.controlsubsys.startMotors();
-    System.out.println("Spin to color is working in init.");
+    if (Robot.controlsubsys.isOnTargetColor()){
+       System.out.println("On color already");
+
+    } else {
+      Robot.controlsubsys.startMotors();
+      System.out.println("Spin to color is working in init.");
+    }
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
 
   }
 
@@ -55,8 +55,9 @@ public class SpinToColorCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println(Robot.controlsubsys.spinToColor());
-    return Robot.controlsubsys.spinToColor();
+    System.out.println("||||||||||||||"+Robot.controlsubsys.isOnTargetColor()+"||||||||||||||");
+    return Robot.controlsubsys.isOnTargetColor();
 
   }
+
 }

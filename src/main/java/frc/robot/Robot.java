@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controlpanel.ControlPanelSubsystem;
-import frc.robot.controlpanel.SpinToColorCommand;
 import frc.robot.input.HumanInput;
 
 /**
@@ -61,14 +60,17 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     // SmartDashboard.updateValues();
     CommandScheduler.getInstance().run();
+    Robot.humanInput.getGameDataBtn();
+    Robot.controlsubsys.SmartDashboard();
+  /*  SmartDashboard.putNumber("GameData", Robot.controlsubsys.NumRed());
 
+   Robot.controlsubsys.setTargetColor(Robot.controlsubsys.getGameData());
+    
     SmartDashboard.putString("Lastcolor", Robot.controlsubsys.getLastColor());
-
-    // SmartDashboard.putNumber("Red", Robot.controlsubsys.detectedColor.red);
-    // SmartDashboard.putNumber("Green", Robot.controlsubsys.detectedColor.green);
-    // SmartDashboard.putNumber("Blue", Robot.controlsubsys.detectedColor.blue);
-
     SmartDashboard.putString("Detected Color", Robot.controlsubsys.detectedColorString());
+
+    SmartDashboard.putString("Game Data: ", Robot.controlsubsys.getGameData());
+
     // SmartDashboard.putString("CIE color", lab.colorMatch(detectedColor.red,
     // detectedColor.green, detectedColor.blue).toString());
 
@@ -78,9 +80,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Num of yellow", Robot.controlsubsys.NumYellow());
 
     SmartDashboard.putNumber("Revolutions", Robot.controlsubsys.getRevolutions());
+
     //SmartDashboard.putString("Target color", Robot.controlsubsys.getTargetColor());
     //SmartDashboard.putString("Last color", Robot.controlsubsys.getLastColor());
-
+*/
   }
 
   /**
@@ -131,7 +134,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
   }
 
   /**
