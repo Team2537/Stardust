@@ -15,10 +15,10 @@ public class MecanumDriveStraightCommand extends CommandBase {
   
   private static final double DEFAULT_PERCENT_OUTPUT = 0.30;
   private static final double MIN_PERCENT_OUTPUT = 0.20;
-  private static final double ANGLE_kP = 0.25;
+  private static final double ANGLE_kP = 0.05;
   private static final double TOLERANCE = 2; // degrees
   private static final double DISTANCE_TOLERANCE = 2;
-  private static final double SLOWING_DISTANCE = 20;
+  private static final double SLOWING_DISTANCE = 5;
 
 
   public MecanumDriveStraightCommand(double targetDistance, double targetDirection) {
@@ -45,7 +45,11 @@ public class MecanumDriveStraightCommand extends CommandBase {
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
       double power = DEFAULT_PERCENT_OUTPUT * Math.signum(distance);
-      
+      remainingDistance = distance - Robot.drivesys.getEncoderAverage();
+
+      if (remainingDistance <= SLOWING_DISTANCE) {
+        power *= remainingDistance/SLOWING_DISTANCE;
+      }
       
       
       double zRotationAdjustment = 0;
@@ -53,6 +57,8 @@ public class MecanumDriveStraightCommand extends CommandBase {
       if (Math.abs(currentAngle) <= TOLERANCE) {
           zRotationAdjustment = currentAngle/180 * ANGLE_kP * power;
       }
+
+      System.out.println("Encoders: " + Robot.drivesys.getEncoderAverage());
       
       Robot.drivesys.setPolarDriveSpeed(power, direction, zRotationAdjustment);
   }
@@ -66,6 +72,6 @@ public class MecanumDriveStraightCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Robot.drivesys.getEncoderAverage() >= distance;
   }
 }

@@ -13,10 +13,10 @@ public class RotateCommand extends CommandBase {
   private double targetAngle;
   private double deltaAngle;
   private DriveMode mode;
-  private static final double DEFAULT_PERCENT_OUTPUT = 0.50;
-  private static final double MIN_PERCENT_OUTPUT = 0.30;
+  private static final double DEFAULT_PERCENT_OUTPUT = 0.25;
+  private static final double MIN_PERCENT_OUTPUT = 0.1;
   private static final double ANGLE_kP = 1.30;
-	private static final double TOLERANCE = 1.50; // degrees
+	private static final double TOLERANCE = 0.5; // degrees
 
   public RotateCommand(double angle, DriveMode mode) {
     addRequirements(Robot.drivesys);
@@ -44,7 +44,7 @@ public class RotateCommand extends CommandBase {
       power = Math.max(Math.abs(power), Math.abs(MIN_PERCENT_OUTPUT)) * Math.signum(power);
 
       if(mode == DriveMode.kMecanum){
-        Robot.drivesys.setMecanumDriveSpeed(0, 0, power * Math.signum(deltaAngle));
+        Robot.drivesys.setMecanumDriveSpeed(0, 0, -power * Math.signum(deltaAngle));
       } else if(mode == DriveMode.kTank){
         Robot.drivesys.setTankDrive(power * Math.signum(deltaAngle), -power * Math.signum(deltaAngle));
       }

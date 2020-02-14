@@ -13,9 +13,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.nav.TestCommand;
 import frc.robot.drive.DriveSubsystem;
+import frc.robot.drive.SwitchDriveCommand;
 import frc.robot.drive.TempDriveCommand;
+import frc.robot.drive.DriveSubsystem.DriveMode;
 import frc.robot.input.HumanInput;
+import frc.robot.nav.DriveStraightCommand;
+import frc.robot.nav.MecanumDriveStraightCommand;
 import frc.robot.nav.Navx;
+import frc.robot.nav.RotateCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -72,10 +77,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Navx.getInstance().zeroYaw();
+    Navx.getInstance().reset();
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
-    
+    //CommandScheduler.getInstance().schedule(/*new SwitchDriveCommand(), */new DriveStraightCommand(100));
+    CommandScheduler.getInstance().schedule(new MecanumDriveStraightCommand(30, 180));
   }
 
   /**
@@ -92,6 +100,8 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
+    Robot.drivesys.putEncodersToDash();
+    System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
   }
 
@@ -119,6 +129,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run(); 
   }
+
 }

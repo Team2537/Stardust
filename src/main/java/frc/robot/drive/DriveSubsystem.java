@@ -120,9 +120,9 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public void setMecanumDriveSpeed(){
-        setMecanumDriveSpeed(Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Y),
-                             Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_X),
-                             Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Z));
+        setMecanumDriveSpeed(Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_X),
+                             Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Y),
+                             -Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Z));
     }
 
     public void setPolarDriveSpeed(double magnitude, double angle, double zRotation){
@@ -159,8 +159,8 @@ public class DriveSubsystem extends SubsystemBase{
         double sum = 0;
         Integer[] m_indexes = new Integer[indexes.length + 1];
         m_indexes[0] = index;
-        for(int i = 0; i < m_indexes.length; i++){
-            m_indexes[i + 1] = indexes[i];
+        for(int i = 1; i < indexes.length; i++){
+            m_indexes[i] = indexes[i - 1];
         }
         ArrayList<Double> encValues = getEncoderValues();
         for(int j : indexes){
@@ -170,7 +170,7 @@ public class DriveSubsystem extends SubsystemBase{
                 sum += encValues.get(j);
             }
         }
-        return sum/(indexes.length+1);
+        return sum/(indexes.length);
         
     }
 
