@@ -22,12 +22,17 @@ public class raiseIntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.intakesys.pneumaticExtend();
+    
+    // Robot.intakesys.pneumaticExtend();
+    Robot.intakesys.setSolenoid(false);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("Pressed B");
+    System.out.println("false");
   }
 
   // Called once the command ends or is interrupted.

@@ -18,7 +18,7 @@ public class HumanInput {
   XboxController xbox;
  // Button openButton = new JoystickButton(xbox, Ports.OPEN_BUTTON);
  // Button closeButton = new JoystickButton(xbox, Ports.CLOSE_BUTTON);
-  Button intakeButton;
+  Button intakeButton, intakeButton2, flywheelTest, reverse;
 
   public HumanInput() {
     //openButton.whenPressed(new SampleOpenCommand());
@@ -26,12 +26,15 @@ public class HumanInput {
    
 xbox = new XboxController(Ports.XBOXCONTROLLER);
 intakeButton = new JoystickButton(xbox,Ports.INTAKEBUTTON); 
-
-  
+intakeButton2 = new JoystickButton(xbox,Ports.INTAKEBUTTON2); 
+flywheelTest = new JoystickButton(xbox, 3);
+reverse = new JoystickButton(xbox, 4);
 
   }
   public void registerButtons(){
-    intakeButton.whenPressed(new lowerIntakeCommand());
-   intakeButton.whenPressed(new raiseIntakeCommand());
+  intakeButton.whenPressed(new lowerIntakeCommand()); //intake A
+  intakeButton2.whenPressed(new raiseIntakeCommand()); //intake B
+   //flywheelTest.whenPressed(new intakemotorsCommand());
+
   }
 }

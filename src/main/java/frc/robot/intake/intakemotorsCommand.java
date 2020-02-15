@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//not going to use
 package frc.robot.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,12 +29,13 @@ public class intakemotorsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.intakesys.turnOnFlywheels(0.4);
+    Robot.intakesys.setSpeed(0.4);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.intakesys.setSpeed(0);
   }
 
   // Returns true when the command should end.

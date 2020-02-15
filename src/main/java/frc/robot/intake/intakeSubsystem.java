@@ -15,6 +15,7 @@ public class intakeSubsystem extends SubsystemBase {
  
   private static intakeSubsystem instance = null;
   private CANTalon flywheel1;
+  private CANTalon flywheel2;
   
   Solenoid solenoid1;
   Solenoid solenoid2;
@@ -22,15 +23,21 @@ public class intakeSubsystem extends SubsystemBase {
    * Creates a new intakeSubsystem.
    */
   private intakeSubsystem() {
-     solenoid1 = new Solenoid(Ports.SOLENOID_PORT1 );
-     solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
+     solenoid1 = new Solenoid(6, Ports.SOLENOID_PORT1);
+     //solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
      flywheel1 = new CANTalon(Ports.FLYWHEEL_PORT);
+     //flywheel2 = new CANTalon(2);
  
   }
   
     
-      public void turnOnFlywheels(double speed){
+      public void setSpeed(double speed){
         flywheel1.set(speed);
+       
+      }
+
+      public void setOtherSpeed(double speed){
+        flywheel2.set(speed);
        
       }
       
@@ -42,11 +49,20 @@ public class intakeSubsystem extends SubsystemBase {
   }
 
   public void pneumaticExtend(){
+    System.out.println("A BEFORE");
     solenoid1.set(true);
+    System.out.println("A AFTER");
 
   }
+
+  public void setSolenoid(boolean set){
+    solenoid1.set(set);
+    System.out.println("SET SOLENOID");
+  }
+
   public void pneumaticRetract(){
     solenoid1.set(false);
+    System.out.println("Pressed B");
     
   
   }
