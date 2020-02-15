@@ -1,9 +1,9 @@
 package frc.robot.input;
 
 public class Ports {
-    public static int NEO_1 = 1;
-    public static int NEO_2 = 2;
-    public static int TELEMTR = 3;
+    public static int NEO_1 = 7;
+    public static int NEO_2 = 1;
+    public static int TELEMTR = 9;
 
     public static int TOP_SENSOR = 0;
     public static int BOTTOM_SENSOR = 2;

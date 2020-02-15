@@ -40,11 +40,9 @@ public class telescopeDownCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if(Robot.climbsys.getBottomSensor()) {
-      System.out.println("Not true yet");
       return false;
     }
     else {
-      System.out.println("True, should be stopping");
       return true;
     }
   }

@@ -28,14 +28,12 @@ public class raiseRobotCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.climbsys.runNeo1(.1);
-    Robot.climbsys.runNeo2(.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Robot.climbsys.runNeo1(0);
-    Robot.climbsys.runNeo2(0);
   }
 
   // Returns true when the command should end.

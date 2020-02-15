@@ -27,14 +27,12 @@ public class ClimbSubsystem extends SubsystemBase {
   private static ClimbSubsystem instance = null;
 
   private CANSparkMax Neo1;
-  private CANSparkMax Neo2;
   private CANTalon teleMtr;
   private DigitalInput topSensor;
   private DigitalInput bottomSensor;
 
   private ClimbSubsystem() {
     Neo1 = new CANSparkMax(Ports.NEO_1, MotorType.kBrushless);
-    Neo2 = new CANSparkMax(Ports.NEO_2, MotorType.kBrushless);
     teleMtr = new CANTalon(Ports.TELEMTR);
     topSensor = new DigitalInput(Ports.TOP_SENSOR);
     bottomSensor = new DigitalInput(Ports.BOTTOM_SENSOR);
@@ -49,10 +47,6 @@ public class ClimbSubsystem extends SubsystemBase {
 
   public void runNeo1 (double speed) {
     Neo1.set(speed);
-  }
-
-  public void runNeo2 (double speed) {
-    Neo2.set(speed);
   }
 
   public void runTeleMtr (double speed) {
