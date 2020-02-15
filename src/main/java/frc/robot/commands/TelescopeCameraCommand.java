@@ -5,17 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.sample;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import frc.robot.Cameras;
 
-public class SampleOpenCommand extends CommandBase {
+public class TelescopeCameraCommand extends CommandBase {
   /**
-   * Creates a new SampleOpenCommand.
+   * Creates a new TelescopeCameraCommand.
    */
-  public SampleOpenCommand() {
-    addRequirements(Robot.servosys);
+  public TelescopeCameraCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -26,18 +26,18 @@ public class SampleOpenCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Cameras.getInstance().telescopeCamera();
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
+  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Open Pressed.");
-    Robot.servosys.setAngle(30); // set servo to open position
-    return true;                // and then finish
+    return true;
   }
 }
