@@ -178,6 +178,11 @@ public class DriveSubsystem extends SubsystemBase{
         return getEncoderAverage(true, 0, 1, 2, 3);
     }
 
+    public double getEncoderDistance() {
+        double distance = getEncoderAverage();
+        return distance;
+    }
+
 
     /**
      * Setting things en masse, like solenoids and motors
