@@ -7,17 +7,15 @@
 
 package frc.robot.climb;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.CANEncoder;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.util.CANTalon;
+
 
 public class ClimbSubsystem extends SubsystemBase {
   /**
@@ -26,16 +24,15 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private static ClimbSubsystem instance = null;
 
-  private CANSparkMax Neo1;
-  private CANTalon teleMtr;
-  private DigitalInput topSensor;
-  private DigitalInput bottomSensor;
+  private CANSparkMax climbCANWinch;
+  private CANTalon climbCANTelescope;
+  private DigitalInput climbDITop, climbDIBottom;
 
   private ClimbSubsystem() {
-    Neo1 = new CANSparkMax(Ports.NEO_1, MotorType.kBrushless);
-    teleMtr = new CANTalon(Ports.TELEMTR);
-    topSensor = new DigitalInput(Ports.TOP_SENSOR);
-    bottomSensor = new DigitalInput(Ports.BOTTOM_SENSOR);
+    climbCANWinch = new CANSparkMax(Ports.CLIMB_WINCH, MotorType.kBrushless);
+    climbCANTelescope = new CANTalon(Ports.CLIMB_TELESCOPE);
+    climbDITop = new DigitalInput(Ports.TOP_SENSOR);
+    climbDIBottom = new DigitalInput(Ports.BOTTOM_SENSOR);
   }
 
   public static ClimbSubsystem getInstance() {
@@ -45,20 +42,22 @@ public class ClimbSubsystem extends SubsystemBase {
     return instance;
   }
 
-  public void runNeo1 (double speed) {
-    Neo1.set(speed);
+  //Run Motors
+  public void runClimbCANWinch (double speed) {
+    climbCANWinch.set(speed);
   }
 
-  public void runTeleMtr (double speed) {
-    teleMtr.set(speed);
+  public void runClimbCANTelescope (double speed) {
+    climbCANTelescope.set(speed);
   }
 
-  public boolean getTopSensor() {
-    return topSensor.get();
+  //Get t/f values from Hall Effect Sensors on Telescope (on the top and bottom)
+  public boolean getClimbDITop() {
+    return climbDITop.get();
   }
 
-  public boolean getBottomSensor() {
-    return bottomSensor.get();
+  public boolean getClimbDIBottom() {
+    return climbDIBottom.get();
   }
 
   @Override

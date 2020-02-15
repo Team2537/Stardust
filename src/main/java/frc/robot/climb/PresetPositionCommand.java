@@ -10,11 +10,11 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class setPositionCommand extends CommandBase {
+public class PresetPositionCommand extends CommandBase {
   /**
    * Creates a new setPositionCommand.
    */
-  public setPositionCommand() {
+  public PresetPositionCommand() {
     addRequirements(Robot.climbsys);
   }
 
@@ -26,19 +26,22 @@ public class setPositionCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.climbsys.runTeleMtr(.1);
+    //Set positive to ascend
+    Robot.climbsys.runClimbCANTelescope(.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runTeleMtr(0);
+    Robot.climbsys.runClimbCANTelescope(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   if(Robot.climbsys.getTopSensor()) {
+    //The Hall Effect Sensors return false when a magnet is nearby so when .getCLimbDITop is true, 
+    //the code should continue running. If it is false, that's when the telescope should stop.
+   if(Robot.climbsys.getClimbDITop()) {
      return false;
    }
    else {

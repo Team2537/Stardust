@@ -10,11 +10,11 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class telescopeUpCommand extends CommandBase {
+public class TelescopeUpCommand extends CommandBase {
   /**
    * Creates a new moveElevator.
    */
-  public telescopeUpCommand() {
+  public TelescopeUpCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.climbsys);
   }
@@ -27,18 +27,20 @@ public class telescopeUpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.climbsys.runTeleMtr(.2);
+    //Set positive to ascend
+    Robot.climbsys.runClimbCANTelescope(.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runTeleMtr(0);
+    Robot.climbsys.runClimbCANTelescope(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   return false;
+    //This is never true because it should stop when button is realsed and command is interrupted
+    return false;
   }
 }

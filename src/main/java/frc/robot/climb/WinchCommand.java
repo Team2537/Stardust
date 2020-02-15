@@ -10,11 +10,11 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class raiseRobotCommand extends CommandBase {
+public class WinchCommand extends CommandBase {
   /**
    * Creates a new raiseRobot.
    */
-  public raiseRobotCommand() {
+  public WinchCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.climbsys);
   }
@@ -27,18 +27,19 @@ public class raiseRobotCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.climbsys.runNeo1(.1);
+    Robot.climbsys.runClimbCANWinch(.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runNeo1(0);
+    Robot.climbsys.runClimbCANWinch(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //This is never true because it should stop when button is realsed and command is interrupted
     return false;
   }
 }

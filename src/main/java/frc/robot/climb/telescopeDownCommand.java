@@ -10,11 +10,11 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class telescopeDownCommand extends CommandBase {
+public class TelescopeDownCommand extends CommandBase {
   /**
    * Creates a new elevatorDown.
    */
-  public telescopeDownCommand() {
+  public TelescopeDownCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.climbsys);
   }
@@ -27,19 +27,22 @@ public class telescopeDownCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      Robot.climbsys.runTeleMtr(-.2);
+      //Set negative to descend
+      Robot.climbsys.runClimbCANTelescope(-.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runTeleMtr(0);
+    Robot.climbsys.runClimbCANTelescope(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Robot.climbsys.getBottomSensor()) {
+    //The Hall Effect Sensors return false when a magnet is nearby so when .getCLimbDIBottom is true, 
+    //the code should continue running. If it is false, that's when the telescope should stop.
+    if(Robot.climbsys.getClimbDIBottom()) {
       return false;
     }
     else {
