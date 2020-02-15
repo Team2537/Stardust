@@ -8,6 +8,7 @@
 package frc.robot.climb;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.input.Ports;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -43,11 +44,15 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   //Run Motors
-  public void runClimbCANWinch (double speed) {
+  public void setWinchSpeed (double speed) {
     climbCANWinch.set(speed);
   }
 
-  public void runClimbCANTelescope (double speed) {
+  public void setTelescopeSpeed () {
+    climbCANTelescope.set(Robot.humanInput.getJoystickAxis() / 2);
+  }
+
+  public void runTelescope(double speed){
     climbCANTelescope.set(speed);
   }
 

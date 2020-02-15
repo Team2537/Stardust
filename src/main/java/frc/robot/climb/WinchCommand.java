@@ -27,19 +27,25 @@ public class WinchCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.climbsys.runClimbCANWinch(.1);
+    Robot.climbsys.setWinchSpeed(.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runClimbCANWinch(0);
+    Robot.climbsys.setWinchSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //This is never true because it should stop when button is realsed and command is interrupted
-    return false;
+    //Not sure if releasing the trigger will do this automatically from HumanInput, 
+    //but just in case, I added this. 
+    if(Robot.humanInput.getLeftTrigger() < .5) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
