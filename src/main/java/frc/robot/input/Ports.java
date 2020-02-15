@@ -8,7 +8,6 @@ public class Ports {
     public static int BOTTOM_SENSOR = 1;
 
     public static int PRESET_POSITION_BUTTON = 6; //Right Top Button
-    public static int WINCH_BUTTON = 5; //LEFT TRIGGER
     
     public static int SERVO_PORT;
   }
