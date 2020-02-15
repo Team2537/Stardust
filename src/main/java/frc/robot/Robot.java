@@ -13,10 +13,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.input.HumanInput;
+import frc.robot.intake.intakeMotorsCommand;
 import frc.robot.intake.intakeSubsystem;
-import frc.robot.intake.intakemotorsCommand;
-import frc.robot.intake.lowerIntakeCommand;
-import frc.robot.intake.raiseIntakeCommand;
 import frc.robot.sample.SampleServoSubsystem;
 
 
@@ -64,7 +62,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
   }
 
   /**
@@ -116,9 +113,8 @@ public void testInit() {
   // TODO Auto-generated method stub
   CommandScheduler.getInstance().run();
   CommandScheduler.getInstance().cancelAll();
-  CommandScheduler.getInstance().schedule(new intakemotorsCommand());
-  CommandScheduler.getInstance().schedule(new raiseIntakeCommand());
-  CommandScheduler.getInstance().schedule(new lowerIntakeCommand());
+  CommandScheduler.getInstance().schedule(new intakeMotorsCommand());
+  
 
 
 }
