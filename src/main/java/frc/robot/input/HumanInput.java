@@ -14,13 +14,13 @@ public class HumanInput {
 
   public HumanInput() {
       //These run the motors for the duration of the time the button is held
-      manualUpButton.whenHeld(new TelescopeUpCommand());
+      manualUpButton.whenHeld(new TelescopeManualUpCommand());
       winchButton.whenHeld(new WinchCommand());
 
       //These are automated commands, once the button is pressed they set the telescope 
       //to the preset position and the bottom respectively
       presetPosition.whenPressed(new PresetPositionCommand());
-      resetTelescope.whenPressed(new TelescopeDownCommand());
+      resetTelescope.whenPressed(new TelescopeResetCommand());
       
   }
 }

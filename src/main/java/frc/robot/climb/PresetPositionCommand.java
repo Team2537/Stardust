@@ -12,7 +12,7 @@ import frc.robot.Robot;
 
 public class PresetPositionCommand extends CommandBase {
   /**
-   * Creates a new setPositionCommand.
+   * Creates a new PresetPositionCommand.
    */
   public PresetPositionCommand() {
     addRequirements(Robot.climbsys);
