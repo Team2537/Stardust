@@ -8,8 +8,8 @@ public class Ports {
     public static int SOLENOID_PORT1 = 2;
     public static int SOLENOID_PORT2 = 5;
     public static int XBOXCONTROLLER=1;
-    public static int INTAKEBUTTON=1; 
-    public static int INTAKEBUTTON2=2; 
+    public static int INTAKEBUTTON= 4; 
+    //public static int INTAKEBUTTON2=2; 
     
     
       
