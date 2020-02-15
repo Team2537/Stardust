@@ -13,6 +13,7 @@ public class HumanInput {
   static JoystickButton shooterButton = new JoystickButton(xbox, 5);
   static JoystickButton stopShooterButton = new JoystickButton(xbox, 4);
   static JoystickButton startShooterButton = new JoystickButton(xbox, 3);
+  
   //static JoystickButton stopShooterButton = new JoystickButton(xbox, 4);
 
   public HumanInput() {
