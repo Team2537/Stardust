@@ -8,7 +8,6 @@
 package frc.robot.climb;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.input.Ports;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -42,16 +41,17 @@ public class ClimbSubsystem extends SubsystemBase {
     return instance;
   }
 
-  //Run Motors
+  //ya. yeet. 
   public void setWinchSpeed (double speed) {
     climbCANWinch.set(speed);
   }
-
+  
+  //ya yeet 2: the yeetening
   public void setTelescopeSpeed(double speed){
     climbCANTelescope.set(speed);
   }
 
-  //Get t/f values from Hall Effect Sensor on Telescope
+  //Magnet or no magnet? That is the question. 
   public boolean getClimbDITelescope() {
     return climbDITelescope.get();
   }
@@ -59,6 +59,5 @@ public class ClimbSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

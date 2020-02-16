@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
-    
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -96,9 +96,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    CommandScheduler.getInstance().schedule(true, new WinchCommand());
-    CommandScheduler.getInstance().schedule(true, new MoveTelescopeCommand());
-
     CommandScheduler.getInstance().run();
   }
 
@@ -107,6 +104,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    
+    CommandScheduler.getInstance().run();
   }
 }

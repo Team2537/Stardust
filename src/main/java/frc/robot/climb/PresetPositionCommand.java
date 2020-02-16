@@ -26,21 +26,23 @@ public class PresetPositionCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Set positive to ascend
+    //Do thing!
     Robot.climbsys.setTelescopeSpeed(.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //This is what actually stops the motors once it realizes it's near the sensors, i.e. very important shit
     Robot.climbsys.setTelescopeSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //The Hall Effect Sensors return false when a magnet is nearby so when .getCLimbDITop is true, 
-    //the code should continue running. If it is false, that's when the telescope should stop.
+    //The Hall Effect Sensors return false when a magnet is nearby (cause that makes sense) so 
+    //when the sensor returns true, the motor should continue running. If it is false, that's when 
+    //we abort mission before the telescope turns into a projectile
    if(Robot.climbsys.getClimbDITelescope()) {
      return false;
    }

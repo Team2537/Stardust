@@ -8,15 +8,15 @@
 package frc.robot.climb;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Robot;
 
-public class WinchCommand extends CommandBase {
+public class ClimbCommand extends CommandBase {
   /**
-   * Creates a new raiseRobot.
+   * Creates a new ClimbCommand.
    */
-  public WinchCommand() {
+  public ClimbCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.climbsys);
   }
 
   // Called when the command is initially scheduled.
@@ -27,25 +27,33 @@ public class WinchCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //The Hall Effect Sensors return false when a magnet is nearby (cause that makes sense) so 
+    //when the sensor returns true, the motor should continue running. If it is false, that's when 
+    //we abort mission before the telescope turns into a projectile
+    if(Robot.climbsys.getClimbDITelescope()) {
+      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getJoystickAxis() / 3);
+    }
+    else {
+      Robot.climbsys.setTelescopeSpeed(0);
+    }
+
+    //Winch isn't special, it doesn't get an if statement. It just does the thing. 
     Robot.climbsys.setWinchSpeed(Robot.humanInput.getLeftTrigger());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //I'm not entirely sure why the command would be interrupted but just in case all hell breaks loose, 
+    //it kills the motors which is always a good idea. 
+    Robot.climbsys.setTelescopeSpeed(0);
     Robot.climbsys.setWinchSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //Not sure if releasing the trigger will do this automatically from HumanInput, 
-    //but just in case, I added this. 
-    if(Robot.humanInput.getLeftTrigger() < .5) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    //It never finishes. It is doomed to run for eternity. 
+    return false;
   }
 }
