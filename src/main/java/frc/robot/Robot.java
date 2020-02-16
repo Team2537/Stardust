@@ -36,7 +36,8 @@ public class Robot extends TimedRobot {
     humanInput = new HumanInput();
     humanInput.registerButton();
     cameras = Cameras.getInstance();
-    
+    Cameras.getInstance().startCameras();
+
   }
 
   /**
