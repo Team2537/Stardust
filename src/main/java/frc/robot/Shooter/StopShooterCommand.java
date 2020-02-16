@@ -24,10 +24,8 @@ public class StopShooterCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    if(ShooterSubsystem.getBallCount() == 0) {
-      ShooterSubsystem.startMotor(0);
-      ShooterSubsystem.startFeederMotor(0);
-    }
+    ShooterSubsystem.stopMotor();
+    ShooterSubsystem.startFeederMotor(0);
 
   }
 

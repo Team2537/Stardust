@@ -18,6 +18,8 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  
 public class ShooterSubsystem extends SubsystemBase {
   /**
@@ -31,48 +33,49 @@ public class ShooterSubsystem extends SubsystemBase {
   private static double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private static boolean runShooter;
   private static double MAX_SPEED;
-  private static CANSparkMax feederMotor;
+  private static TalonSRX feederMotor;
   private static final double riceKrispyTreat = 5;
   private static DigitalInput shooterIR;
   private static boolean isBallLoaded;
-  private static int ballCounter;
+  private static int ballCounter = 3;
   private static DigitalInput intakeIR;
   private static boolean fruitsnack = true;
 
   private ShooterSubsystem() {
 
-    // Connects Lidar mode control to DIO port 5
-    // lidarMode = new DigitalOutput(Ports.LIDAR_MODE);
-    // lidarMode.set(false); // Lidar mode is active low
+    //Connects Lidar mode control to DIO port 5
+    lidarMode = new DigitalOutput(Ports.LIDAR_MODE);
+    lidarMode.set(false); // Lidar mode is active low
 
-    // // Connects semi period mode to DIO port 4
-    // lidarDistance = new Counter(Counter.Mode.kSemiperiod);
-    // lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
-    // lidarDistance.setSemiPeriodMode(true);
+    // Connects semi period mode to DIO port 4
+    lidarDistance = new Counter(Counter.Mode.kSemiperiod);
+    lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
+    lidarDistance.setSemiPeriodMode(true);
 
-    // kP = 5e-5;
-    // kI = 1e-6;
-    // kD = 0;
-    // kIz = 0;
-    // kFF = 0;
-    // kMaxOutput = 1;
-    // kMinOutput = -1;
-    // runShooter = false;
-    // MAX_SPEED = 1250;
+    kP = 0.0004;
+    kI = 0.0;
+    kD = 0.0;
+    kIz = 0;
+    kFF = 0;
+    kMaxOutput = 1;
+    kMinOutput = -1;
+    runShooter = false;
+    MAX_SPEED = 1250;
 
-    // feederMotor = new CANSparkMax(Ports.FEEDER_MOTOR_PORT, MotorType.kBrushless);
-    // ShooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
+    feederMotor = new TalonSRX(Ports.FEEDER_MOTOR_PORT);
+    ShooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
 
-    // ShooterVelocityController = ShooterMotor.getPIDController();
-    // ShooterVelocityController.setP(kP);
-    // ShooterVelocityController.setI(kI);
-    // ShooterVelocityController.setD(kD);
-    // ShooterVelocityController.setIZone(kIz);
-    // ShooterVelocityController.setFF(kFF);
-    // ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
+    ShooterVelocityController = ShooterMotor.getPIDController();
+    ShooterVelocityController.setP(kP);
+    ShooterVelocityController.setI(kI);
+    ShooterVelocityController.setD(kD);
+    ShooterVelocityController.setIZone(kIz);
+    ShooterVelocityController.setFF(kFF);
+    ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
 
     shooterIR = new DigitalInput(Ports.BALL_DETECTOR_PORT);
 
+    //
     intakeIR = new DigitalInput(Ports.INTAKE_DETECTOR_PORT);
   }
 
@@ -129,12 +132,14 @@ public class ShooterSubsystem extends SubsystemBase {
   public static void startMotor(double MotorVelocity) {
 
     ShooterVelocityController.setReference(MotorVelocity, ControlType.kVelocity);
+    System.out.println("Being run");
 
   }
 
   public static void startFeederMotor(double feederMotorSpeed) {
 
-    feederMotor.set(feederMotorSpeed);
+    feederMotor.set(ControlMode.PercentOutput, feederMotorSpeed);
+    System.out.println("Being Run");
 
   }
 
@@ -146,7 +151,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   public static void stopMotor() {
 
-    startMotor(0);
+    ShooterMotor.set(0);
 
   }
   
@@ -173,7 +178,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public static void decreaseBallCount() {
 
-    ballCounter--;
+    if(ballCounter > 0) {
+      ballCounter--;
+    }
     System.out.println(ballCounter);
 
   }

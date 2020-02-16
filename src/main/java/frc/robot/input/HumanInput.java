@@ -11,6 +11,8 @@ public class HumanInput {
   Button openButton = new JoystickButton(xbox, Ports.OPEN_BUTTON);
   Button closeButton = new JoystickButton(xbox, Ports.CLOSE_BUTTON);
   static JoystickButton shooterButton = new JoystickButton(xbox, 5);
+  static JoystickButton stopShooterButton = new JoystickButton(xbox, 4);
+  static JoystickButton startShooterButton = new JoystickButton(xbox, 3);
   //static JoystickButton stopShooterButton = new JoystickButton(xbox, 4);
 
   public HumanInput() {
@@ -21,6 +23,28 @@ public class HumanInput {
 
     shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
     shooterButton.whenReleased(new StopShooterCommand());
+    stopShooterButton.whenPressed(new StopShooterCommand());
+    startShooterButton.whenPressed(ShootingCommandGroup.getInstance());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     //stopShooterButton.whenPressed(new StopShooterCommand());
 
   }
