@@ -43,10 +43,9 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    joy = new Joystick(0);
-
     humanInput = new HumanInput();
     humanInput.registerButtons();
+    Robot.intakesys.setSolenoid(true);
   }
 
   /**
@@ -102,7 +101,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
+    Robot.intakesys.periodic();
    
   }
 

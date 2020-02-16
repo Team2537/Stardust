@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * Creates a new intakeSubsystem.
    */
   private IntakeSubsystem() {
-     solenoid1 = new Solenoid(6, Ports.SOLENOID_PORT1); //6 is actually for the pcm
+     solenoid1 = new Solenoid(Ports.SOLENOID_PORT1); 
      solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
      flywheel1 = new CANTalon(Ports.FLYWHEEL_PORT);
      //flywheel2 = new CANTalon(2);
