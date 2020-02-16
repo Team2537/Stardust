@@ -10,29 +10,23 @@ package frc.robot.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class raiseIntakeCommand extends CommandBase {
+public class MoveIntakeCommand extends CommandBase {
   /**
-   * Creates a new raiseIntake.
+   * Creates a new MoveIntakeCommand.
    */
-  public raiseIntakeCommand() {
+  public MoveIntakeCommand() {
     addRequirements(Robot.intakesys);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    // Robot.intakesys.pneumaticExtend();
-    Robot.intakesys.setSolenoid(false);
-    
+    Robot.intakesys.setSolenoid(!Robot.intakesys.getEngaged());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Pressed B");
-    System.out.println("false");
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +37,6 @@ public class raiseIntakeCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
