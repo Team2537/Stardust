@@ -28,21 +28,21 @@ public class MoveTelescopeCommand extends CommandBase {
   @Override
   public void execute() {
       //Set negative to descend
-      Robot.climbsys.setTelescopeSpeed();
+      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getJoystickAxis() / 5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runTelescope(0);
+    Robot.climbsys.setTelescopeSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //The Hall Effect Sensors return false when a magnet is nearby so when both sensors return true, 
-    //the code should continue running. If either is false, that's when the telescope should stop.
-    if(Robot.climbsys.getClimbDIBottom() && Robot.climbsys.getClimbDITop()) {
+    //The Hall Effect Sensors return false when a magnet is nearby so when the sensor returns true, 
+    //the code should continue running. If it is false, that's when the telescope should stop.
+    if(Robot.climbsys.getClimbDITelescope()) {
       return false;
     }
     else {

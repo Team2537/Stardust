@@ -27,13 +27,13 @@ public class PresetPositionCommand extends CommandBase {
   @Override
   public void execute() {
     //Set positive to ascend
-    Robot.climbsys.runTelescope(.1);
+    Robot.climbsys.setTelescopeSpeed(.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.climbsys.runTelescope(0);
+    Robot.climbsys.setTelescopeSpeed(0);
   }
 
   // Returns true when the command should end.
@@ -41,7 +41,7 @@ public class PresetPositionCommand extends CommandBase {
   public boolean isFinished() {
     //The Hall Effect Sensors return false when a magnet is nearby so when .getCLimbDITop is true, 
     //the code should continue running. If it is false, that's when the telescope should stop.
-   if(Robot.climbsys.getClimbDITop()) {
+   if(Robot.climbsys.getClimbDITelescope()) {
      return false;
    }
    else {
