@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
   }
 
   /**
@@ -78,6 +79,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     CommandScheduler.getInstance().run(); 
+    double i = ShooterSubsystem.getInstance().getShooterSpeed();
+    if(i < - 500) {
+      System.out.println(i);
+    }
     //ShooterSubsystem.automaticallySetProperSpeed(150);
   }
 

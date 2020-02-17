@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
+ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -32,11 +32,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private static CANPIDController ShooterVelocityController;
   private static double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private static boolean runShooter;
-  private static double MAX_SPEED;
   private static TalonSRX feederMotor;
-  private static final double riceKrispyTreat = 5;
   private static DigitalInput shooterIR;
-  private static boolean isBallLoaded;
   private static int ballCounter = 3;
   private static DigitalInput intakeIR;
   private static boolean fruitsnack = true;
@@ -52,15 +49,14 @@ public class ShooterSubsystem extends SubsystemBase {
     lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
     lidarDistance.setSemiPeriodMode(true);
 
-    kP = 0.0004;
+    kP = 0.0015;
     kI = 0.0;
-    kD = 0.0;
+    kD = 0.009;
     kIz = 0;
     kFF = 0;
     kMaxOutput = 1;
     kMinOutput = -1;
     runShooter = false;
-    MAX_SPEED = 1250;
 
     feederMotor = new TalonSRX(Ports.FEEDER_MOTOR_PORT);
     ShooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
@@ -75,7 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     shooterIR = new DigitalInput(Ports.BALL_DETECTOR_PORT);
 
-    //
+
     intakeIR = new DigitalInput(Ports.INTAKE_DETECTOR_PORT);
   }
 
@@ -135,6 +131,11 @@ public class ShooterSubsystem extends SubsystemBase {
     System.out.println("Being run");
 
   }
+  public double getShooterSpeed() {
+
+    return ShooterMotor.getEncoder().getVelocity();
+
+  }
 
   public static void startFeederMotor(double feederMotorSpeed) {
 
@@ -158,7 +159,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public static void ballIntakeCount() {
     
     if(fruitsnack) {    
-      if(!shooterIR.get()) {
+      if(!intakeIR.get()) {
 
         ballCounter++;
         fruitsnack = false;
@@ -167,7 +168,7 @@ public class ShooterSubsystem extends SubsystemBase {
       }
     }
     else {
-      if(shooterIR.get()) {
+      if(intakeIR.get()) {
 
         fruitsnack = true;
 

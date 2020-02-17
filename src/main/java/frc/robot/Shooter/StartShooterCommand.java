@@ -12,6 +12,7 @@ import frc.robot.Robot;
 
 public class StartShooterCommand extends CommandBase {
   private static double distance;
+  private final double targetSpeed = -1000;
   /**
    * Creates a new ShooterCommand.
    */
@@ -25,7 +26,7 @@ public class StartShooterCommand extends CommandBase {
   public void initialize() {
 
     //distance = ShooterSubsystem.getLidarDistance();
-    ShooterSubsystem.startMotor(-3900);
+    ShooterSubsystem.startMotor(targetSpeed);
     
   }
 
@@ -42,6 +43,6 @@ public class StartShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return ShooterSubsystem.getInstance().getShooterSpeed() <= targetSpeed;
   }
 }
