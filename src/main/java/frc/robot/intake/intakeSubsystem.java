@@ -11,9 +11,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 import frc.robot.util.CANTalon;
 
-public class intakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
  
-  private static intakeSubsystem instance = null;
+  private static IntakeSubsystem instance = null;
+  private boolean engaged;
   private CANTalon flywheel1;
   //private CANTalon flywheel2;
   
@@ -22,11 +23,12 @@ public class intakeSubsystem extends SubsystemBase {
   /**
    * Creates a new intakeSubsystem.
    */
-  private intakeSubsystem() {
-     solenoid1 = new Solenoid(6, Ports.SOLENOID_PORT1); //6 is actually for the pcm
-     //solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
+  private IntakeSubsystem() {
+     solenoid1 = new Solenoid(Ports.SOLENOID_PORT1); 
+     solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
      flywheel1 = new CANTalon(Ports.FLYWHEEL_PORT);
      //flywheel2 = new CANTalon(2);
+     engaged = false;
  
   }
   
@@ -36,37 +38,39 @@ public class intakeSubsystem extends SubsystemBase {
    
   }   
 
-  public static intakeSubsystem getInstance() {
+  public static IntakeSubsystem getInstance() {
     if (instance == null) {
-          instance = new  intakeSubsystem();
+          instance = new  IntakeSubsystem();
     }
     return instance;
   }
 
   public void setSolenoid(boolean set){
     solenoid1.set(set);
+    solenoid2.set(set);
+    setEngaged(set);
   }
 
   public boolean getSolenoid(){
     return solenoid1.get();
   }
 
+  public boolean getEngaged(){
+    return engaged;
+  }
 
-  // public void pneumaticExtend(){
-  //   System.out.println("A BEFORE");
-  //   solenoid1.set(true);
-  //   System.out.println("A AFTER");
+  /**
+   * @param engaged the engaged to set
+   */
+  public void setEngaged(boolean engaged) {
+    this.engaged = engaged;
+  }
 
-  // }
 
-  
-  // public void pneumaticRetract(){
-  //   solenoid1.set(false);
-  //   System.out.println("Pressed B");
-  // }
+
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    setDefaultCommand(new IntakeMotorsCommand());
   }
 }

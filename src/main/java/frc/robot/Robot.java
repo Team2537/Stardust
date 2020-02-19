@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.input.HumanInput;
-import frc.robot.intake.intakeSubsystem;
+import frc.robot.intake.IntakeSubsystem;
 
 
 /**
@@ -31,7 +31,8 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
-  public static intakeSubsystem intakesys = intakeSubsystem.getInstance();
+
+  public static IntakeSubsystem intakesys = IntakeSubsystem.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
 
     humanInput = new HumanInput();
     humanInput.getRegister();
+
+    Robot.intakesys.setSolenoid(true);
   }
 
   /**
@@ -107,7 +110,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Robot.drivesys.periodic();
+    Robot.intakesys.periodic();
     CommandScheduler.getInstance().run(); 
+    
     
    
   }

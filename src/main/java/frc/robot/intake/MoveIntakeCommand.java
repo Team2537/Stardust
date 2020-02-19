@@ -10,45 +10,33 @@ package frc.robot.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-
-//import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
-public class IntakeMotorsCommand extends CommandBase {
-  
+public class MoveIntakeCommand extends CommandBase {
   /**
-   * Creates a new lowerIntake.
+   * Creates a new MoveIntakeCommand.
    */
-  public IntakeMotorsCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public MoveIntakeCommand() {
     addRequirements(Robot.intakesys);
-    
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    Robot.intakesys.setSolenoid(!Robot.intakesys.getEngaged());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   if (!Robot.intakesys.getEngaged()){
-     Robot.intakesys.setSpeed(0.4);
-   } else {
-     Robot.intakesys.setSpeed(0);
-   }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.intakesys.setSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

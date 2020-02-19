@@ -7,7 +7,7 @@ import frc.robot.drive.SwitchDriveCommand;
 import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.intake.IntakeMotorsCommand;
+import frc.robot.intake.MoveIntakeCommand;
 
 public class HumanInput {
   public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 2;
@@ -33,9 +33,8 @@ public class HumanInput {
       return val;
     }
   }
-
   public void getRegister(){
-    intakeButton.toggleWhenPressed(new IntakeMotorsCommand()); //Y toggle between true and false
+    intakeButton.whenPressed(new MoveIntakeCommand()); //Y toggle between true and false
     tankButton.whenPressed(new SwitchDriveCommand());
   
   }
