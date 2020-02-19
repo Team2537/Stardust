@@ -15,7 +15,7 @@ public class HumanInput {
   public final Joystick joystickLeft, joystickRight;
     XboxController xbox;
     Button tankButton;
-    Button intakeButton, intakeButton2, flywheelTest, reverse;
+    Button intakeButton;
 
   public HumanInput() {
       joystickLeft = new Joystick(0);
