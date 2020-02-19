@@ -8,12 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.input.HumanInput;
+import frc.robot.intake.intakeSubsystem;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,6 +31,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
+  public static intakeSubsystem intakesys = intakeSubsystem.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -105,6 +108,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Robot.drivesys.periodic();
     CommandScheduler.getInstance().run(); 
+    
+   
   }
 
   /**
@@ -113,5 +118,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     CommandScheduler.getInstance().run(); 
+     
   }
 }

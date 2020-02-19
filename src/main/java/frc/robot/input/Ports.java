@@ -23,4 +23,14 @@ public class Ports {
     public static int CLOSE_BUTTON = 2; // B button closes mechanism
 
     public static int TANKBUTTON = 1;
+
+    public static int FLYWHEEL_PORT = 3; //flywheel speed
+    public static int SOLENOID_PORT1 = 2;
+    public static int SOLENOID_PORT2 = 5;
+   // public static int XBOXCONTROLLER = 1;
+    public static int INTAKEBUTTON = 4;
+    
+    
+      
+    
   }
