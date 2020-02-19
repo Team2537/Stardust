@@ -9,10 +9,10 @@ package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.input.Ports;
 
 public class StartShooterCommand extends CommandBase {
   private static double distance;
-  private final double targetSpeed = -1000;
   /**
    * Creates a new ShooterCommand.
    */
@@ -26,7 +26,7 @@ public class StartShooterCommand extends CommandBase {
   public void initialize() {
 
     //distance = ShooterSubsystem.getLidarDistance();
-    ShooterSubsystem.startMotor(targetSpeed);
+    ShooterSubsystem.startMotor(Ports.TARGET_SPEED);
     
   }
 
@@ -43,6 +43,7 @@ public class StartShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ShooterSubsystem.getInstance().getShooterSpeed() <= targetSpeed;
+    return true;
+    //return ShooterSubsystem.getInstance().getShooterSpeed() <= targetSpeed;
   }
 }

@@ -49,9 +49,9 @@ public class ShooterSubsystem extends SubsystemBase {
     lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
     lidarDistance.setSemiPeriodMode(true);
 
-    kP = 0.0015;
-    kI = 0.0;
-    kD = 0.009;
+    kP = 0.0004;
+    kI = 0.0000005;
+    kD = 0.01;
     kIz = 0;
     kFF = 0;
     kMaxOutput = 1;

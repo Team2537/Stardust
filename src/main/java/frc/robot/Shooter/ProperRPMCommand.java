@@ -9,14 +9,15 @@ package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.Shooter.ShooterSubsystem;
+import frc.robot.input.Ports;
 
-public class LoadBallCommand extends CommandBase {
+public class ProperRPMCommand extends CommandBase {
+  private double waitTime = 100;
+  private long currentTime;
   /**
-   * Creates a new BalLocationCommand.
+   * Creates a new ProperRPMCommand.
    */
-
-  public LoadBallCommand() {
+  public ProperRPMCommand() {
     addRequirements(Robot.shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,7 +25,7 @@ public class LoadBallCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ShooterSubsystem.startFeederMotor(-0.7);
+    currentTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,13 +36,13 @@ public class LoadBallCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ShooterSubsystem.startFeederMotor(0);
-    System.out.print("Ball in position");
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ShooterSubsystem.ballInPlace();
+    return (Ports.TARGET_SPEED - 50 <= ShooterSubsystem.getInstance().getShooterSpeed() && ShooterSubsystem.getInstance().getShooterSpeed() <= Ports.TARGET_SPEED + 50
+            && System.currentTimeMillis() - currentTime >= waitTime);
   }
 }

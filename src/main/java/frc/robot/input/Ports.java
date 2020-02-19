@@ -11,4 +11,5 @@ public class Ports {
     public static final int FEEDER_MOTOR_PORT = 5;
     public static final int BALL_DETECTOR_PORT = 2;
     public static final int INTAKE_DETECTOR_PORT = 1;
+    public static final int TARGET_SPEED = -2000;
   }
