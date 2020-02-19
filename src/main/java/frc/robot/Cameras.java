@@ -6,8 +6,8 @@ import edu.wpi.cscore.UsbCamera;
 
 
 public class Cameras extends Thread {
-    CameraServer   camServer;
-    UsbCamera      cam0, cam1, cam2;
+    CameraServer camServer;
+    UsbCamera cam0, cam1, cam2;
     static Cameras instance;
     public static int currentCam;
 

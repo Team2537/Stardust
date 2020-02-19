@@ -11,7 +11,7 @@ public static Joystick joystick;
 public static JoystickButton button5, button6;
 
 public HumanInput(){
-joystick = new Joystick(0);
+joystick = new Joystick(2);
 button6 = new JoystickButton(joystick, 6);
 
 }
