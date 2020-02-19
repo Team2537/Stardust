@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
 
     humanInput = new HumanInput();
     controlsubsys = ControlPanelSubsystem.getInstance();
-    Robot.humanInput.registerButtons();
+    Robot.humanInput.registerSpinXTimesBtn();
     // Robot.controlsubsys.SmartDashboard();
 
   }
@@ -60,30 +60,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     // SmartDashboard.updateValues();
     CommandScheduler.getInstance().run();
-    Robot.humanInput.getGameDataBtn();
     Robot.controlsubsys.SmartDashboard();
-  /*  SmartDashboard.putNumber("GameData", Robot.controlsubsys.NumRed());
-
-   Robot.controlsubsys.setTargetColor(Robot.controlsubsys.getGameData());
-    
-    SmartDashboard.putString("Lastcolor", Robot.controlsubsys.getLastColor());
-    SmartDashboard.putString("Detected Color", Robot.controlsubsys.detectedColorString());
-
-    SmartDashboard.putString("Game Data: ", Robot.controlsubsys.getGameData());
-
-    // SmartDashboard.putString("CIE color", lab.colorMatch(detectedColor.red,
-    // detectedColor.green, detectedColor.blue).toString());
-
-    SmartDashboard.putNumber("Num of Red", Robot.controlsubsys.NumRed());
-    SmartDashboard.putNumber("Num of Blue", Robot.controlsubsys.NumBlue());
-    SmartDashboard.putNumber("Num of Green", Robot.controlsubsys.NumGreen());
-    SmartDashboard.putNumber("Num of yellow", Robot.controlsubsys.NumYellow());
-
-    SmartDashboard.putNumber("Revolutions", Robot.controlsubsys.getRevolutions());
-
-    //SmartDashboard.putString("Target color", Robot.controlsubsys.getTargetColor());
-    //SmartDashboard.putString("Last color", Robot.controlsubsys.getLastColor());
-*/
   }
 
   /**
@@ -134,6 +111,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    Robot.humanInput.registerGameDataBtn();
+
+  //Spins manually when trigger is pressed
+  if(Robot.controlsubsys.getCurrentCommand() == null) {
+    double triggerPos = Robot.humanInput.getXboxTriggerPos();
+
+    if (triggerPos > 0){
+      Robot.controlsubsys.startMotors(triggerPos);
+    } else {
+     Robot.controlsubsys.stopMotors();
+    }
+  }
+  
   }
 
   /**

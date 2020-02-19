@@ -45,12 +45,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   private final static ColorMatch m_colorMatcher = new ColorMatch();
 
-  private final static Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final static Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final static Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final static Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private final static Color kBlueTarget = ColorMatch.makeColor(0.14, 0.47, 0.38);
+  private final static Color kGreenTarget = ColorMatch.makeColor(0.23, 0.63 ,0.13);
+  private final static Color kRedTarget = ColorMatch.makeColor(0.51, 0.35, 0.13);
+  private final static Color kYellowTarget = ColorMatch.makeColor(0.32, 0.56, 0.11);
 
-  private String lastColor = "";
+  private static String lastColor = "";
   private String targetColor = "";
   private String detectedColorString = "";
   private String gameData = "";
@@ -86,10 +86,16 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
-  public void setTargetColor(String color) {
-    targetColor = color;
-    lastColor = "";
-    System.out.println("Target Color: "+ targetColor);
+  public void setTargetColor(String color) { //changed to account for positioning targetColor to game's sensor
+    switch (color) {
+      case "Blue" : targetColor = "Red";
+
+      case "Green" : targetColor = ("Yellow");
+
+      case "Red" : targetColor = ("Blue");
+
+      case "Yellow" : targetColor = ("Green");
+    }
   }
 
   public void detectColor() { // finds the current color that the sensor sees
@@ -112,6 +118,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
+  //Competition wheel will spin clockwise
   public void ignoreFalseColors() {
     detectColor();
     if (detectedColorString.equals("Red")
@@ -136,18 +143,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
-  public boolean calculateRevolutions() {
+  public void calculateRevolutions() {// moved true false thing to isWheelSpunXTimes
     if (numRed >= revolutions + 1 && numGreen >= revolutions + 1 && numBlue >= revolutions + 1
         && numYellow >= revolutions + 1) {
 
       revolutions++;
-    }
-    if (revolutions == 8) {
-      rightPower = 0.0;
-      rightMotor.set(rightPower);
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -189,9 +189,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
     rightMotor.set(rightPower);
   }
 
-  public void startMotors() {
-    rightPower = 0.2;
-    rightMotor.set(rightPower);
+  public void startMotors(double power) {
+    rightPower = power;
+    rightMotor.set(-rightPower); // -power for competition wheel
     System.out.println("started motors");
   }
 
@@ -201,12 +201,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
     if (gameData.equals("R") || gameData.equals("G") || gameData.equals("B") || gameData.equals("Y")){
       return true;
 
-    } else if (gameData.length() == 0){
+    }
+    else if (gameData.length() == 0){
       System.out.println("Empty");
       gameData = "Empty";
       return false;
 
-    } else {
+    } 
+    else {
       System.out.println("Not valid");
       gameData = "Unknown";
       return false;
@@ -218,33 +220,25 @@ public class ControlPanelSubsystem extends SubsystemBase {
     isGameDataValid(); //called instead of setting game data in case gamedata empty
 
       switch (gameData.charAt(0)) {
-        case 'B' :
-        //System.out.println("BLUE BLUE BLUE BLUE"); 
-        return("Blue");
+        case 'B' : return("Blue");
 
-        case 'G' :
-        //System.out.println("GREN GREN GREN GREN GREN"); 
-        return("Green");
+        case 'G' : return("Green");
 
-        case 'R' :
-        //System.out.println("RED RED RED RED RED RED"); 
-        return("Red");
+        case 'R' : return("Red");
 
-        case 'Y' :
-        //System.out.println("YELLER YELLER YELLER YELLER"); 
-        return("Yellow");
+        case 'Y' : return("Yellow");
 
         default :
-        stopMotors();
-        gameData = "";
-        return lastColor;
+          stopMotors();
+           gameData = "";
+           return lastColor;
 
       }
   }
 
   public boolean isOnTargetColor() {
     ignoreFalseColors();
-
+    
       if (lastColor.equals(targetColor)) {
         // last color is the current color in this scenario.
         // when the ignoreFalseColors method is called, it sets the current color to the
@@ -259,17 +253,27 @@ public class ControlPanelSubsystem extends SubsystemBase {
     
   }
 
-  public boolean spinXTimes() {
+  public boolean isWheelSpunXTimes() {
     ignoreFalseColors();
-    return calculateRevolutions();
+    calculateRevolutions();
 
+  if (revolutions == 8) {
+    rightPower = 0.0;
+    rightMotor.set(rightPower);
+    return true;
+  } else {
+    return false;
   }
+  }
+
   public String detectedColorString() {
     return detectedColorString;
   }
+
   public String getLastColor() {
     return lastColor;
   }
+
   //public String getTargetColor() {
     // return targetColor;
   //}

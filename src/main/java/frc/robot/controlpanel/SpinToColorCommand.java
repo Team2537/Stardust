@@ -11,15 +11,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class SpinToColorCommand extends CommandBase {
-
   /**
    * Creates a new SpinToColor.
    */
 
   public SpinToColorCommand() {
-
     addRequirements(Robot.controlsubsys);
-
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,14 +25,15 @@ public class SpinToColorCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    System.out.println("init fun-------------");
-    
-    if (Robot.controlsubsys.isOnTargetColor()){
-       System.out.println("On color already");
-
-    } else {
-      Robot.controlsubsys.startMotors();
-      System.out.println("Spin to color is working in init.");
+    if(Robot.controlsubsys.isGameDataValid()){
+      if (Robot.controlsubsys.isOnTargetColor()){
+        System.out.println("On color already");
+ 
+     } 
+     else {
+       Robot.controlsubsys.startMotors(0.2);
+       System.out.println("Spin to color is working in init.");
+     }
     }
 
   }

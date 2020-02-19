@@ -23,8 +23,7 @@ public class SpinXTimesCommand extends CommandBase {
   @Override
   public void initialize() {
     Robot.controlsubsys.zeroCounters(); // sets the R,G,B,Y, and revolutions value to 0
-
-    Robot.controlsubsys.startMotors();
+    Robot.controlsubsys.startMotors(0.2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,13 +35,12 @@ public class SpinXTimesCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    Robot.controlsubsys.stopMotors();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Robot.controlsubsys.spinXTimes();
-
+    return Robot.controlsubsys.isWheelSpunXTimes();
   }
 }
