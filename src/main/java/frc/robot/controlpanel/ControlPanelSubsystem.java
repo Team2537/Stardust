@@ -16,6 +16,7 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.DriverStation;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -54,7 +55,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private String targetColor = "";
   private String detectedColorString = "";
   private String gameData = "";
-
   int numRed = 0;
   int numBlue = 0;
   int numGreen = 0;
@@ -64,11 +64,29 @@ public class ControlPanelSubsystem extends SubsystemBase {
   
 
   private ControlPanelSubsystem() {
+    WPI_TalonSRX Spinner = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
+    Spinner.configFactoryDefault();
 
-    m_colorMatcher.addColorMatch(kBlueTarget);
-    m_colorMatcher.addColorMatch(kGreenTarget);
-    m_colorMatcher.addColorMatch(kRedTarget);
-    m_colorMatcher.addColorMatch(kYellowTarget);
+    /* Config sensor used for Primary PID [Velocity] */
+    Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+      /**
+   * Phase sensor accordingly. 
+       * Positive Sensor Reading should match Green (blinking) Leds on Talon
+       */
+    Spinner.setSensorPhase(true);
+
+  // /* Config the peak and nominal outputs */
+  Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
+  Spinner.configNominalOutputReverse(0, Constants.kTimeoutMs);
+  Spinner.configPeakOutputForward(0.2, Constants.kTimeoutMs);
+  Spinner.configPeakOutputReverse(-0.2, Constants.kTimeoutMs);
+
+  // /* Config the Velocity closed loop gains in slot0 */
+  Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
+  Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
+  Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
+  Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
 
     rightMotor = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
     // right motor turns in opposite direction
@@ -125,6 +143,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
         && (lastColor.equals("Yellow") || lastColor.equals("Green") || lastColor.equals(""))) {
       numRed++;
       lastColor = "Red"; // in between red and green, yellow is read. This accounts for that.
+      System.out.println("Number of red: " + numRed);
 
     } else if (detectedColorString.equals("Green") && (lastColor.equals("Blue") || lastColor.equals(""))) {
       numGreen++;
@@ -200,13 +219,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     
     if (gameData.equals("R") || gameData.equals("G") || gameData.equals("B") || gameData.equals("Y")){
       return true;
-
     }
     else if (gameData.length() == 0){
       System.out.println("Empty");
       gameData = "Empty";
       return false;
-
     } 
     else {
       System.out.println("Not valid");

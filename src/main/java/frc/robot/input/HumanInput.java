@@ -19,6 +19,7 @@ public class HumanInput {
     spinToGameDataBtn = new JoystickButton(xbox, 2); // B
     spinXTimes = new JoystickButton(xbox, 3); // X 
   }
+ // setColor calls are commented out to test inputing color data using game data
 
 
  public void registerSpinXTimesBtn() {

@@ -111,7 +111,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Robot.humanInput.registerGameDataBtn();
 
   //Spins manually when trigger is pressed
   if(Robot.controlsubsys.getCurrentCommand() == null) {
@@ -125,10 +124,7 @@ public class Robot extends TimedRobot {
   }
   
   }
-
-  /**
-   * This function is called periodically during test mode.
-   */
+  
   @Override
   public void testPeriodic() {
   }
