@@ -37,7 +37,7 @@ public class ClimbCommand extends CommandBase {
       Robot.climbsys.setTelescopeSpeed(0);
     }
 
-    //Winch isn't special, it doesn't get an if statement. It just does the thing. 
+    //Winch isn't special, it doesn't get an if statement. It just does the thing no matter where the bot is.
     Robot.climbsys.setWinchSpeed(Robot.humanInput.getLeftTrigger());
   }
 

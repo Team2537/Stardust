@@ -42,7 +42,7 @@ public class HumanInput {
     //if it is above, it only returns a previously set speed. This is to make sure Kinsley doesn't 
     //get all trigger happy on us and make the bot go zoom zoom
     if(val > .5) {
-      return .2;
+      return -.5;
     }
     else {
       return 0;

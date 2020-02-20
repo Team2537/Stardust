@@ -35,6 +35,7 @@ public class PresetPositionCommand extends CommandBase {
   public void end(boolean interrupted) {
     //This is what actually stops the motors once it realizes it's near the sensors, i.e. very important shit
     Robot.climbsys.setTelescopeSpeed(0);
+    System.out.println("ENDED");
   }
 
   // Returns true when the command should end.
@@ -44,9 +45,11 @@ public class PresetPositionCommand extends CommandBase {
     //when the sensor returns true, the motor should continue running. If it is false, that's when 
     //we abort mission before the telescope turns into a projectile
    if(Robot.climbsys.getClimbDITelescope()) {
+    System.out.println("FALSE");
      return false;
    }
    else {
+    System.out.println("TRUE");
      return true;
    }
   }
