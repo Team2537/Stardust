@@ -18,12 +18,12 @@ public class Ports {
     public static int SEC_DRIVE_SOL_FRONT_RIGHT = 4;
     public static int SEC_DRIVE_SOL_BACK_RIGHT = 6; //back right secondary
 
-    public static int TANKBUTTON = 1;
+    public static int TANK_BUTTON = 1;
 
     public static int FLYWHEEL_PORT = 3; //flywheel speed
     public static int SOLENOID_PORT1 = 0;
     public static int SOLENOID_PORT2 = 4;
-    public static int INTAKEBUTTON = 4; 
+    public static int INTAKE_BUTTON = 4; 
     
     public static final int LIDAR_COUNTER = 4; // DIO port for distance
     public static final int LIDAR_MODE = 5; // DIO port for lidar
@@ -39,6 +39,7 @@ public class Ports {
 
     public static int ENABLE_CLIMB_BUTTON = 5;
     public static int PRESET_POSITION_BUTTON = 6;
+    
 
     /*The buttons are...
     * Left Top - Enable Climb
@@ -46,6 +47,4 @@ public class Ports {
     * Right Top - Preset Position 
     * Right Joystick - Manual Telescope
     */
-    
-    public static int SERVO_PORT;
   }

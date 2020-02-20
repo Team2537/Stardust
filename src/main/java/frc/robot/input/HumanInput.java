@@ -21,12 +21,12 @@ public class HumanInput {
   XboxController xbox;
   Button tankButton;
   Button intakeButton;
-  JoystickButton shooterButton = new JoystickButton(xbox, 5);
-  JoystickButton stopShooterButton = new JoystickButton(xbox, 4);
-  JoystickButton startShooterButton = new JoystickButton(xbox, 3);
+  JoystickButton shooterButton;
+  JoystickButton stopShooterButton;
+  JoystickButton startShooterButton;
   
-  Button presetPosition = new JoystickButton(xbox, Ports.PRESET_POSITION_BUTTON);
-  Button enableClimb = new JoystickButton(xbox, Ports.ENABLE_CLIMB_BUTTON);
+  Button presetPosition;
+  Button enableClimb;
   
   public final double climbDEADZONE = .1;
   
@@ -35,18 +35,16 @@ public class HumanInput {
       joystickLeft = new Joystick(0);
       joystickRight = new Joystick(1);
       xbox = new XboxController(Ports.XBOX_CONTROLLER);
-      tankButton = new JoystickButton(joystickLeft, Ports.TANKBUTTON);
-      intakeButton = new JoystickButton(xbox, Ports.INTAKEBUTTON); 
+      tankButton = new JoystickButton(joystickLeft, Ports.TANK_BUTTON);
+      intakeButton = new JoystickButton(xbox, Ports.INTAKE_BUTTON); 
+      presetPosition = new JoystickButton(xbox, Ports.PRESET_POSITION_BUTTON);
+      enableClimb = new JoystickButton(xbox, Ports.ENABLE_CLIMB_BUTTON);
       shooterButton = new JoystickButton(xbox, 5);
       stopShooterButton = new JoystickButton(xbox, 4);
       startShooterButton = new JoystickButton(xbox, 3);
 
       //Button to allow winch and telescope to be run
-    //(This is the thing I tried to use the command scheduler for and failed miserably so this was the solution :/)
-    enableClimb.whenHeld(new ClimbCommand());
-
-    //Button for setting telescope to preset height (it goes schwoop)
-    presetPosition.whenPressed(new PresetPositionCommand());
+    
 
   }
 
@@ -87,13 +85,15 @@ public class HumanInput {
       return 0;
     }
   }
-  public void getRegister(){
+  public void registerButtons(){
     intakeButton.whenPressed(new MoveIntakeCommand()); //Y toggle between true and false
     tankButton.whenPressed(new SwitchDriveCommand());
     shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
     shooterButton.whenReleased(new StopShooterCommand());
     stopShooterButton.whenPressed(new StopShooterCommand());
     startShooterButton.whenPressed(ShootingCommandGroup.getInstance());
+    enableClimb.whenHeld(new ClimbCommand());
+    presetPosition.whenPressed(new PresetPositionCommand());
   
   }
 
