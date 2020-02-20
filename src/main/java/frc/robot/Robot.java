@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.input.HumanInput;
 import frc.robot.intake.IntakeSubsystem;
+import frc.robot.Shooter.LoadBallCommand;
+import frc.robot.Shooter.ShooterSubsystem;
 
 
 /**
@@ -34,15 +36,15 @@ public class Robot extends TimedRobot {
 
   public static IntakeSubsystem intakesys = IntakeSubsystem.getInstance();
 
+  public static ShooterSubsystem shooter;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    shooter = ShooterSubsystem.getInstance();
 
     humanInput = new HumanInput();
     humanInput.getRegister();
@@ -61,6 +63,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
   }
 
   /**
@@ -76,9 +79,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    CommandScheduler.getInstance().schedule(new LoadBallCommand());
   }
 
   /**
@@ -95,6 +96,7 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
+
     CommandScheduler.getInstance().run();
   }
 
@@ -112,9 +114,19 @@ public class Robot extends TimedRobot {
     Robot.drivesys.periodic();
     Robot.intakesys.periodic();
     CommandScheduler.getInstance().run(); 
-    
-    
-   
+    double i = ShooterSubsystem.getInstance().getShooterSpeed();
+    if(i < - 500) {
+      System.out.println(i);
+    }
+    //ShooterSubsystem.automaticallySetProperSpeed(150);
+  }
+
+
+  @Override
+  public void testInit() {
+
+    ShooterSubsystem.getInstance();
+
   }
 
   /**
@@ -122,7 +134,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    CommandScheduler.getInstance().run(); 
-     
+    CommandScheduler.getInstance().run();
   }
 }
+ 

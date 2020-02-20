@@ -5,35 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intake;
+package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 
-public class MoveIntakeCommand extends CommandBase {
+public class TestCommmand extends CommandBase {
+  String output;
   /**
-   * Creates a new MoveIntakeCommand.
+   * Creates a new TestCommmand.
    */
-  public MoveIntakeCommand() {
-    addRequirements(Robot.intakesys);
+  public TestCommmand(String output) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.output = output;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.intakesys.setSolenoid(!Robot.intakesys.getEngaged());
+    System.out.println(output);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.

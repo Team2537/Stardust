@@ -71,6 +71,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setDefaultCommand(new IntakeMotorsCommand());
+    setDefaultCommand(new IntakeMotorCommand());
   }
 }

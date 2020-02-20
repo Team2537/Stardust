@@ -5,40 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intake;
+package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.input.Ports;
 
-public class MoveIntakeCommand extends CommandBase {
+public class StartShooterCommand extends CommandBase {
+  private static double distance;
   /**
-   * Creates a new MoveIntakeCommand.
+   * Creates a new ShooterCommand.
    */
-  public MoveIntakeCommand() {
-    addRequirements(Robot.intakesys);
+  public StartShooterCommand() {
+    addRequirements(Robot.shooter);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.intakesys.setSolenoid(!Robot.intakesys.getEngaged());
+
+    //distance = ShooterSubsystem.getLidarDistance();
+    ShooterSubsystem.startMotor(Ports.TARGET_SPEED);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return true;
+    //return ShooterSubsystem.getInstance().getShooterSpeed() <= targetSpeed;
   }
 }

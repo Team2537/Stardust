@@ -18,19 +18,18 @@ public class Ports {
     public static int SEC_DRIVE_SOL_FRONT_RIGHT = 4;
     public static int SEC_DRIVE_SOL_BACK_RIGHT = 6; //back right secondary
 
-    public static int SERVO_PORT = 0;   // PWM port for servo motor
-    public static int OPEN_BUTTON = 1;  // A button opens mechanism
-    public static int CLOSE_BUTTON = 2; // B button closes mechanism
-
     public static int TANKBUTTON = 1;
 
     public static int FLYWHEEL_PORT = 3; //flywheel speed
     public static int SOLENOID_PORT1 = 0;
     public static int SOLENOID_PORT2 = 4;
     public static int INTAKEBUTTON = 4; 
-    //public static int INTAKEBUTTON2=2; 
     
-    
-      
-    
+    public static final int LIDAR_COUNTER = 4; // DIO port for distance
+    public static final int LIDAR_MODE = 5; // DIO port for lidar
+    public static final int MOTOR_SHOOTER_PORT = 7; //Motor
+    public static final int FEEDER_MOTOR_PORT = 5;
+    public static final int BALL_DETECTOR_PORT = 2;
+    public static final int INTAKE_DETECTOR_PORT = 1;
+    public static final int TARGET_SPEED = -2000;
   }

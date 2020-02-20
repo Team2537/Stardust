@@ -7,15 +7,21 @@ import frc.robot.drive.SwitchDriveCommand;
 import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Shooter.ShootingCommandGroup;
+import frc.robot.Shooter.StopShooterCommand;
 import frc.robot.intake.MoveIntakeCommand;
 
 public class HumanInput {
   public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 2;
   public static final double DEADZONE = 0.05;
   public final Joystick joystickLeft, joystickRight;
-    XboxController xbox;
-    Button tankButton;
-    Button intakeButton;
+  XboxController xbox;
+  Button tankButton;
+  Button intakeButton;
+  JoystickButton shooterButton = new JoystickButton(xbox, 5);
+  JoystickButton stopShooterButton = new JoystickButton(xbox, 4);
+  JoystickButton startShooterButton = new JoystickButton(xbox, 3);
+  
 
   public HumanInput() {
       joystickLeft = new Joystick(0);
@@ -23,7 +29,12 @@ public class HumanInput {
       xbox = new XboxController(Ports.XBOX_CONTROLLER);
       tankButton = new JoystickButton(joystickLeft, Ports.TANKBUTTON);
       intakeButton = new JoystickButton(xbox, Ports.INTAKEBUTTON); 
+      shooterButton = new JoystickButton(xbox, 5);
+      stopShooterButton = new JoystickButton(xbox, 4);
+      startShooterButton = new JoystickButton(xbox, 3);
   }
+
+
 
   public double getJoystickAxis(int axis, GenericHID joystick, double deadzone){
     double val = joystick.getRawAxis(axis);
@@ -36,6 +47,10 @@ public class HumanInput {
   public void getRegister(){
     intakeButton.whenPressed(new MoveIntakeCommand()); //Y toggle between true and false
     tankButton.whenPressed(new SwitchDriveCommand());
+    shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
+    shooterButton.whenReleased(new StopShooterCommand());
+    stopShooterButton.whenPressed(new StopShooterCommand());
+    startShooterButton.whenPressed(ShootingCommandGroup.getInstance());
   
   }
 
@@ -43,8 +58,9 @@ public double getJoystickAxisRight(int axisY) {
 	return getJoystickAxis(axisY, joystickRight, DEADZONE);
 }
 
-
 public double getJoystickAxisLeft(int axisY) {
 	return getJoystickAxis(axisY, joystickLeft, DEADZONE);
 }
+
+
 }

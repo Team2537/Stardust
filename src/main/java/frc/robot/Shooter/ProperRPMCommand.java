@@ -5,40 +5,44 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intake;
+package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.input.Ports;
 
-public class MoveIntakeCommand extends CommandBase {
+public class ProperRPMCommand extends CommandBase {
+  private double waitTime = 100;
+  private long currentTime;
   /**
-   * Creates a new MoveIntakeCommand.
+   * Creates a new ProperRPMCommand.
    */
-  public MoveIntakeCommand() {
-    addRequirements(Robot.intakesys);
+  public ProperRPMCommand() {
+    addRequirements(Robot.shooter);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.intakesys.setSolenoid(!Robot.intakesys.getEngaged());
+    currentTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return (Ports.TARGET_SPEED - 50 <= ShooterSubsystem.getInstance().getShooterSpeed() && ShooterSubsystem.getInstance().getShooterSpeed() <= Ports.TARGET_SPEED + 50
+            && System.currentTimeMillis() - currentTime >= waitTime);
   }
 }

@@ -5,50 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intake;
+package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.Shooter.ShooterSubsystem;
 
-
-//import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
-public class IntakeMotorsCommand extends CommandBase {
-  
+public class LoadBallCommand extends CommandBase {
   /**
-   * Creates a new lowerIntake.
+   * Creates a new BalLocationCommand.
    */
-  public IntakeMotorsCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.intakesys);
-    
 
+  public LoadBallCommand() {
+    addRequirements(Robot.shooter);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    ShooterSubsystem.startFeederMotor(-0.7);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   if (!Robot.intakesys.getEngaged()){
-     Robot.intakesys.setSpeed(0.4);
-   } else {
-     Robot.intakesys.setSpeed(0);
-   }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.intakesys.setSpeed(0);
+    ShooterSubsystem.startFeederMotor(0);
+    System.out.print("Ball in position");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return ShooterSubsystem.ballInPlace();
   }
 }
