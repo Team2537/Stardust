@@ -45,19 +45,19 @@ public class DriveSubsystem extends SubsystemBase{
 
 
     public DriveSubsystem(){
-        // driveCANFrontLeft = new CANSparkMax(Ports.DRIVE_FRONT_LEFT, DEFAULT_MOTOR_TYPE);
-        // driveCANBackLeft = new CANSparkMax(Ports.DRIVE_BACK_LEFT, DEFAULT_MOTOR_TYPE);
-        // driveCANFrontRight = new CANSparkMax(Ports.DRIVE_FRONT_RIGHT, DEFAULT_MOTOR_TYPE);
-        // driveCANBackRight = new CANSparkMax(Ports.DRIVE_BACK_RIGHT, DEFAULT_MOTOR_TYPE);
-        // setIdleMode(DEFAULT_IDLE_MODE);
-        // currentDriveMode = DriveMode.kMecanum;
+        driveCANFrontLeft = new CANSparkMax(Ports.DRIVE_FRONT_LEFT, DEFAULT_MOTOR_TYPE);
+        driveCANBackLeft = new CANSparkMax(Ports.DRIVE_BACK_LEFT, DEFAULT_MOTOR_TYPE);
+        driveCANFrontRight = new CANSparkMax(Ports.DRIVE_FRONT_RIGHT, DEFAULT_MOTOR_TYPE);
+        driveCANBackRight = new CANSparkMax(Ports.DRIVE_BACK_RIGHT, DEFAULT_MOTOR_TYPE);
+        setIdleMode(DEFAULT_IDLE_MODE);
+        currentDriveMode = DriveMode.kMecanum;
 
-        // driveEncFrontLeft = new CANEncoder(driveCANFrontLeft);
-        // driveEncBackLeft = new CANEncoder(driveCANBackLeft);
-        // driveEncFrontRight = new CANEncoder(driveCANFrontRight);
-        // driveEncBackRight = new CANEncoder(driveCANBackRight);
-        // sparkEncArray = new CANEncoder[]{driveEncFrontLeft, driveEncBackLeft, driveEncFrontRight,
-        //                             driveEncBackRight};
+        driveEncFrontLeft = new CANEncoder(driveCANFrontLeft);
+        driveEncBackLeft = new CANEncoder(driveCANBackLeft);
+        driveEncFrontRight = new CANEncoder(driveCANFrontRight);
+        driveEncBackRight = new CANEncoder(driveCANBackRight);
+        sparkEncArray = new CANEncoder[]{driveEncFrontLeft, driveEncBackLeft, driveEncFrontRight,
+                                    driveEncBackRight};
 
 
         
@@ -72,13 +72,13 @@ public class DriveSubsystem extends SubsystemBase{
         driveSecSolFrontRight = new Solenoid(Ports.SEC_DRIVE_SOL_FRONT_RIGHT);
         driveSecSolBackRight = new Solenoid(Ports.SEC_DRIVE_SOL_BACK_RIGHT);
 
-        // motorsControllerLeft = new SpeedControllerGroup(driveCANFrontLeft, driveCANBackLeft);
-        // motorsControllerRight = new SpeedControllerGroup(driveCANFrontRight, driveCANBackRight);
+        motorsControllerLeft = new SpeedControllerGroup(driveCANFrontLeft, driveCANBackLeft);
+        motorsControllerRight = new SpeedControllerGroup(driveCANFrontRight, driveCANBackRight);
 
-        // driveMecanum = new MecanumDrive(driveCANFrontLeft, driveCANBackLeft, driveCANFrontRight, driveCANBackRight);
-        // driveDifferential = new DifferentialDrive(motorsControllerLeft, motorsControllerRight); 
-        // driveMecanum.setSafetyEnabled(false);
-        // driveDifferential.setSafetyEnabled(false);
+        driveMecanum = new MecanumDrive(driveCANFrontLeft, driveCANBackLeft, driveCANFrontRight, driveCANBackRight);
+        driveDifferential = new DifferentialDrive(motorsControllerLeft, motorsControllerRight); 
+        driveMecanum.setSafetyEnabled(false);
+        driveDifferential.setSafetyEnabled(false);
     }
 
 
