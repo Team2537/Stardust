@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 public class Navx extends AHRS {
 	
 	private static Navx singleton;
+	private double totalAngle = 0;
 	
 	public static Navx getInstance(){
 		if(singleton == null){
@@ -34,5 +35,20 @@ public class Navx extends AHRS {
 	 */
 	public double getRadians(){
 		return (360 - ((super.getAngle() + 270) % 360)) * Math.PI / 180;
+	}
+
+	public void updateTotalAngle() {
+		totalAngle += getYaw();
+		if(totalAngle < -180) {
+			totalAngle += 180;
+		} else if(totalAngle > 180) {
+			totalAngle -= 180;
+		}
+	}
+
+	public void updateAndReset() {
+		updateTotalAngle();
+		reset();
+		reset();
 	}
 }

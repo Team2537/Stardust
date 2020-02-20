@@ -27,6 +27,7 @@ public class RotateCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+      Navx.getInstance().updateTotalAngle();
       Navx.getInstance().reset();
       Navx.getInstance().reset();
       startingAngle = Navx.getInstance().getYaw();

@@ -32,7 +32,7 @@ public class MecanumDriveStraightCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+      Navx.getInstance().updateTotalAngle();
       Navx.getInstance().reset();
       Navx.getInstance().reset();
       Robot.drivesys.resetEncoders();
