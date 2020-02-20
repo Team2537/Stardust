@@ -17,7 +17,7 @@ import frc.robot.input.HumanInput;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.Shooter.LoadBallCommand;
 import frc.robot.Shooter.ShooterSubsystem;
-
+import frc.robot.climb.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,7 +36,9 @@ public class Robot extends TimedRobot {
 
   public static IntakeSubsystem intakesys = IntakeSubsystem.getInstance();
 
-  public static ShooterSubsystem shooter;
+  public static ShooterSubsystem shooter = ShooterSubsystem.getInstance();
+
+  public static ClimbSubsystem climbsys = ClimbSubsystem.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -44,8 +46,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    shooter = ShooterSubsystem.getInstance();
-
     humanInput = new HumanInput();
     humanInput.getRegister();
 
@@ -62,8 +62,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    System.out.println(Robot.climbsys.getClimbDITelescope());
     CommandScheduler.getInstance().run();
 
+    
   }
 
   /**
@@ -127,6 +129,7 @@ public class Robot extends TimedRobot {
 
     ShooterSubsystem.getInstance();
 
+    CommandScheduler.getInstance().run();
   }
 
   /**

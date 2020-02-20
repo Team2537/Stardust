@@ -32,4 +32,20 @@ public class Ports {
     public static final int BALL_DETECTOR_PORT = 2;
     public static final int INTAKE_DETECTOR_PORT = 1;
     public static final int TARGET_SPEED = -2000;
+    public static int CLIMB_WINCH = 4;
+    public static int CLIMB_TELESCOPE = 3;
+
+    public static int TOP_SENSOR = 0;
+
+    public static int ENABLE_CLIMB_BUTTON = 5;
+    public static int PRESET_POSITION_BUTTON = 6;
+
+    /*The buttons are...
+    * Left Top - Enable Climb
+    * Left Trigger - Winch
+    * Right Top - Preset Position 
+    * Right Joystick - Manual Telescope
+    */
+    
+    public static int SERVO_PORT;
   }
