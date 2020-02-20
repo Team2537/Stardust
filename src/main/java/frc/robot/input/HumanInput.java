@@ -10,25 +10,27 @@ import frc.robot.controlpanel.SpinXTimesCommand;
 
 public class HumanInput {
   XboxController xbox = new XboxController(0);
-  Button manuallySpinBtn, spinToGameDataBtn, spinXTimes;
+  Button manuallySpinBtn, spinToColorBtn, spinXTimesBtn;
   boolean gameDataRegistered = false;
   boolean manualSpinRegistered = false;
 
   
   public HumanInput() {
-    spinToGameDataBtn = new JoystickButton(xbox, 2); // B
-    spinXTimes = new JoystickButton(xbox, 3); // X 
+    spinToColorBtn = new JoystickButton(xbox, 2); // B
+    spinXTimesBtn = new JoystickButton(xbox, 3); // X 
+
+    registerSpinXTimesBtn();
+    registerGameDataBtn();
   }
  // setColor calls are commented out to test inputing color data using game data
 
 
  public void registerSpinXTimesBtn() {
-    spinXTimes.whenPressed(new SpinXTimesCommand()); 
+    spinXTimesBtn.whenPressed(new SpinXTimesCommand()); 
   }
 
   public void registerGameDataBtn(){
-      spinToGameDataBtn.whenPressed(new SpinToColorCommand());
-
+    spinToColorBtn.whenPressed(new SpinToColorCommand());
   }
 
   public double getXboxTriggerPos(){

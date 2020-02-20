@@ -7,7 +7,6 @@
 
 package frc.robot.controlpanel;
 
-//import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -23,74 +22,43 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 /**
- * Add your docs here.
+ * manages color sensor, motor, and rotation counts for control panel
  */
 public class ControlPanelSubsystem extends SubsystemBase {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+
   private static ControlPanelSubsystem instance = null;
 
-  /*
-   * private static enum ButtonName { YBUTTON, XBUTTON, ABUTTON, BBUTTON,
-   * STARTBUTTON, NOBUTTON };
-   * 
-   * private static ButtonName name;
-   */
-
-  private static WPI_TalonSRX rightMotor;
-  private double rightPower;
+  private WPI_TalonSRX motor;
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-  private final static ColorMatch m_colorMatcher = new ColorMatch();
+  private final ColorMatch m_colorMatcher = new ColorMatch();
 
-  private final static Color kBlueTarget = ColorMatch.makeColor(0.14, 0.47, 0.38);
-  private final static Color kGreenTarget = ColorMatch.makeColor(0.23, 0.63 ,0.13);
-  private final static Color kRedTarget = ColorMatch.makeColor(0.51, 0.35, 0.13);
-  private final static Color kYellowTarget = ColorMatch.makeColor(0.32, 0.56, 0.11);
+  private final Color kBlueTarget = ColorMatch.makeColor(0.14, 0.47, 0.38);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.23, 0.63, 0.13);
+  private final Color kRedTarget = ColorMatch.makeColor(0.51, 0.35, 0.13);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.32, 0.56, 0.11);
 
-  private static String lastColor = "";
+  private String lastColor = "";
   private String targetColor = "";
-  private String detectedColorString = "";
-  private String gameData = "";
+
   int numRed = 0;
   int numBlue = 0;
-  int numGreen = 0;
+  int numGreen = 0; 
   int numYellow = 0;
 
   int revolutions = 0;
-  
-//hello
+
   private ControlPanelSubsystem() {
-    WPI_TalonSRX Spinner = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
-    Spinner.configFactoryDefault();
+    m_colorMatcher.addColorMatch(kBlueTarget);
+    m_colorMatcher.addColorMatch(kGreenTarget);
+    m_colorMatcher.addColorMatch(kRedTarget);
+    m_colorMatcher.addColorMatch(kYellowTarget);
 
-    /* Config sensor used for Primary PID [Velocity] */
-    Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-
-      /**
-   * Phase sensor accordingly. 
-       * Positive Sensor Reading should match Green (blinking) Leds on Talon
-       */
-    Spinner.setSensorPhase(true);
-
-  // /* Config the peak and nominal outputs */
-  Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
-  Spinner.configNominalOutputReverse(0, Constants.kTimeoutMs);
-  Spinner.configPeakOutputForward(0.2, Constants.kTimeoutMs);
-  Spinner.configPeakOutputReverse(-0.2, Constants.kTimeoutMs);
-
-  // /* Config the Velocity closed loop gains in slot0 */
-  Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
-  Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
-  Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
-  Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
-
-    rightMotor = new WPI_TalonSRX(Ports.RIGHT_MOTOR);
-    // right motor turns in opposite direction
-    rightMotor.setInverted(true);
+    motor = new WPI_TalonSRX(Ports.CW_MOTOR);
+    //motor turns in opposite direction from color wheel
+    motor.setInverted(true);
 
   }
 
@@ -104,46 +72,59 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
-  public void setTargetColor(String color) { //changed to account for positioning targetColor to game's sensor
+  // changes color to account for positioning targetColor to game's sensor by 2
+  public void setTargetColor(String color) {
     switch (color) {
-      case "Blue" : targetColor = "Red";
+    case "Blue":
+      targetColor = "Red";
+      break;
 
-      case "Green" : targetColor = ("Yellow");
+    case "Green":
+      targetColor = ("Yellow");
+      break;
 
-      case "Red" : targetColor = ("Blue");
+    case "Red":
+      targetColor = ("Blue");
+      break;
 
-      case "Yellow" : targetColor = ("Green");
+    case "Yellow":
+      targetColor = ("Green");
+      break;
     }
   }
 
-  public void detectColor() { // finds the current color that the sensor sees
+  // assigns raw color sensor values to global variable detectedColorString
+  public String detectColor() { // finds the current color that the sensor sees
 
     Color detectedColor = m_colorSensor.getColor(); // grab raw color values from sensor
 
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor); // match it to find a color
 
     if (match.color == kBlueTarget) {
-      detectedColorString = "Blue";
+      return "Blue";
     } else if (match.color == kRedTarget) {
-      detectedColorString = "Red";
+      return "Red";
     } else if (match.color == kGreenTarget) {
-      detectedColorString = "Green";
+      return "Green";
     } else if (match.color == kYellowTarget) {
-      detectedColorString = "Yellow";
+      return "Yellow";
     } else {
-      detectedColorString = "Unknown";
+      return "Unknown";
     }
 
   }
 
-  //Competition wheel will spin clockwise
-  public void ignoreFalseColors() {
-    detectColor();
+  // Competition wheel will spin clockwise
+  // ignore colors seen at intersections where colors meet ex: between yellow and
+  // blue green is detected
+  // this method also counts the number of instances each color has been seen
+  // sets last color
+  public void pollColorSensor() {
+    String detectedColorString = detectColor();
     if (detectedColorString.equals("Red")
         && (lastColor.equals("Yellow") || lastColor.equals("Green") || lastColor.equals(""))) {
       numRed++;
       lastColor = "Red"; // in between red and green, yellow is read. This accounts for that.
-      System.out.println("Number of red: " + numRed);
 
     } else if (detectedColorString.equals("Green") && (lastColor.equals("Blue") || lastColor.equals(""))) {
       numGreen++;
@@ -162,6 +143,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
+  // every time each color has been seen another time, revolutions will increase
+  // by 1.
   public void calculateRevolutions() {// moved true false thing to isWheelSpunXTimes
     if (numRed >= revolutions + 1 && numGreen >= revolutions + 1 && numBlue >= revolutions + 1
         && numYellow >= revolutions + 1) {
@@ -171,11 +154,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public int getRevolutions() {
-    return revolutions;
-  }
-
-  public int setRevolutions() {
-    revolutions++;
     return revolutions;
   }
 
@@ -204,109 +182,74 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public void stopMotors() {
-    rightPower = 0.0;
-    rightMotor.set(rightPower);
+    motor.set(0.0);
   }
 
   public void startMotors(double power) {
-    rightPower = power;
-    rightMotor.set(-rightPower); // -power for competition wheel
-    System.out.println("started motors");
+    motor.set(-power); // set power to -power for competition wheel
   }
 
-  public boolean isGameDataValid(){
-    gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
-    
-    if (gameData.equals("R") || gameData.equals("G") || gameData.equals("B") || gameData.equals("Y")){
-      return true;
+  public String getGameData() {
+    // gets assigned color from game data box in the driver station and from the FMS
+    String gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
+
+    if (gameData.length() == 0) {
+      return "Empty";
     }
-    else if (gameData.length() == 0){
-      System.out.println("Empty");
-      gameData = "Empty";
-      return false;
-    } 
-    else {
-      System.out.println("Not valid");
-      gameData = "Unknown";
-      return false;
+    switch (gameData.charAt(0)) {
+    case 'B':
+      return ("Blue");
 
+    case 'G':
+      return ("Green");
+
+    case 'R':
+      return ("Red");
+
+    case 'Y':
+      return ("Yellow");
+
+    default:
+      return "Unknown";
     }
-  }
 
-  public String getGameData(){
-    isGameDataValid(); //called instead of setting game data in case gamedata empty
-
-      switch (gameData.charAt(0)) {
-        case 'B' : return("Blue");
-
-        case 'G' : return("Green");
-
-        case 'R' : return("Red");
-
-        case 'Y' : return("Yellow");
-
-        default :
-          stopMotors();
-           gameData = "";
-           return lastColor;
-
-      }
   }
 
   public boolean isOnTargetColor() {
-    ignoreFalseColors();
-    
-      if (lastColor.equals(targetColor)) {
-        // last color is the current color in this scenario.
-        // when the ignoreFalseColors method is called, it sets the current color to the
-        // lastColor String.
-        //System.out.println("Target Color " + lastColor + " has been found ");
-  
-        return true;
-      } else {
-  
-        return false;
-      }
-    
+    pollColorSensor();
+
+    return (lastColor.equals(targetColor));
+    // last color is the current color in this scenario.
+    // when the pollColorSensor method is called, it sets the current color to the
+    // lastColor String.
+    // System.out.println("Target Color " + lastColor + " has been found ");
+
   }
 
-  public boolean isWheelSpunXTimes() {
-    ignoreFalseColors();
+  public boolean isWheelSpun4Times() {
+    pollColorSensor();
     calculateRevolutions();
 
-  if (revolutions == 8) {
-    rightPower = 0.0;
-    rightMotor.set(rightPower);
-    return true;
-  } else {
-    return false;
-  }
-  }
-
-  public String detectedColorString() {
-    return detectedColorString;
+    if (revolutions >= 8) {
+      stopMotors();
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  public String getLastColor() {
-    return lastColor;
-  }
-
-  //public String getTargetColor() {
-    // return targetColor;
-  //}
+  //must be called from robot periodic
+  public void updateSmartDashboard() {
   
-  public void SmartDashboard() {
-    SmartDashboard.putNumber("GameData", NumRed());
-
+    //constantly checks to see if FMS game data has changed 
     setTargetColor(getGameData());
-    
-    SmartDashboard.putString("Lastcolor", getLastColor());
-    SmartDashboard.putString("Detected Color", detectedColorString());
 
-    SmartDashboard.putString("Game Data: ", getGameData());
+    SmartDashboard.putString("Lastcolor", lastColor);
+    SmartDashboard.putString("Detected Color", detectColor());
 
-    // SmartDashboard.putString("CIE color", lab.colorMatch(detectedColor.red,
-    // detectedColor.green, detectedColor.blue).toString());
+    SmartDashboard.putString("Assigned target color: ", targetColor);
+    SmartDashboard.putString("Robot will stop at", getGameData());
+
 
     SmartDashboard.putNumber("Num of Red", NumRed());
     SmartDashboard.putNumber("Num of Blue", NumBlue());
@@ -315,8 +258,33 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Revolutions", getRevolutions());
 
-    //SmartDashboard.putString("Target color",  getTargetColor());
-    //SmartDashboard.putString("Last color",  getLastColor());
+  }
+
+  // unused for future implimanetation of PID motor for speed control
+  public void PIDMotorInit() {
+    WPI_TalonSRX Spinner = new WPI_TalonSRX(Ports.CW_MOTOR);
+    Spinner.configFactoryDefault();
+
+    /* Config sensor used for Primary PID [Velocity] */
+    Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+    /**
+     * Phase sensor accordingly. Positive Sensor Reading should match Green
+     * (blinking) Leds on Talon
+     */
+    Spinner.setSensorPhase(true);
+
+    // /* Config the peak and nominal outputs */
+    Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
+    Spinner.configNominalOutputReverse(0, Constants.kTimeoutMs);
+    Spinner.configPeakOutputForward(0.2, Constants.kTimeoutMs);
+    Spinner.configPeakOutputReverse(-0.2, Constants.kTimeoutMs);
+
+    // /* Config the Velocity closed loop gains in slot0 */
+    Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
+    Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
+    Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
+    Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
 
   }
 }

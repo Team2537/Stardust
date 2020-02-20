@@ -17,7 +17,6 @@ public class SpinToColorCommand extends CommandBase {
 
   public SpinToColorCommand() {
     addRequirements(Robot.controlsubsys);
-
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,15 +24,11 @@ public class SpinToColorCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    if(Robot.controlsubsys.isGameDataValid()){
-      if (Robot.controlsubsys.isOnTargetColor()){
-        System.out.println("On color already");
- 
-     } 
-     else {
-       Robot.controlsubsys.startMotors(0.2);
-       System.out.println("Spin to color is working in init.");
-     }
+    if (Robot.controlsubsys.isOnTargetColor()){
+      Robot.controlsubsys.stopMotors(); 
+    } 
+    else {
+     Robot.controlsubsys.startMotors(0.2);
     }
 
   }
@@ -53,7 +48,6 @@ public class SpinToColorCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("||||||||||||||"+Robot.controlsubsys.isOnTargetColor()+"||||||||||||||");
     return Robot.controlsubsys.isOnTargetColor();
 
   }

@@ -42,9 +42,8 @@ public class Robot extends TimedRobot {
 
     humanInput = new HumanInput();
     controlsubsys = ControlPanelSubsystem.getInstance();
-    Robot.humanInput.registerSpinXTimesBtn();
-    // Robot.controlsubsys.SmartDashboard();
-
+    //Robot.humanInput.registerSpinXTimesBtn();
+    
   }
 
   /**
@@ -58,9 +57,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // SmartDashboard.updateValues();
     CommandScheduler.getInstance().run();
-    Robot.controlsubsys.SmartDashboard();
+    Robot.controlsubsys.updateSmartDashboard();
   }
 
   /**
