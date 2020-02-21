@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Shooter.ShootingCommandGroup;
 import frc.robot.Shooter.StopShooterCommand;
+import frc.robot.cameras.CameraCommand;
 import frc.robot.intake.MoveIntakeCommand;
 
 public class HumanInput {
@@ -24,6 +25,7 @@ public class HumanInput {
   JoystickButton shooterButton;
   JoystickButton stopShooterButton;
   JoystickButton startShooterButton;
+  public static JoystickButton cameraSwitchButton;
   
   Button presetPosition;
   Button enableClimb;
@@ -36,6 +38,7 @@ public class HumanInput {
       joystickLeft = new Joystick(0);
       joystickRight = new Joystick(1);
       xbox = new XboxController(Ports.XBOX_CONTROLLER);
+      cameraSwitchButton = new JoystickButton(joystickRight, 6);
       tankButton = new JoystickButton(joystickLeft, Ports.TANK_BUTTON);
       intakeButton = new JoystickButton(xbox, Ports.INTAKE_BUTTON); 
       presetPosition = new JoystickButton(xbox, Ports.PRESET_POSITION_BUTTON);
@@ -87,6 +90,7 @@ public class HumanInput {
     }
   }
   public void registerButtons(){
+    cameraSwitchButton.whenPressed(new CameraCommand());
     intakeButton.whenPressed(new MoveIntakeCommand()); //Y toggle between true and false
     tankButton.whenPressed(new SwitchDriveCommand());
     shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
