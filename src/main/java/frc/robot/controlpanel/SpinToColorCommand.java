@@ -29,7 +29,7 @@ public class SpinToColorCommand extends CommandBase {
       Robot.controlsubsys.stopMotors(); 
     } 
     else {
-     Robot.controlsubsys.startMotors(Ports.POWER);
+     Robot.controlsubsys.startMotors(Ports.SPIN_TO_COLOR_POWER);
     }
 
   }
@@ -49,7 +49,11 @@ public class SpinToColorCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Robot.controlsubsys.isOnTargetColor();
+    if(Robot.controlsubsys.isOnTargetColor()){
+      Robot.controlsubsys.stopMotors();
+      return true;
+    } 
+    return false;
 
   }
 

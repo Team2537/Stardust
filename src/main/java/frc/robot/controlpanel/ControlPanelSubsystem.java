@@ -186,7 +186,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public void startMotors(double power) {
-    motor.set(power); // set power to -power for competition wheel
+    motor.set(-power); // set power to -power for competition wheel
   }
 
   public String getGameData() {
