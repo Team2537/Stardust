@@ -8,6 +8,7 @@
 package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.input.Ports;
 import frc.robot.Robot;
 
 public class SpinXTimesCommand extends CommandBase {
@@ -23,7 +24,7 @@ public class SpinXTimesCommand extends CommandBase {
   @Override
   public void initialize() {
     Robot.controlsubsys.zeroCounters(); // sets the R,G,B,Y, and revolutions value to 0
-    Robot.controlsubsys.startMotors(0.2);
+    Robot.controlsubsys.startMotors(Ports.POWER);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

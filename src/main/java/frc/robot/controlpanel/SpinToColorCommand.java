@@ -8,6 +8,7 @@
 package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.input.Ports;
 import frc.robot.Robot;
 
 public class SpinToColorCommand extends CommandBase {
@@ -28,7 +29,7 @@ public class SpinToColorCommand extends CommandBase {
       Robot.controlsubsys.stopMotors(); 
     } 
     else {
-     Robot.controlsubsys.startMotors(0.2);
+     Robot.controlsubsys.startMotors(Ports.POWER);
     }
 
   }

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controlpanel.ControlPanelSubsystem;
+import frc.robot.input.Ports;
 import frc.robot.input.HumanInput;
 
 /**
@@ -43,7 +44,7 @@ public class Robot extends TimedRobot {
     humanInput = new HumanInput();
     controlsubsys = ControlPanelSubsystem.getInstance();
     //Robot.humanInput.registerSpinXTimesBtn();
-    
+
   }
 
   /**

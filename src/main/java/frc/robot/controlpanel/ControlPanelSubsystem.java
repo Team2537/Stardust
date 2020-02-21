@@ -58,8 +58,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
     motor = new WPI_TalonSRX(Ports.CW_MOTOR);
     //motor turns in opposite direction from color wheel
+    motor.configFactoryDefault();
     motor.setInverted(true);
-
   }
 
   // Singleton design pattern
@@ -186,7 +186,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public void startMotors(double power) {
-    motor.set(-power); // set power to -power for competition wheel
+    motor.set(power); // set power to -power for competition wheel
   }
 
   public String getGameData() {
@@ -250,7 +250,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
     SmartDashboard.putString("Assigned target color: ", targetColor);
     SmartDashboard.putString("Robot will stop at", getGameData());
 
-
     SmartDashboard.putNumber("Num of Red", NumRed());
     SmartDashboard.putNumber("Num of Blue", NumBlue());
     SmartDashboard.putNumber("Num of Green", NumGreen());
@@ -261,30 +260,30 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   // unused for future implimanetation of PID motor for speed control
-  public void PIDMotorInit() {
+  /*public void PIDMotorInit() {
     WPI_TalonSRX Spinner = new WPI_TalonSRX(Ports.CW_MOTOR);
     Spinner.configFactoryDefault();
 
     /* Config sensor used for Primary PID [Velocity] */
-    Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+   // Spinner.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
     /**
      * Phase sensor accordingly. Positive Sensor Reading should match Green
      * (blinking) Leds on Talon
      */
-    Spinner.setSensorPhase(true);
+    //Spinner.setSensorPhase(true);
 
     // /* Config the peak and nominal outputs */
-    Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
+    /*Spinner.configNominalOutputForward(0, Constants.kTimeoutMs);
     Spinner.configNominalOutputReverse(0, Constants.kTimeoutMs);
     Spinner.configPeakOutputForward(0.2, Constants.kTimeoutMs);
     Spinner.configPeakOutputReverse(-0.2, Constants.kTimeoutMs);
 
     // /* Config the Velocity closed loop gains in slot0 */
-    Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
+    /*Spinner.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
     Spinner.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
     Spinner.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
     Spinner.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
-
-  }
+*/
+  //}
 }
