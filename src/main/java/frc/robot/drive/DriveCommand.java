@@ -11,15 +11,13 @@ public class DriveCommand extends CommandBase{
 
     @Override
     public void initialize() {
-        System.out.println("HIIIII");
     }
 
   // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         if(Robot.drivesys.getDriveMode() == DriveMode.kMecanum){
-            Robot.drivesys.setMecanumDriveSpeed(0.4, 0, 0);
-            System.out.println("HIIII");
+            Robot.drivesys.setMecanumDriveSpeed();
         } else if (Robot.drivesys.getDriveMode() == DriveMode.kTank){
             Robot.drivesys.setTankDrive();
         } else {

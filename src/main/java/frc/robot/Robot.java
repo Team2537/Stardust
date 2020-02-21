@@ -12,13 +12,21 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.nav.TestCommand;
 import frc.robot.drive.DriveSubsystem;
+import frc.robot.drive.SwitchDriveCommand;
+import frc.robot.drive.TempDriveCommand;
+import frc.robot.drive.DriveSubsystem.DriveMode;
 import frc.robot.input.HumanInput;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.Shooter.LoadBallCommand;
 import frc.robot.Shooter.ShooterSubsystem;
 import frc.robot.cameras.Cameras;
 import frc.robot.climb.*;
+import frc.robot.nav.DriveStraightCommand;
+import frc.robot.nav.MecanumDriveStraightCommand;
+import frc.robot.nav.Navx;
+import frc.robot.nav.RotateCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -92,6 +100,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     CommandScheduler.getInstance().schedule(new LoadBallCommand());
+    Navx.getInstance().zeroYaw();
+    Navx.getInstance().reset();
+    m_autoSelected = m_chooser.getSelected();
+    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+    System.out.println("Auto selected: " + m_autoSelected);
+    //CommandScheduler.getInstance().schedule(/*new SwitchDriveCommand(), */new DriveStraightCommand(100));
   }
 
   /**
@@ -109,14 +123,18 @@ public class Robot extends TimedRobot {
         break;
     }
 
+    Robot.drivesys.putEncodersToDash();
+    System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
   }
+
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopInit() {
+    Navx.getInstance().reset();
     Robot.drivesys.resetEncoders();
     CommandScheduler.getInstance().run();
   }
@@ -142,12 +160,16 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
+  
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    CommandScheduler.getInstance().run();
+    System.out.println(Navx.getInstance().getYaw());
+    CommandScheduler.getInstance().run(); 
   }
+
 }
  

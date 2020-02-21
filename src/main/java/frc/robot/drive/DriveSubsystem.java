@@ -1,5 +1,11 @@
 package frc.robot.drive;
 
+import java.util.ArrayList;
+import java.util.concurrent.atomic.DoubleAdder;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -22,7 +28,8 @@ public class DriveSubsystem extends SubsystemBase{
 
     private static CANSparkMax driveCANFrontLeft, driveCANFrontRight, driveCANBackLeft, driveCANBackRight;
     private static CANEncoder driveEncFrontLeft, driveEncFrontRight, driveEncBackLeft, driveEncBackRight;
-    private static CANEncoder[] encArray;
+    private static CANEncoder[] sparkEncArray;
+    
     private static SpeedControllerGroup motorsControllerLeft, motorsControllerRight;
 
     private static DifferentialDrive driveDifferential;
@@ -34,8 +41,10 @@ public class DriveSubsystem extends SubsystemBase{
     public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kCoast;
     public static final MotorType DEFAULT_MOTOR_TYPE = MotorType.kBrushless;
 
+    // private static TalonSRX peanutFrontLeft, peanutFrontRight, peanutBackLeft, peanutBackRight;
 
-    private DriveSubsystem(){
+
+    public DriveSubsystem(){
         driveCANFrontLeft = new CANSparkMax(Ports.DRIVE_FRONT_LEFT, DEFAULT_MOTOR_TYPE);
         driveCANBackLeft = new CANSparkMax(Ports.DRIVE_BACK_LEFT, DEFAULT_MOTOR_TYPE);
         driveCANFrontRight = new CANSparkMax(Ports.DRIVE_FRONT_RIGHT, DEFAULT_MOTOR_TYPE);
@@ -47,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase{
         driveEncBackLeft = new CANEncoder(driveCANBackLeft);
         driveEncFrontRight = new CANEncoder(driveCANFrontRight);
         driveEncBackRight = new CANEncoder(driveCANBackRight);
-        encArray = new CANEncoder[]{driveEncFrontLeft, driveEncBackLeft, driveEncFrontRight,
+        sparkEncArray = new CANEncoder[]{driveEncFrontLeft, driveEncBackLeft, driveEncFrontRight,
                                     driveEncBackRight};
 
 
@@ -73,10 +82,14 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
 
+    
     /**
      * Singleton design pattern 
      * @return
      */
+
+
+
 
     public static DriveSubsystem getInstance(){
         if(instance == null) {
@@ -85,12 +98,17 @@ public class DriveSubsystem extends SubsystemBase{
         return instance;
     }
 
+
+
+
+
     /**
     * Sets the motor speeds for the various drive types
     */
     public void setTankDrive(double percentOutputLeft, double percentOutputRight){
         driveDifferential.tankDrive(percentOutputLeft, percentOutputRight);
     }
+
 
     public void setTankDrive(){
         setTankDrive(Robot.humanInput.getJoystickAxisLeft(HumanInput.AXIS_Y),
@@ -103,9 +121,68 @@ public class DriveSubsystem extends SubsystemBase{
 
     public void setMecanumDriveSpeed(){
         setMecanumDriveSpeed(Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_X),
-                             -Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Y),
-                             -Robot.humanInput.getJoystickAxisLeft(HumanInput.AXIS_Z));
+                             Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Y),
+                             -Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Z));
     }
+
+    public void setPolarDriveSpeed(double magnitude, double angle, double zRotation){
+        driveMecanum.drivePolar(magnitude, angle, zRotation);
+    }
+
+    /**
+     * a whole bunch of encoder shit
+     *
+     */
+
+    public void resetEncoders(){
+        for (CANEncoder enc : sparkEncArray){
+            enc.setPosition(0);
+        }
+    }
+
+    public ArrayList<Double> getEncoderValues(){
+        ArrayList<Double> encValues = new ArrayList<Double>();
+        for (CANEncoder enc : sparkEncArray){
+            encValues.add(enc.getPosition());
+        }
+        return encValues;
+    }
+
+    public void putEncodersToDash(){
+        ArrayList<Double> encValues = getEncoderValues();
+        for(int i = 0; i < encValues.size(); i++){
+            SmartDashboard.putNumber("Motor Index" + i, encValues.get(i));
+        }
+    }
+
+    public double getEncoderAverage(boolean absolute, int index, int... indexes){
+        double sum = 0;
+        Integer[] m_indexes = new Integer[indexes.length + 1];
+        m_indexes[0] = index;
+        for(int i = 1; i < indexes.length; i++){
+            m_indexes[i] = indexes[i - 1];
+        }
+        ArrayList<Double> encValues = getEncoderValues();
+        for(int j : indexes){
+            if(absolute){
+                sum += Math.abs(encValues.get(j));
+            } else {
+                sum += encValues.get(j);
+            }
+        }
+        return sum/(indexes.length);
+        
+    }
+
+    public double getEncoderAverage(){
+        return getEncoderAverage(true, 0, 1, 2, 3);
+    }
+
+    public double getEncoderDistance() {
+        double distance = getEncoderAverage();
+        return distance;
+    }
+
 
     /**
      * Setting things en masse, like solenoids and motors
@@ -117,12 +194,7 @@ public class DriveSubsystem extends SubsystemBase{
         driveCANBackRight.setIdleMode(mode);
     }
 
-    public void resetEncoders(){
-        for(CANEncoder i : encArray){
-            i.setPosition(0);
-        }
-    }
-
+  
     public void setSolenoids(boolean state, boolean antistate){
         drivePriSolFrontLeft.set(state);
         drivePriSolBackLeft.set(state);
@@ -175,12 +247,7 @@ public class DriveSubsystem extends SubsystemBase{
         currentDriveMode = mode;
     }
 
-    public void putEncodersToDash(){
-        SmartDashboard.putNumber("Front Left Encoder", driveEncFrontLeft.getPosition());
-        SmartDashboard.putNumber("Front Right Encoder", driveEncFrontRight.getPosition());
-        SmartDashboard.putNumber("Back Left Encoder", driveEncBackLeft.getPosition());
-        SmartDashboard.putNumber("BackRight Encoder", driveEncBackRight.getPosition());
-    }
+    
 
     /**
      * Provides the default command
@@ -190,3 +257,66 @@ public class DriveSubsystem extends SubsystemBase{
         setDefaultCommand(new DriveCommand());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     public void setPeanutLeft(double speed) {
+//         peanutFrontLeft.set(ControlMode.PercentOutput, speed);
+//         peanutBackLeft.set(ControlMode.PercentOutput, speed);
+//     }
+
+//     public void setPeanutRight(double speed) {
+//         peanutFrontRight.set(ControlMode.PercentOutput, -speed);
+//         peanutBackRight.set(ControlMode.PercentOutput, -speed);
+//     }
+
+//     public void killPeanutMotors() {
+//         setPeanutLeft(0);
+//         setPeanutRight(0);
+//     }
+
+//     public double getAveragepeanutEncoders() {
+//         double avg;
+//         avg = (-peanutFrontRight.getSelectedSensorPosition()
+//             + peanutBackLeft.getSelectedSensorPosition()
+//             - peanutBackRight.getSelectedSensorPosition()) / 3;
+//         return avg;
+//     }
+
+//     public double getPeanutDistanceIn() {
+//         double distance;
+//         distance = getAveragepeanutEncoders() * (8.25 * Math.PI / 1300);
+//         return distance;
+//     }
+
+//     public void resetPeanutEnoders() {
+//         peanutFrontRight.getSensorCollection().setQuadraturePosition(0, 0);
+// 		peanutFrontLeft.getSensorCollection().setQuadraturePosition(0, 0);
+// 		peanutBackRight.getSensorCollection().setQuadraturePosition(0, 0);
+// 		peanutBackLeft.getSensorCollection().setQuadraturePosition(0, 0);
+//     }
+
+//     public void printPeanutEncoders() {
+//         System.out.println("peanutFrontLeft: " + (-peanutFrontLeft.getSelectedSensorPosition()));
+//         System.out.println("peanutBackLeft: " + peanutBackLeft.getSelectedSensorPosition());
+//         System.out.println("peanutFrontRight: " + (-peanutFrontRight.getSelectedSensorPosition()));
+//         System.out.println("peanutBackRight: " + (-peanutBackRight.getSelectedSensorPosition()));
+//     }
+
+// }

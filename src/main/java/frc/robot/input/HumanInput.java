@@ -30,6 +30,7 @@ public class HumanInput {
   
   public final double climbDEADZONE = .1;
   
+  private static JoystickButton realignButton, rotate90BUtton, rotateneg90Button, driveStraightButton, testPathButton/*, testCom*/;
 
   public HumanInput() {
       joystickLeft = new Joystick(0);

@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 /**
  * Add your docs here.
  */
+
 public class CANTalon extends TalonSRX{
     private ControlMode controlMode = ControlMode.PercentOutput;
 

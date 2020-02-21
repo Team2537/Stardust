@@ -5,20 +5,27 @@ import frc.robot.Robot;
 import frc.robot.drive.DriveSubsystem.DriveMode;
 
 public class SwitchDriveCommand extends CommandBase{
-    public SwitchDriveCommand(){
 
+    private DriveMode mode;
+
+    public SwitchDriveCommand(DriveMode mode){
+        this.mode = mode;
+    }
+
+    public SwitchDriveCommand(){
+        mode = null;
     }
 
     @Override
     public void initialize() {
         switch(Robot.drivesys.getDriveMode()){
             case kMecanum:
-                Robot.drivesys.setSolenoids(true, false);
+                Robot.drivesys.setSolenoids(false, true);
                 Robot.drivesys.setDriveMode(DriveMode.kTank);
                 System.out.println("Its Tanky Time");
                 break;
             case kTank:
-                Robot.drivesys.setSolenoids(false, true);
+                Robot.drivesys.setSolenoids(true, false);
                 Robot.drivesys.setDriveMode(DriveMode.kMecanum);
                 System.out.println("Its Swervy Time");
                 break;
