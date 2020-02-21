@@ -1,7 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.cscore.UsbCamera;
+
+
 // import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 
 
@@ -15,12 +18,23 @@ public class Cameras extends Thread {
         // Camera server manages all cameras and streams
         camServer = CameraServer.getInstance();
         // Start serving front camera (USB port 0)
-        cam0 = camServer.startAutomaticCapture("camera 0", 0);
+        cam0 = camServer.startAutomaticCapture("cameras", 0);
+         //CvSink cvz= camServer.getVideo();
         // Create additional camera(s)
-        cam1   = new UsbCamera("camera 1", 1);
+        cam1   = new UsbCamera("cam1", 1);
         // creates another camera
-        cam2   = new UsbCamera("camera 2", 2);
-    
+        cam2   = new UsbCamera("cam2", 2);
+
+        
+        
+        //Mat mat = new Mat();
+
+        //CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+
+   //     Imgproc.line(mat, new Point(0,240), new Point(640,240), new Scalar(0,0,255));
+        // Imgproc.line(mat, new Point(320,0), new Point(320,480), new Scalar(0,0,255));
+
+
 
         // keep video streams open for fast switching
         //frontCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
@@ -45,10 +59,13 @@ public class Cameras extends Thread {
         if(currentCam == 0){
             camServer.getServer().setSource(cam1);
             currentCam = 1;
+            SmartDashboard.putString("CamSelection", "CLIMB");
         }else if(currentCam == 1){
             camServer.getServer().setSource(cam2);
             currentCam = 2;
+            SmartDashboard.putString("CamSelection", "CONTROL PANEL");
         }else if(currentCam == 2){
+            SmartDashboard.putString("CamSelection", "DRIVE");
             camServer.getServer().setSource(cam0);
             currentCam = 0;
         }
