@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
     humanInput = new HumanInput();
     humanInput.registerButtons();
 
-    Robot.intakesys.setSolenoid(true); //starts with intake down
+    //Robot.intakesys.setSolenoid(true); //starts with intake down
 
     
     cameras = Cameras.getInstance();

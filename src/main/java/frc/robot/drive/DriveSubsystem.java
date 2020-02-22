@@ -35,7 +35,7 @@ public class DriveSubsystem extends SubsystemBase{
     private static DifferentialDrive driveDifferential;
     private static MecanumDrive driveMecanum;
 
-    private static Solenoid drivePriSolFrontLeft, drivePriSolBackLeft, drivePriSolFrontRight, drivePriSolBackRight, driveSecSolFrontLeft, driveSecSolBackLeft, driveSecSolFrontRight, driveSecSolBackRight;
+    private static Solenoid drivePriSolFrontLeft, drivePriSolBackLeft, drivePriSolFrontRight, drivePriSolBackRight; //driveSecSolFrontLeft, driveSecSolBackLeft, driveSecSolFrontRight, driveSecSolBackRight;
 
 
     public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kCoast;
@@ -67,10 +67,10 @@ public class DriveSubsystem extends SubsystemBase{
         drivePriSolFrontRight = new Solenoid(Ports.PRI_DRIVE_SOL_FRONT_RIGHT);
         drivePriSolBackRight = new Solenoid(Ports.PRI_DRIVE_SOL_BACK_RIGHT);
 
-        driveSecSolFrontLeft = new Solenoid(Ports.SEC_DRIVE_SOL_FRONT_LEFT);
-        driveSecSolBackLeft = new Solenoid(Ports.SEC_DRIVE_SOL_BACK_LEFT);
-        driveSecSolFrontRight = new Solenoid(Ports.SEC_DRIVE_SOL_FRONT_RIGHT);
-        driveSecSolBackRight = new Solenoid(Ports.SEC_DRIVE_SOL_BACK_RIGHT);
+        // driveSecSolFrontLeft = new Solenoid(Ports.SEC_DRIVE_SOL_FRONT_LEFT);
+        // driveSecSolBackLeft = new Solenoid(Ports.SEC_DRIVE_SOL_BACK_LEFT);
+        // driveSecSolFrontRight = new Solenoid(Ports.SEC_DRIVE_SOL_FRONT_RIGHT);
+        // driveSecSolBackRight = new Solenoid(Ports.SEC_DRIVE_SOL_BACK_RIGHT);
 
         motorsControllerLeft = new SpeedControllerGroup(driveCANFrontLeft, driveCANBackLeft);
         motorsControllerRight = new SpeedControllerGroup(driveCANFrontRight, driveCANBackRight);
@@ -195,16 +195,16 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
   
-    public void setSolenoids(boolean state, boolean antistate){
+    public void setSolenoids(boolean state){
         drivePriSolFrontLeft.set(state);
         drivePriSolBackLeft.set(state);
         drivePriSolFrontRight.set(state);
         drivePriSolBackRight.set(state);
 
-        driveSecSolFrontLeft.set(antistate);
-        driveSecSolBackLeft.set(antistate);
-        driveSecSolFrontRight.set(antistate);
-        driveSecSolBackRight.set(antistate);
+        // driveSecSolFrontLeft.set(antistate);
+        // driveSecSolBackLeft.set(antistate);
+        // driveSecSolFrontRight.set(antistate);
+        // driveSecSolBackRight.set(antistate);
 
         System.out.println(drivePriSolBackLeft);
     }
