@@ -5,27 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.util;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+package frc.robot.controlpanel;
 
 /**
  * Add your docs here.
  */
+public class Gains {
+    public final double kP;
+	public final double kI;
+	public final double kD;
+	public final double kF;
+	public final int kIzone;
+	public final double kPeakOutput;
+	
+	public Gains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput){
+		kP = _kP;
+		kI = _kI;
+		kD = _kD;
+		kF = _kF;
+		kIzone = _kIzone;
+		kPeakOutput = _kPeakOutput;
+}
 
-public class CANTalon extends TalonSRX{
-    private ControlMode controlMode = ControlMode.PercentOutput;
-
-    public CANTalon(int deviceNumber){
-        super(deviceNumber);
-    }
-
-    public void setControlMode(ControlMode mode){
-        this.controlMode = mode;
-    }
-
-    public void set(double demand){
-        this.set(controlMode, demand);
-    }
 }

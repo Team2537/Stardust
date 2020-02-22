@@ -5,55 +5,56 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.climb;
+package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.input.Ports;
 import frc.robot.Robot;
 
-public class ClimbCommand extends CommandBase {
+public class SpinToColorCommand extends CommandBase {
   /**
-   * Creates a new ClimbCommand.
+   * Creates a new SpinToColor.
    */
-  public ClimbCommand() {
+
+  public SpinToColorCommand() {
+    addRequirements(Robot.controlsubsys);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    if (Robot.controlsubsys.isOnTargetColor()){
+      Robot.controlsubsys.stopMotors(); 
+    } 
+    else {
+     Robot.controlsubsys.startMotors(Ports.SPIN_TO_COLOR_POWER);
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //The Hall Effect Sensors return false when a magnet is nearby (cause that makes sense) so 
-    //when the sensor returns true, the motor should continue running. If it is false, that's when 
-    //we abort mission before the telescope turns into a projectile
-    if(Robot.climbsys.getClimbDITelescope()) {
-      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getXboxRightJoystickAxis() / 3);
-    }
-    else {
-      Robot.climbsys.setTelescopeSpeed(0);
-    }
 
-    //Winch isn't special, it doesn't get an if statement. It just does the thing no matter where the bot is.
-    Robot.climbsys.setWinchSpeed(Robot.humanInput.getXboxLeftTrigger());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //I'm not entirely sure why the command would be interrupted but just in case all hell breaks loose, 
-    //it kills the motors which is always a good idea. 
-    Robot.climbsys.setTelescopeSpeed(0);
-    Robot.climbsys.setWinchSpeed(0);
+    Robot.controlsubsys.stopMotors();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //It never finishes. It is doomed to run for eternity. 
+    if(Robot.controlsubsys.isOnTargetColor()){
+      Robot.controlsubsys.stopMotors();
+      return true;
+    } 
     return false;
+
   }
+
 }

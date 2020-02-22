@@ -15,6 +15,11 @@ import frc.robot.Shooter.StopShooterCommand;
 import frc.robot.cameras.CameraCommand;
 import frc.robot.intake.MoveIntakeCommand;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+
+import frc.robot.controlpanel.SpinToColorCommand;
+import frc.robot.controlpanel.SpinXTimesCommand;
+
 public class HumanInput {
   public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 2;
   public static final double DEADZONE = 0.05;
@@ -26,29 +31,55 @@ public class HumanInput {
   JoystickButton stopShooterButton;
   JoystickButton startShooterButton;
   public static JoystickButton cameraSwitchButton;
-  
-  Button presetPosition;
+
+  //// controlpanel
+
+  Button manuallySpinBtn, spinToColorBtn, spinXTimesBtn;
+  boolean gameDataRegistered = false;
+  boolean manualSpinRegistered = false;
+  ///
+
+
+  Button presetClimbPosition;
   Button enableClimb;
   
   public final double climbDEADZONE = .1;
   
   private static JoystickButton realignButton, rotate90BUtton, rotateneg90Button, driveStraightButton, testPathButton/*, testCom*/;
 
+  
   public HumanInput() {
-      joystickLeft = new Joystick(0);
-      joystickRight = new Joystick(1);
+      joystickLeft = new Joystick(Ports.JOYL);
+      joystickRight = new Joystick(Ports.JOYR);
+
       xbox = new XboxController(Ports.XBOX_CONTROLLER);
-      cameraSwitchButton = new JoystickButton(joystickRight, 6);
+    
+      //JOYSTICK KOLYA
+      cameraSwitchButton = new JoystickButton(joystickLeft, Ports.CAMERA_BUTTON);
       tankButton = new JoystickButton(joystickLeft, Ports.TANK_BUTTON);
-      intakeButton = new JoystickButton(xbox, Ports.INTAKE_BUTTON); 
-      presetPosition = new JoystickButton(xbox, Ports.PRESET_POSITION_BUTTON);
-      enableClimb = new JoystickButton(xbox, Ports.ENABLE_CLIMB_BUTTON);
-      shooterButton = new JoystickButton(xbox, 5);
-      stopShooterButton = new JoystickButton(xbox, 4);
-      startShooterButton = new JoystickButton(xbox, 3);
+      
+     
+      //XBOX KINSLEY
+      intakeButton = new JoystickButton(xbox, Ports.INTAKE_BUTTON); //Y //checked
+
+      presetClimbPosition = new JoystickButton(xbox, Ports.PRESET_CLIMB_POSITION_BUTTON); //RB //checked
+      enableClimb = new JoystickButton(xbox, Ports.ENABLE_CLIMB_BUTTON); //LB hold and use LT to set winch speed and use right joystick for telescope speed//checked
+
+      shooterButton = new JoystickButton(xbox, Ports.SHOOTER_BUTTON); //A //checked //hold and shoots until released
+
+      startShooterButton = new JoystickButton(xbox, Ports.START_SHOOTER_BUTTON); //START checked //shoots constantly
+      stopShooterButton = new JoystickButton(xbox, Ports.STOP_SHOOTER_BUTTON); //BACK checked
+      
+
+      spinXTimesBtn = new JoystickButton(xbox, Ports.SPIN_X_TIMES_BUTTON); //X checked
+      spinToColorBtn = new JoystickButton(xbox, Ports.SPIN_TO_COLOR_BUTTON); // B checked
 
       //Button to allow winch and telescope to be run
     
+      
+      
+  
+
 
   }
 
@@ -63,7 +94,7 @@ public class HumanInput {
     }
   }
 
-  public double getXboxJoystickAxis() {
+  public double getXboxRightJoystickAxis() {
     double val = xbox.getY(Hand.kRight);
 
     //In order to make sure someone's filthy green sausages don't accidentally hit the joystick,
@@ -93,12 +124,17 @@ public class HumanInput {
     cameraSwitchButton.whenPressed(new CameraCommand());
     intakeButton.whenPressed(new MoveIntakeCommand()); //Y toggle between true and false
     tankButton.whenPressed(new SwitchDriveCommand());
+    
     shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
     shooterButton.whenReleased(new StopShooterCommand());
     stopShooterButton.whenPressed(new StopShooterCommand());
     startShooterButton.whenPressed(ShootingCommandGroup.getInstance());
+    
     enableClimb.whenHeld(new ClimbCommand());
-    presetPosition.whenPressed(new PresetPositionCommand());
+    presetClimbPosition.whenPressed(new PresetPositionCommand());
+    
+    spinXTimesBtn.whenPressed(new SpinXTimesCommand()); 
+    spinToColorBtn.whenPressed(new SpinToColorCommand());
   
   }
 
@@ -110,5 +146,9 @@ public double getJoystickAxisLeft(int axisY) {
 	return getJoystickAxis(axisY, joystickLeft, DEADZONE);
 }
 
+
+public double getXboxRightTrigger(){
+  return xbox.getTriggerAxis(Hand.kRight);
+}
 
 }

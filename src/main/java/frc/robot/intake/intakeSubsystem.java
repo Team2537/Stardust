@@ -19,13 +19,13 @@ public class IntakeSubsystem extends SubsystemBase {
   //private CANTalon flywheel2;
   
   Solenoid solenoid1;
-  Solenoid solenoid2;
+  //Solenoid solenoid2;
   /**
    * Creates a new intakeSubsystem.
    */
   private IntakeSubsystem() {
      solenoid1 = new Solenoid(Ports.SOLENOID_PORT1); 
-     solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
+     //solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
      flywheel1 = new CANTalon(Ports.FLYWHEEL_PORT);
      //flywheel2 = new CANTalon(2);
      engaged = false;
@@ -47,7 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setSolenoid(boolean set){
     solenoid1.set(set);
-    solenoid2.set(set);
+    //solenoid2.set(set);
     setEngaged(set);
   }
 

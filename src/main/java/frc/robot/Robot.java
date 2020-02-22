@@ -28,6 +28,9 @@ import frc.robot.nav.MecanumDriveStraightCommand;
 import frc.robot.nav.Navx;
 import frc.robot.nav.RotateCommand;
 
+import frc.robot.controlpanel.ControlPanelSubsystem;
+import frc.robot.input.Ports;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -47,45 +50,32 @@ public class Robot extends TimedRobot {
   public static ShooterSubsystem shooter = ShooterSubsystem.getInstance();
 
   public static ClimbSubsystem climbsys = ClimbSubsystem.getInstance();
-  public Cameras cameras;
+  
+  public static ControlPanelSubsystem controlsubsys = ControlPanelSubsystem.getInstance();
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  public Cameras cameras;
+  
   @Override
   public void robotInit() {
     humanInput = new HumanInput();
-    Robot.intakesys.setSolenoid(true);
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-   // m_robotContainer = new RobotContainer();
-    humanInput = new HumanInput();
     humanInput.registerButtons();
+
+    Robot.intakesys.setSolenoid(true); //starts with intake down
+
+    
     cameras = Cameras.getInstance();
     Cameras.getInstance().startCameras();
 
+
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
-   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
-   */
+
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
+
     CommandScheduler.getInstance().run();
   }
 
-  /**
-   * This function is called once each time the robot enters Disabled mode.
-   */
   @Override
   public void disabledInit() {
   }
@@ -102,6 +92,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().schedule(new LoadBallCommand());
     Navx.getInstance().zeroYaw();
     Navx.getInstance().reset();
+   
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
@@ -114,19 +105,28 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+    case kCustomAuto:
+      // Put custom auto code here
+      break;
+    case kDefaultAuto:
+    default:
+      // Put default auto code here
+      break;
     }
 
     Robot.drivesys.putEncodersToDash();
     System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
+    
   }
+/*
+  @Override
+  public void teleopInit() {
+    System.out.print("Starting teleop");
+    super.teleopInit();
+    System.out.print("Starting teleop");
+  }
+  */
 
 
   /**
@@ -145,9 +145,20 @@ public class Robot extends TimedRobot {
     Robot.intakesys.periodic();
     CommandScheduler.getInstance().run(); 
     double i = ShooterSubsystem.getInstance().getShooterSpeed();
-    if(i < - 500) {
+    if(i < -500) {
       System.out.println(i);
     }
+
+      //Spins manually when trigger is pressed
+  if(Robot.controlsubsys.getCurrentCommand() == null) {
+    double triggerPos = Robot.humanInput.getXboxRightTrigger();
+
+    if (triggerPos > 0){
+      Robot.controlsubsys.startMotors(triggerPos);
+    } else {
+     Robot.controlsubsys.stopMotors();
+    }
+  }
     //ShooterSubsystem.automaticallySetProperSpeed(150);
   }
 
@@ -173,3 +184,9 @@ public class Robot extends TimedRobot {
 
 }
  
+
+
+  
+  
+
+

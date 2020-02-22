@@ -26,8 +26,8 @@ public class ShooterSubsystem extends SubsystemBase {
    * Creates a new ShooterSubsystem.
    */
   private static ShooterSubsystem instance = null;
-  private DigitalOutput lidarMode;
-  private static Counter lidarDistance;
+  // private DigitalOutput lidarMode;
+  // private static Counter lidarDistance;
   private static CANSparkMax ShooterMotor;
   private static CANPIDController ShooterVelocityController;
   private static double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
@@ -41,13 +41,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterSubsystem() {
 
     //Connects Lidar mode control to DIO port 5
-    lidarMode = new DigitalOutput(Ports.LIDAR_MODE);
-    lidarMode.set(false); // Lidar mode is active low
+    // lidarMode = new DigitalOutput(Ports.LIDAR_MODE);
+    // lidarMode.set(false); // Lidar mode is active low
 
-    // Connects semi period mode to DIO port 4
-    lidarDistance = new Counter(Counter.Mode.kSemiperiod);
-    lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
-    lidarDistance.setSemiPeriodMode(true);
+    // // Connects semi period mode to DIO port 4
+    // lidarDistance = new Counter(Counter.Mode.kSemiperiod);
+    // lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
+    // lidarDistance.setSemiPeriodMode(true);
 
     kP = 0.0004;
     kI = 0.0000005;
@@ -96,18 +96,18 @@ public class ShooterSubsystem extends SubsystemBase {
     return runShooter;
   }
 
-  public static double getLidarDistance() {
-    /*
-     * The lidar gives you a pulse that tells you the distance between the object
-     * and itself. It reads out as 10 micro seconds per centimeter so we have to do
-     * stuff to convert it to make it read as inches.
-     */
+  // public static double getLidarDistance() {
+  //   /*
+  //    * The lidar gives you a pulse that tells you the distance between the object
+  //    * and itself. It reads out as 10 micro seconds per centimeter so we have to do
+  //    * stuff to convert it to make it read as inches.
+  //    */
 
-    double in = (lidarDistance.getPeriod() * 1000000.0 / 25.4);
+  //   double in = (lidarDistance.getPeriod() * 1000000.0 / 25.4);
 
-    return in;
+  //   return in;
 
-  }
+  // }
 
   public static void automaticallySetProperSpeed(double in) {
 

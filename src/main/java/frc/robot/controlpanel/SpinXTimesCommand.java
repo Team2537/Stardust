@@ -5,30 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
-package frc.robot.Shooter;
+package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.Ports;
 import frc.robot.Robot;
 
-public class StopShooterCommand extends CommandBase {
+public class SpinXTimesCommand extends CommandBase {
   /**
-   * Creates a new StopShooterCommand.
+   * Creates a new SpinXTimes.
    */
-  public StopShooterCommand() {
-
-    addRequirements(Robot.shooter);
+  public SpinXTimesCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.controlsubsys);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    ShooterSubsystem.stopMotor();
-    ShooterSubsystem.startFeederMotor(0);
-
+    Robot.controlsubsys.zeroCounters(); // sets the R,G,B,Y, and revolutions value to 0
+    Robot.controlsubsys.startMotors(Ports.X_ROTATIONS_POWER);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,12 +36,13 @@ public class StopShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.controlsubsys.stopMotors();
   }
+  
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return Robot.controlsubsys.isWheelSpun4Times();
   }
-
 }
