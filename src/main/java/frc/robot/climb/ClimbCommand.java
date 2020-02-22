@@ -31,9 +31,11 @@ public class ClimbCommand extends CommandBase {
     //when the sensor returns true, the motor should continue running. If it is false, that's when 
     //we abort mission before the telescope turns into a projectile
     if(Robot.climbsys.getClimbDITelescope()) {
-      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getXboxRightJoystickAxis() / 3);
+      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getXboxRightJoystickAxis() /(-2));
     }
-    else {
+    else if(Robot.humanInput.getXboxRightJoystickAxis() > 0) { //this makes 
+      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getXboxRightJoystickAxis() /(-2));
+    } else {
       Robot.climbsys.setTelescopeSpeed(0);
     }
 

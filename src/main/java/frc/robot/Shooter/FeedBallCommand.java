@@ -22,7 +22,7 @@ public class FeedBallCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ShooterSubsystem.startFeederMotor(-0.7);
+    ShooterSubsystem.startFeederMotor(-0.9);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

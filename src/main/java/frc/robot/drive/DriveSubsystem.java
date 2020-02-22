@@ -120,7 +120,7 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public void setMecanumDriveSpeed(){
-        setMecanumDriveSpeed(Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_X),
+        setMecanumDriveSpeed(-Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_X),
                              Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Y),
                              -Robot.humanInput.getJoystickAxisRight(HumanInput.AXIS_Z));
     }

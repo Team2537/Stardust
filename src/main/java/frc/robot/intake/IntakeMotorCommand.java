@@ -27,16 +27,15 @@ public class IntakeMotorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
+      Robot.intakesys.setSpeed(-0.4);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   if (!Robot.intakesys.getEngaged()){
-     Robot.intakesys.setSpeed(0.4);
-   } else {
-     Robot.intakesys.setSpeed(0);
-   }
+   
   }
 
   // Called once the command ends or is interrupted.
