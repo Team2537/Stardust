@@ -73,9 +73,9 @@ public class HumanInput {
       startShooterButton = new JoystickButton(xbox, Ports.START_SHOOTER_BUTTON); //START checked //shoots constantly
       //stopShooterButton = new JoystickButton(xbox, Ports.STOP_SHOOTER_BUTTON); //BACK checked
       
-
       spinXTimesBtn = new JoystickButton(xbox, Ports.SPIN_X_TIMES_BUTTON); //X checked
       spinToColorBtn = new JoystickButton(xbox, Ports.SPIN_TO_COLOR_BUTTON); // B checked
+      //use RT to control speed of spin manually
 
       //Button to allow winch and telescope to be run
 
