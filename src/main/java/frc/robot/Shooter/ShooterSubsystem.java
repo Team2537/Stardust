@@ -70,8 +70,6 @@ public class ShooterSubsystem extends SubsystemBase {
     ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
 
     shooterIR = new DigitalInput(Ports.BALL_DETECTOR_PORT);
-
-
     intakeIR = new DigitalInput(Ports.INTAKE_DETECTOR_PORT);
   }
 
@@ -155,6 +153,10 @@ public class ShooterSubsystem extends SubsystemBase {
     ShooterMotor.set(0);
 
   }
+
+  public static boolean getIntakeIR(){
+    return intakeIR.get();
+  }
   
   public static void ballIntakeCount() {
     
@@ -186,7 +188,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public static int getBallCount() {
+  public int getBallCount() {
     return ballCounter;
   }
+  
 }

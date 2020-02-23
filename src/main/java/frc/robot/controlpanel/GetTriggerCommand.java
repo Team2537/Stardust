@@ -5,44 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.Shooter;
+package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 
-public class FeedBallCommand extends CommandBase {
+public class GetTriggerCommand extends CommandBase {
+  double triggerpos;
   /**
-   * Creates a new FeedBallCommand.
+   * Creates a new GetTriggerCommand.
    */
-  public FeedBallCommand() {
-    addRequirements(Robot.shooter);
-    // Use addRequirements() here to declare subsystem dependencies.
+  public GetTriggerCommand() {
+    addRequirements(Robot.controlsubsys);
+    triggerpos = Robot.humanInput.getXboxRightTrigger();
   }
+  
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ShooterSubsystem.startFeederMotor(-0.9);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (triggerpos > 0.1){
+      Robot.controlsubsys.startMotors(triggerpos);
+    } else {
+     Robot.controlsubsys.stopMotors();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ShooterSubsystem.decreaseBallCount();
-    if (Robot.shooter.getBallCount() == 0){
-      CommandScheduler.getInstance().schedule(new LoadBallCommand());;
-    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !ShooterSubsystem.ballInPlace();
+    return false;
   }
 }

@@ -18,7 +18,8 @@ public class ShootingCommandGroup extends SequentialCommandGroup {
   private static ShootingCommandGroup instance = null;
 
   private ShootingCommandGroup() {
-    super(new InitializeShooterCommandGroup(), new FireCommandGroup(), new LoadBallCommand());
+    super(new StartShooterCommand(), new LoadBallCommand(), new ProperRPMCommand(), new FeedBallCommand(), new LoadBallCommand());
+
     //super(new TestCommmand("Hi"), new WaitCommand(1), new TestCommmand("Bye"));
     
   }

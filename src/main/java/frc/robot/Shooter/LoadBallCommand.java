@@ -18,13 +18,12 @@ public class LoadBallCommand extends CommandBase {
 
   public LoadBallCommand() {
     addRequirements(Robot.shooter);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ShooterSubsystem.startFeederMotor(-0.9);
+    ShooterSubsystem.startFeederMotor(-0.7);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +35,6 @@ public class LoadBallCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     ShooterSubsystem.startFeederMotor(0);
-    System.out.print("Ball in position");
   }
 
   // Returns true when the command should end.
