@@ -27,7 +27,6 @@ public class StopShooterCommand extends CommandBase {
   public void initialize() {
 
     ShooterSubsystem.stopMotor();
-    ShooterSubsystem.startFeederMotor(0);
 
   }
 

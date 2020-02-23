@@ -72,7 +72,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-
+    System.out.println(Robot.shooter.getBallCount());
+    Robot.shooter.ballIntakeCount();
     CommandScheduler.getInstance().run();
   }
 
@@ -119,15 +120,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     
   }
-/*
-  @Override
-  public void teleopInit() {
-    System.out.print("Starting teleop");
-    super.teleopInit();
-    System.out.print("Starting teleop");
-  }
-  */
-
 
   /**
    * This function is called periodically during operator control.
@@ -136,6 +128,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Navx.getInstance().reset();
     Robot.drivesys.resetEncoders();
+    CommandScheduler.getInstance().schedule(new LoadBallCommand());
     CommandScheduler.getInstance().run();
   }
 
@@ -143,23 +136,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Robot.drivesys.periodic();
     Robot.intakesys.periodic();
+    Robot.controlsubsys.periodic();
     CommandScheduler.getInstance().run(); 
-    double i = ShooterSubsystem.getInstance().getShooterSpeed();
-    if(i < -500) {
-      System.out.println(i);
-    }
-
-      //Spins manually when trigger is pressed
-  if(Robot.controlsubsys.getCurrentCommand() == null) {
-    double triggerPos = Robot.humanInput.getXboxRightTrigger();
-
-    if (triggerPos > 0){
-      Robot.controlsubsys.startMotors(triggerPos);
-    } else {
-     Robot.controlsubsys.stopMotors();
-    }
-  }
-    //ShooterSubsystem.automaticallySetProperSpeed(150);
+    
   }
 
 

@@ -159,11 +159,13 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   
   public static void ballIntakeCount() {
+    System.out.println(fruitsnack);
     
     if(fruitsnack) {    
       if(!intakeIR.get()) {
-
-        ballCounter++;
+        if(ballCounter < 5){
+          ballCounter++;
+        }
         fruitsnack = false;
         System.out.println(ballCounter);
 
@@ -171,9 +173,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     else {
       if(intakeIR.get()) {
-
         fruitsnack = true;
-
       }
     }
 

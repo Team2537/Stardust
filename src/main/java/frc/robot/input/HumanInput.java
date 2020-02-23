@@ -132,6 +132,7 @@ public class HumanInput {
     
     shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
     shooterButton.whenReleased(new StopShooterCommand());
+    shooterButton.whenReleased(new LoadBallCommand());
     //stopShooterButton.whenPressed(new StopShooterCommand());
     startShooterButton.whenPressed(ShootingCommandGroup.getInstance());
     

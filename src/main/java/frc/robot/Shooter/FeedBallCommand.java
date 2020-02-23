@@ -35,9 +35,6 @@ public class FeedBallCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     ShooterSubsystem.decreaseBallCount();
-    if (Robot.shooter.getBallCount() == 0){
-      CommandScheduler.getInstance().schedule(new LoadBallCommand());;
-    }
   }
 
   // Returns true when the command should end.
