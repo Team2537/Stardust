@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controlpanel.ControlPanelSubsystem;
-import frc.robot.input.Ports;
+import frc.robot.controlpanel.SpinToColorCommand;
+import frc.robot.controlpanel.SpinXTimesCommand;
 import frc.robot.input.HumanInput;
 
 /**
@@ -37,14 +38,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    //m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    //m_chooser.addOption("My Auto", kCustomAuto);
+    //SmartDashboard.putData("Auto choices", m_chooser);
 
     humanInput = new HumanInput();
     controlsubsys = ControlPanelSubsystem.getInstance();
-    //Robot.humanInput.registerSpinXTimesBtn();
-
   }
 
   /**
@@ -124,7 +123,14 @@ public class Robot extends TimedRobot {
   
   }
   
+  public void testInit(){
+    SmartDashboard.putData("Spin 4 Times Command", new SpinXTimesCommand());
+    SmartDashboard.putData("Spin To Color Command", new SpinToColorCommand());
+
+  }
+
   @Override
   public void testPeriodic() {
+
   }
 }

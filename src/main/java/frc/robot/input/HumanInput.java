@@ -16,19 +16,21 @@ public class HumanInput {
 
   
   public HumanInput() {
+    // Manual spin button is in Robot teleopPeriodic its the right trigger
     spinToColorBtn = new JoystickButton(xbox, 2); // B
     spinXTimesBtn = new JoystickButton(xbox, 3); // X 
 
     registerSpinXTimesBtn();
     registerGameDataBtn();
   }
- // setColor calls are commented out to test inputing color data using game data
-
 
  public void registerSpinXTimesBtn() {
     spinXTimesBtn.whenPressed(new SpinXTimesCommand()); 
   }
 
+  // Manually entered color should only be the first letter of the color
+  // Manually entered color in game data only enters when
+  // you click out of the box you typed it in
   public void registerGameDataBtn(){
     spinToColorBtn.whenPressed(new SpinToColorCommand());
   }
