@@ -8,14 +8,18 @@
 package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,7 +27,8 @@ import frc.robot.input.Ports;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * manages color sensor, motor, and rotation counts for control panel
+ * This manages color sensor, motor, keeps track of rotations, and what the
+ * current color is
  */
 public class ControlPanelSubsystem extends SubsystemBase {
 
@@ -45,7 +50,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   int numRed = 0;
   int numBlue = 0;
-  int numGreen = 0; 
+  int numGreen = 0;
   int numYellow = 0;
 
   int revolutions = 0;
@@ -57,7 +62,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     m_colorMatcher.addColorMatch(kYellowTarget);
 
     motor = new WPI_TalonSRX(Ports.CW_MOTOR);
-    //motor turns in opposite direction from color wheel
+    // motor turns in opposite direction from color wheel
     motor.configFactoryDefault();
     motor.setInverted(true);
   }
@@ -114,7 +119,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
-  // Competition wheel will spin clockwise
+  // pollColorSensor only works when colors are seen in a specific order
+  // Order of colors must be: RED, GREEN, BLUE, YELLOW, RED...
+
   // ignore colors seen at intersections where colors meet ex: between yellow and
   // blue green is detected
   // this method also counts the number of instances each color has been seen
@@ -124,7 +131,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     if (detectedColorString.equals("Red")
         && (lastColor.equals("Yellow") || lastColor.equals("Green") || lastColor.equals(""))) {
       numRed++;
-      lastColor = "Red"; // in between red and green, yellow is read. This accounts for that.
+      lastColor = "Red"; // In between red and green, yellow is read. This accounts for that.
 
     } else if (detectedColorString.equals("Green") && (lastColor.equals("Blue") || lastColor.equals(""))) {
       numGreen++;
@@ -133,7 +140,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     } else if (detectedColorString.equals("Blue")
         && (lastColor.equals("Green") || lastColor.equals("Yellow") || lastColor.equals(""))) {
       numBlue++;
-      lastColor = "Blue"; // in between blue and yellow, green is read. This accounts for that.
+      lastColor = "Blue"; // In between blue and yellow, green is read. This accounts for that.
 
     } else if (detectedColorString.equals("Yellow") && (lastColor.equals("Red") || lastColor.equals(""))) {
       numYellow++;
@@ -143,9 +150,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   }
 
-  // every time each color has been seen another time, revolutions will increase
+  // Every time each color has been seen another time, revolutions will increase
   // by 1.
-  public void calculateRevolutions() {// moved true false thing to isWheelSpunXTimes
+  public void calculateRevolutions() {
     if (numRed >= revolutions + 1 && numGreen >= revolutions + 1 && numBlue >= revolutions + 1
         && numYellow >= revolutions + 1) {
 
@@ -186,11 +193,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public void startMotors(double power) {
-    motor.set(-power); // set power to -power for competition wheel
+    // Competition wheel must spin clockwise
+    motor.set(power);
   }
 
   public String getGameData() {
-    // gets assigned color from game data box in the driver station and from the FMS
+    // Gets assigned color from game data box in the driver station and from the FMS
     String gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
 
     if (gameData.length() == 0) {
@@ -238,26 +246,31 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
   }
 
-  //must be called from robot periodic
+  // Must be called from robot periodic
   public void updateSmartDashboard() {
-  
-    //constantly checks to see if FMS game data has changed 
+
+    // Constantly checks to see if FMS game data has changed
     setTargetColor(getGameData());
 
-    SmartDashboard.putString("Lastcolor", lastColor);
-    SmartDashboard.putString("Detected Color", detectColor());
+    SmartDashboard.putString("Last color:", lastColor);
+    SmartDashboard.putString("Detected Color:", detectColor());
 
-    SmartDashboard.putString("Assigned target color: ", targetColor);
-    SmartDashboard.putString("Robot will stop at", getGameData());
+    SmartDashboard.putString("DriverTiles/Target Color: ", targetColor);
+    SmartDashboard.putString("DriverTiles/Stop at Color:", getGameData());
+    SmartDashboard.putNumber("DriverTiles/Revolutions:", getRevolutions());
 
-    SmartDashboard.putNumber("Num of Red", NumRed());
-    SmartDashboard.putNumber("Num of Blue", NumBlue());
-    SmartDashboard.putNumber("Num of Green", NumGreen());
-    SmartDashboard.putNumber("Num of yellow", NumYellow());
+    SmartDashboard.putNumber("Num of Red:", NumRed());
+    SmartDashboard.putNumber("Num of Blue:", NumBlue());
+    SmartDashboard.putNumber("Num of Green:", NumGreen());
+    SmartDashboard.putNumber("Num of yellow:", NumYellow());
 
-    SmartDashboard.putNumber("Revolutions", getRevolutions());
 
-  }
+
+    // To add a tile to a different tab set the source prefix to 
+    //SmartDashboard/whatEverYouWant then in the parameter where
+    // you name the tile type whatEverYouWantname 
+ }
+
 
   @Override
   public void periodic(){

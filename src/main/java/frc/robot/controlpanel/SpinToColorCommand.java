@@ -7,6 +7,8 @@
 
 package frc.robot.controlpanel;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.Ports;
 import frc.robot.Robot;
@@ -16,6 +18,10 @@ public class SpinToColorCommand extends CommandBase {
    * Creates a new SpinToColor.
    */
 
+  private Timer timer;
+
+  static boolean colorFound = false;
+
   public SpinToColorCommand() {
     addRequirements(Robot.controlsubsys);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,6 +30,8 @@ public class SpinToColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer = new Timer();     
+    colorFound = false;
 
     if (Robot.controlsubsys.isOnTargetColor()){
       Robot.controlsubsys.stopMotors(); 
@@ -37,7 +45,10 @@ public class SpinToColorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    if((!colorFound) && Robot.controlsubsys.isOnTargetColor()){
+      timer.start();
+      colorFound = true;
+    } 
   }
 
   // Called once the command ends or is interrupted.
@@ -46,13 +57,16 @@ public class SpinToColorCommand extends CommandBase {
     Robot.controlsubsys.stopMotors();
   }
 
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Robot.controlsubsys.isOnTargetColor()){
+    // Timer allows for color panel spinner to always land on
+    // correct color no matter where its spinning from
+    if (colorFound && timer.hasPeriodPassed(0.119)){
       Robot.controlsubsys.stopMotors();
       return true;
-    } 
+    }
     return false;
 
   }
