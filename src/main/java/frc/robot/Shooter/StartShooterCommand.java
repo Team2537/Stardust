@@ -26,7 +26,7 @@ public class StartShooterCommand extends CommandBase {
   public void initialize() {
 
     //distance = ShooterSubsystem.getLidarDistance();
-    ShooterSubsystem.startMotor(Ports.TARGET_SPEED);
+    ShooterSubsystem.startMotor(Robot.shooter.TARGET_SPEED);
     
   }
 

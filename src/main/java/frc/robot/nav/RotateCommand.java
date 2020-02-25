@@ -1,7 +1,9 @@
 package frc.robot.nav;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
+import frc.robot.drive.SwitchDriveCommand;
 import frc.robot.drive.DriveSubsystem.DriveMode;
 
 //!!!!!!!!!!!!!!!!DO NOT TRY TO TURN 180 DEGREES!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +16,7 @@ public class RotateCommand extends CommandBase {
   private double deltaAngle;
   private DriveMode mode;
   private static final double DEFAULT_PERCENT_OUTPUT = 0.25;
-  private static final double MIN_PERCENT_OUTPUT = 0.1;
+  private static final double MIN_PERCENT_OUTPUT = 0.4;
   private static final double ANGLE_kP = 1.30;
 	private static final double TOLERANCE = 0.5; // degrees
 
@@ -27,11 +29,13 @@ public class RotateCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      Navx.getInstance().updateTotalAngle();
+      CommandScheduler.getInstance().schedule(new SwitchDriveCommand());
+      // Navx.getInstance().updateTotalAngle();
       Navx.getInstance().reset();
       Navx.getInstance().reset();
       startingAngle = Navx.getInstance().getYaw();
       currentAngle = Navx.getInstance().getYaw();
+
       
   }
 

@@ -13,6 +13,7 @@ import frc.robot.input.Ports;
 
 public class ProperRPMCommand extends CommandBase {
   private double waitTime = 100;
+  private final int TOLERANCE = 25;
   private long currentTime;
   /**
    * Creates a new ProperRPMCommand.
@@ -42,7 +43,7 @@ public class ProperRPMCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Ports.TARGET_SPEED - 50 <= ShooterSubsystem.getInstance().getShooterSpeed() && ShooterSubsystem.getInstance().getShooterSpeed() <= Ports.TARGET_SPEED + 50
+    return (Robot.shooter.TARGET_SPEED - TOLERANCE <= ShooterSubsystem.getInstance().getShooterSpeed() && ShooterSubsystem.getInstance().getShooterSpeed() <= Robot.shooter.TARGET_SPEED + TOLERANCE
             && System.currentTimeMillis() - currentTime >= waitTime);
   }
 }

@@ -37,17 +37,17 @@ public class Navx extends AHRS {
 		return (360 - ((super.getAngle() + 270) % 360)) * Math.PI / 180;
 	}
 
-	public void updateTotalAngle() {
-		totalAngle += getYaw();
-		if(totalAngle < -180) {
-			totalAngle += 180;
-		} else if(totalAngle > 180) {
-			totalAngle -= 180;
-		}
-	}
+	// public void updateTotalAngle() {
+	// 	totalAngle += getYaw();
+	// 	if(totalAngle < -180) {
+	// 		totalAngle += 180;
+	// 	} else if(totalAngle > 180) {
+	// 		totalAngle -= 180;
+	// 	}
+	// }
 
 	public void updateAndReset() {
-		updateTotalAngle();
+		// updateTotalAngle();
 		reset();
 		reset();
 	}

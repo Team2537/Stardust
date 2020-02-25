@@ -72,7 +72,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    System.out.println(Robot.shooter.getBallCount());
     Robot.shooter.ballIntakeCount();
     CommandScheduler.getInstance().run();
   }
@@ -90,9 +89,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    CommandScheduler.getInstance().schedule(new LoadBallCommand());
     Navx.getInstance().zeroYaw();
     Navx.getInstance().reset();
+    Navx.getInstance().reset();
+    CommandScheduler.getInstance().schedule(new LoadBallCommand());
+    CommandScheduler.getInstance().schedule(new RotateCommand(90, DriveMode.kTank));
+    
    
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
@@ -105,16 +107,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-    case kCustomAuto:
-      // Put custom auto code here
-      break;
-    case kDefaultAuto:
-    default:
-      // Put default auto code here
-      break;
-    }
-
     Robot.drivesys.putEncodersToDash();
     System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();

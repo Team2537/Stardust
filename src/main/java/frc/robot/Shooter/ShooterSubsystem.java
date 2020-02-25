@@ -37,6 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private static int ballCounter = 3;
   private static DigitalInput intakeIR;
   private static boolean fruitsnack = true;
+  public final double TARGET_SPEED = -3700;
 
   private ShooterSubsystem() {
 
@@ -159,7 +160,6 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   
   public static void ballIntakeCount() {
-    System.out.println(fruitsnack);
     
     if(fruitsnack) {    
       if(!intakeIR.get()) {
