@@ -264,8 +264,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Num of Green:", NumGreen());
     SmartDashboard.putNumber("Num of yellow:", NumYellow());
 
-    NetworkTableEntry m_controlPanel = Shuffleboard.getTab("Testing")
-    .add("My Boolean", false);
 
 
     // To add a tile to a different tab set the source prefix to 
