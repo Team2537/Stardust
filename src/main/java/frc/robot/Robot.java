@@ -21,6 +21,7 @@ import frc.robot.nav.DriveStraightCommand;
 import frc.robot.nav.MecanumDriveStraightCommand;
 import frc.robot.nav.Navx;
 import frc.robot.nav.RotateCommand;
+import frc.robot.vision.UDPSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
+  public static UDPSubsystem udpsys = UDPSubsystem.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -84,6 +86,7 @@ public class Robot extends TimedRobot {
     System.out.println("Auto selected: " + m_autoSelected);
     //CommandScheduler.getInstance().schedule(/*new SwitchDriveCommand(), */new DriveStraightCommand(100));
     CommandScheduler.getInstance().schedule(new MecanumDriveStraightCommand(30, 180));
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -119,6 +122,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Robot.drivesys.periodic();
+    Robot.udpsys.periodic();
     CommandScheduler.getInstance().run(); 
   }
 
