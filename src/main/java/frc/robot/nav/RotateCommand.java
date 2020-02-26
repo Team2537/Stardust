@@ -34,25 +34,29 @@ public class RotateCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      currentAngle = Navx.getInstance().getYaw();
-      deltaAngle = (targetAngle - currentAngle);
-      double power = DEFAULT_PERCENT_OUTPUT;
-      power = Math.min(Math.abs(power), (Math.abs(deltaAngle) / (targetAngle - startingAngle) * power * ANGLE_kP)) * Math.signum(deltaAngle);
-        power = Math.max(Math.abs(power), Math.abs(MIN_PERCENT_OUTPUT)) * Math.signum(power);
-      Robot.drivesys.setPeanutLeft(power * Math.signum(deltaAngle));
-      Robot.drivesys.setPeanutRight(-power * Math.signum(deltaAngle));
-      System.out.println(deltaAngle);
+      // currentAngle = Navx.getInstance().getYaw();
+      // deltaAngle = (targetAngle - currentAngle);
+      // double power = DEFAULT_PERCENT_OUTPUT;
+      
+      // power = Math.min(Math.abs(power), (Math.abs(deltaAngle) / (targetAngle - startingAngle) * power * ANGLE_kP)) * Math.signum(deltaAngle);
+      //   power = Math.max(Math.abs(power), Math.abs(MIN_PERCENT_OUTPUT)) * Math.signum(power);
+      
+      // Robot.drivesys.setPeanutLeft(power * Math.signum(deltaAngle));
+      // Robot.drivesys.setPeanutRight(-power * Math.signum(deltaAngle));
+      
+      // System.out.println(deltaAngle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
-      Robot.drivesys.killPeanutMotors();
+      //Robot.drivesys.killPeanutMotors();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(deltaAngle) <= TOLERANCE);                
+    return true;
+    //return (Math.abs(deltaAngle) <= TOLERANCE);                
   }
 }

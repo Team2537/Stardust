@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
     //System.out.println("Distance: " + Robot.drivesys.getPeanutDistanceIn());
     
     // System.out.println("Angle: " + Navx.getInstance().getAngle());
-    // System.out.println("Yaw: " + Navx.getInstance().getYaw());
+     System.out.println("Yaw: " + Navx.getInstance().getYaw());
     // System.out.println("Pitch: " + Navx.getInstance().getPitch());
     // System.out.println("Roll: " + Navx.getInstance().getRoll());
 
