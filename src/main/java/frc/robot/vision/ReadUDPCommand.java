@@ -77,7 +77,7 @@ public class ReadUDPCommand extends CommandBase {
       }
       lastTimePrinted = System.currentTimeMillis();
   }
-
+ 
   receive = new byte[65535];
 
   }
