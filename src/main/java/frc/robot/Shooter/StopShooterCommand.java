@@ -26,7 +26,7 @@ public class StopShooterCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    ShooterSubsystem.stopMotor();
+    ShooterSubsystem.getInstance().stopShooterMotor();
 
   }
 

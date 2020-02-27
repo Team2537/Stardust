@@ -181,11 +181,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     revolutions = 0;
   }
 
-  public void stopMotors() {
+  public void stopShooterMotors() {
     motor.set(0.0);
   }
 
-  public void startMotors(double power) {
+  public void startShooterMotors(double power) {
     motor.set(-power); // set power to -power for competition wheel
   }
 
@@ -231,7 +231,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     calculateRevolutions();
 
     if (revolutions >= 8) {
-      stopMotors();
+      stopShooterMotors();
       return true;
     } else {
       return false;

@@ -26,10 +26,10 @@ public class SpinToColorCommand extends CommandBase {
   public void initialize() {
 
     if (Robot.controlsubsys.isOnTargetColor()){
-      Robot.controlsubsys.stopMotors(); 
+      Robot.controlsubsys.stopShooterMotors(); 
     } 
     else {
-     Robot.controlsubsys.startMotors(Ports.SPIN_TO_COLOR_POWER);
+     Robot.controlsubsys.startShooterMotors(Ports.SPIN_TO_COLOR_POWER);
     }
 
   }
@@ -43,14 +43,14 @@ public class SpinToColorCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.controlsubsys.stopMotors();
+    Robot.controlsubsys.stopShooterMotors();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if(Robot.controlsubsys.isOnTargetColor()){
-      Robot.controlsubsys.stopMotors();
+      Robot.controlsubsys.stopShooterMotors();
       return true;
     } 
     return false;
