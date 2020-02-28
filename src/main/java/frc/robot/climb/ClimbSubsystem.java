@@ -18,9 +18,6 @@ import frc.robot.util.CANTalon;
 
 
 public class ClimbSubsystem extends SubsystemBase {
-  /**
-   * Creates a new ClimbSubsystem.
-   */
 
   private static ClimbSubsystem instance = null;
 
@@ -52,8 +49,9 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   //Magnet or no magnet? That is the question. 
-  public boolean getClimbDITelescope() {
-    return climbDITelescope.get();
+  public boolean isFullyExtended() {
+    //Hall Effect Sensor returns false when magnet is nearby
+    return !climbDITelescope.get();
   }
 
 
