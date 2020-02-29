@@ -1,5 +1,7 @@
 package frc.robot.drive;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.drive.DriveSubsystem.DriveMode;
@@ -22,11 +24,13 @@ public class SwitchDriveCommand extends CommandBase{
             case kMecanum:
                 Robot.drivesys.setSolenoids(true);
                 Robot.drivesys.setDriveMode(DriveMode.kTank);
+                Robot.drivesys.setIdleMode(IdleMode.kCoast);
                 System.out.println("Its Tanky Time");
                 break;
             case kTank:
                 Robot.drivesys.setSolenoids(false);
                 Robot.drivesys.setDriveMode(DriveMode.kMecanum);
+                Robot.drivesys.setIdleMode(IdleMode.kBrake);
                 System.out.println("Its Swervy Time");
                 break;
             default:

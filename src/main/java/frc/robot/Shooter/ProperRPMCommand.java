@@ -13,7 +13,7 @@ import frc.robot.input.Ports;
 
 public class ProperRPMCommand extends CommandBase {
   private double waitTime = 100;
-  private final int TOLERANCE = 25;
+  private final int TOLERANCE = 100;
   private long currentTime;
   /**
    * Creates a new ProperRPMCommand.

@@ -38,7 +38,7 @@ public class DriveSubsystem extends SubsystemBase{
     private static Solenoid drivePriSolFrontLeft, drivePriSolBackLeft, drivePriSolFrontRight, drivePriSolBackRight; //driveSecSolFrontLeft, driveSecSolBackLeft, driveSecSolFrontRight, driveSecSolBackRight;
 
 
-    public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kCoast;
+    public static final IdleMode DEFAULT_IDLE_MODE = IdleMode.kBrake;
     public static final MotorType DEFAULT_MOTOR_TYPE = MotorType.kBrushless;
 
     // private static TalonSRX peanutFrontLeft, peanutFrontRight, peanutBackLeft, peanutBackRight;
@@ -178,8 +178,13 @@ public class DriveSubsystem extends SubsystemBase{
         return getEncoderAverage(true, 0, 1, 2, 3);
     }
 
-    public double getEncoderDistance() {
-        double distance = getEncoderAverage();
+    public double getEncoderDistance(boolean vertical) {
+        double distance;
+        if(vertical){
+            distance = getEncoderAverage() * 94 / 30;
+        } else {
+            distance = getEncoderAverage() * 56.5 / 30;
+        }
         return distance;
     }
 

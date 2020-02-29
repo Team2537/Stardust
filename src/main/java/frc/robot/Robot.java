@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.nav.TestCommand;
+import frc.robot.nav.TestPath;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.SwitchDriveCommand;
 import frc.robot.drive.TempDriveCommand;
@@ -72,8 +73,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    Robot.shooter.ballIntakeCount();
+    //Robot.shooter.ballIntakeCount();
+    System.out.println("Yaw" + Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
+
   }
 
   @Override
@@ -92,10 +95,7 @@ public class Robot extends TimedRobot {
     Navx.getInstance().zeroYaw();
     Navx.getInstance().reset();
     Navx.getInstance().reset();
-    CommandScheduler.getInstance().schedule(new LoadBallCommand());
-    CommandScheduler.getInstance().schedule(new RotateCommand(90, DriveMode.kTank));
-    
-   
+    CommandScheduler.getInstance().schedule(new TestPath());
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
@@ -108,7 +108,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Robot.drivesys.putEncodersToDash();
-    System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
     
   }
@@ -138,7 +137,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
 
     ShooterSubsystem.getInstance();
-
+    
     CommandScheduler.getInstance().run();
   }
 
@@ -149,7 +148,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    System.out.println(Navx.getInstance().getYaw());
+    Robot.drivesys.setMecanumDriveSpeed(-0.3, 0, 0);
     CommandScheduler.getInstance().run(); 
   }
 

@@ -37,11 +37,6 @@ public class Ports {
     public static int PRI_DRIVE_SOL_FRONT_RIGHT = 2; //5
     public static int PRI_DRIVE_SOL_BACK_RIGHT = 1; //7
 
-    public static int SEC_DRIVE_SOL_FRONT_LEFT = 0; //dont need
-    public static int SEC_DRIVE_SOL_BACK_LEFT = 2;
-    public static int SEC_DRIVE_SOL_FRONT_RIGHT = 4;
-    public static int SEC_DRIVE_SOL_BACK_RIGHT = 6; //back right secondary
-
     //INTAKE
     public static int FLYWHEEL_PORT = 8; //flywheel speed
     public static int SOLENOID_PORT1 = 0;

@@ -12,6 +12,7 @@ public class DriveStraightCommand extends CommandBase {
   private double remainingDistance;
   private double percentOutputLeft;
   private double percentOutputRight;
+  private boolean vertical;
   
   private static final double DEFAULT_PERCENT_OUTPUT = 0.70;
   private static final double MIN_PERCENT_OUTPUT = 0.40;
@@ -36,7 +37,7 @@ public class DriveStraightCommand extends CommandBase {
       Robot.drivesys.resetEncoders();
 
       currentAngle = Navx.getInstance().getYaw();
-      remainingDistance = targetDistance - Robot.drivesys.getEncoderDistance();
+      remainingDistance = targetDistance - Robot.drivesys.getEncoderDistance(true);
 
       Robot.drivesys.setTankDrive(-DEFAULT_PERCENT_OUTPUT, -DEFAULT_PERCENT_OUTPUT);
 
@@ -49,8 +50,8 @@ public class DriveStraightCommand extends CommandBase {
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
       double power = DEFAULT_PERCENT_OUTPUT;
-      remainingDistance = targetDistance - Robot.drivesys.getEncoderDistance();
-      System.out.println("Encoder" + Robot.drivesys.getEncoderDistance());
+      remainingDistance = targetDistance - Robot.drivesys.getEncoderDistance(true);
+      System.out.println("Encoder" + Robot.drivesys.getEncoderDistance(true));
 
       if(remainingDistance <= SLOWING_DISTANCE) {
         power *= (remainingDistance + SLOWING_ADJUSTMENT) / (SLOWING_DISTANCE + SLOWING_ADJUSTMENT);

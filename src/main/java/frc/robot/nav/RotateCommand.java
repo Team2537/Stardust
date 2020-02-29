@@ -15,8 +15,8 @@ public class RotateCommand extends CommandBase {
   private double targetAngle;
   private double deltaAngle;
   private DriveMode mode;
-  private static final double DEFAULT_PERCENT_OUTPUT = 0.25;
-  private static final double MIN_PERCENT_OUTPUT = 0.4;
+  private static final double DEFAULT_PERCENT_OUTPUT = 0.2;
+  private static final double MIN_PERCENT_OUTPUT = 0.05;
   private static final double ANGLE_kP = 1.30;
 	private static final double TOLERANCE = 0.5; // degrees
 
@@ -29,7 +29,6 @@ public class RotateCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      CommandScheduler.getInstance().schedule(new SwitchDriveCommand());
       // Navx.getInstance().updateTotalAngle();
       Navx.getInstance().reset();
       Navx.getInstance().reset();
@@ -56,7 +55,7 @@ public class RotateCommand extends CommandBase {
 
       // Robot.drivesys.setPeanutLeft(power * Math.signum(deltaAngle));
       // Robot.drivesys.setPeanutRight(-power * Math.signum(deltaAngle));
-      System.out.println(deltaAngle);
+      // System.out.println(deltaAngle);
   }
 
   // Called once the command ends or is interrupted.
