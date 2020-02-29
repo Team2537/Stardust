@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -44,6 +47,9 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
+  private UsbCamera camera0;
+  private UsbCamera camera1;
+  private VideoSink camServer;
 
   public static IntakeSubsystem intakesys = IntakeSubsystem.getInstance();
 
@@ -72,7 +78,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    Robot.shooter.ballIntakeCount();
+    //Robot.shooter.ballIntakeCount();
+
+    // camera code for testing cvsource
+    camera0 = CameraServer.getInstance().startAutomaticCapture(0);
+    camera1 = CameraServer.getInstance().startAutomaticCapture(1);
+    camServer = CameraServer.getInstance().getServer();
+    camServer.setSource(camera0);
+    camera0.setResolution(160, 120);
+    camera1.setResolution(160, 120);
+
+    //shuffledash info
+    SmartDashboard.putBoolean("DriveMode", true);
+    SmartDashboard.putNumber("Number of Balls", (int)5);
+    SmartDashboard.putString("Color", "red");
+    
     CommandScheduler.getInstance().run();
   }
 
