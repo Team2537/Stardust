@@ -149,6 +149,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
     }
 
   }
+  public String getTargetColor(){
+    return targetColor;
+  }
 
   // Every time each color has been seen another time, revolutions will increase
   // by 1.
@@ -163,6 +166,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public int getRevolutions() {
     return revolutions;
   }
+
 
   public int NumRed() {
     return numRed;
