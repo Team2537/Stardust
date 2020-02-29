@@ -8,22 +8,23 @@
 package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
+import frc.robot.Robot;
+import frc.robot.input.HumanInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -44,6 +45,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private final Color kGreenTarget = ColorMatch.makeColor(0.23, 0.63, 0.13);
   private final Color kRedTarget = ColorMatch.makeColor(0.51, 0.35, 0.13);
   private final Color kYellowTarget = ColorMatch.makeColor(0.32, 0.56, 0.11);
+  public final double cwDEADZONE = 0.25;
 
   private String lastColor = "";
   private String targetColor = "";
@@ -255,27 +257,41 @@ public class ControlPanelSubsystem extends SubsystemBase {
     SmartDashboard.putString("Last color:", lastColor);
     SmartDashboard.putString("Detected Color:", detectColor());
 
+
+    //  Theoretically this code is in the merged code now
+
     SmartDashboard.putString("DriverTiles/Target Color: ", targetColor);
     SmartDashboard.putString("DriverTiles/Stop at Color:", getGameData());
     SmartDashboard.putNumber("DriverTiles/Revolutions:", getRevolutions());
+    
 
     SmartDashboard.putNumber("Num of Red:", NumRed());
     SmartDashboard.putNumber("Num of Blue:", NumBlue());
     SmartDashboard.putNumber("Num of Green:", NumGreen());
     SmartDashboard.putNumber("Num of yellow:", NumYellow());
 
-
-
     // To add a tile to a different tab set the source prefix to 
     //SmartDashboard/whatEverYouWant then in the parameter where
     // you name the tile type whatEverYouWantname 
  }
 
-
-  @Override
+  // Checks if a control panel command is running or if command is null 
+  //and interupts the command to starts the motor at triggerPos value or
   public void periodic(){
-    setDefaultCommand(new GetTriggerCommand());
+   double joystickPos = Robot.humanInput.xbox.getY(Hand.kLeft);
+   
+   Command c = getCurrentCommand();
+   boolean isSpinCommandRunning = (c != null) && ((c instanceof SpinXTimesCommand)|| (c instanceof SpinToColorCommand));
+
+   if(Math.abs(joystickPos) > cwDEADZONE) {     
+    if(isSpinCommandRunning) { 
+      c.cancel();
+      stopMotors();
+    }
+    startMotors(joystickPos / 3);
+
+   } else if (!isSpinCommandRunning) {
+     stopMotors();
+   }
   }
-
-
 }
