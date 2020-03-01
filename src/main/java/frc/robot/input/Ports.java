@@ -67,7 +67,7 @@ public class Ports {
     public static int TOP_SENSOR = 0; //DO WE HAVE ONE????!
 
     //CTRL PANEL
-    public static int CW_MOTOR = 11; //port 5 hazlenut
+    public static int CW_MOTOR = 11; //port 5 hazlenut //port 11 on stardust
     public static double X_ROTATIONS_POWER = 1;
     public static double SPIN_TO_COLOR_POWER = .5;
 

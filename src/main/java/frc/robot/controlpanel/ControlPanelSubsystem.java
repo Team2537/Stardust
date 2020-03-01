@@ -8,7 +8,6 @@
 package frc.robot.controlpanel;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -24,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 import frc.robot.Robot;
-import frc.robot.input.HumanInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -257,14 +255,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     SmartDashboard.putString("Last color:", lastColor);
     SmartDashboard.putString("Detected Color:", detectColor());
 
-
     //  Theoretically this code is in the merged code now
-
     SmartDashboard.putString("DriverTiles/Target Color: ", targetColor);
     SmartDashboard.putString("DriverTiles/Stop at Color:", getGameData());
     SmartDashboard.putNumber("DriverTiles/Revolutions:", getRevolutions());
     
-
     SmartDashboard.putNumber("Num of Red:", NumRed());
     SmartDashboard.putNumber("Num of Blue:", NumBlue());
     SmartDashboard.putNumber("Num of Green:", NumGreen());
@@ -279,7 +274,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   //and interupts the command to starts the motor at triggerPos value or
   public void periodic(){
    double joystickPos = Robot.humanInput.xbox.getY(Hand.kLeft);
-   
+
    Command c = getCurrentCommand();
    boolean isSpinCommandRunning = (c != null) && ((c instanceof SpinXTimesCommand)|| (c instanceof SpinToColorCommand));
 
