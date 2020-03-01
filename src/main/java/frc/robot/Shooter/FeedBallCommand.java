@@ -23,7 +23,7 @@ public class FeedBallCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ShooterSubsystem.startFeederMotor(-0.9);
+    ShooterSubsystem.getInstance().startFeederMotor(-0.9);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,12 +34,12 @@ public class FeedBallCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ShooterSubsystem.decreaseBallCount();
+    ShooterSubsystem.getInstance().decreaseBallCount();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !ShooterSubsystem.ballInPlace();
+    return !ShooterSubsystem.getInstance().ballInPlace();
   }
 }

@@ -10,14 +10,16 @@ package frc.robot.Shooter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.input.Ports;
+//lidar
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
-
+//spark max
 import com.revrobotics.CANPIDController;
- import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+//talon srx
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  
@@ -28,16 +30,16 @@ public class ShooterSubsystem extends SubsystemBase {
   private static ShooterSubsystem instance = null;
   // private DigitalOutput lidarMode;
   // private static Counter lidarDistance;
-  private static CANSparkMax ShooterMotor;
-  private static CANPIDController ShooterVelocityController;
-  private static double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-  private static boolean runShooter;
-  private static TalonSRX feederMotor;
-  private static DigitalInput shooterIR;
-  private static int ballCounter = 3;
-  private static DigitalInput intakeIR;
-  private static boolean fruitsnack = true;
-  public final double TARGET_SPEED = -3700;
+  private CANSparkMax shooterMotor;
+  private CANPIDController shooterVelocityContoller;
+  private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+  private boolean runShooter;
+  private TalonSRX feederMotor;
+  private DigitalInput shooterIR;
+  private int ballCounter = 3; //robot starts with 3 balls
+  private DigitalInput intakeIR;
+  private boolean ballCounted = true; //state variable for the intakeIR ball counting
+  public final double TARGET_SPEED = -3700; //rpm
 
   private ShooterSubsystem() {
 
@@ -50,6 +52,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // lidarDistance.setUpSource(Ports.LIDAR_COUNTER);
     // lidarDistance.setSemiPeriodMode(true);
 
+    //pid constants
     kP = 0.0004;
     kI = 0.0000005;
     kD = 0.01;
@@ -60,15 +63,15 @@ public class ShooterSubsystem extends SubsystemBase {
     runShooter = false;
 
     feederMotor = new TalonSRX(Ports.FEEDER_MOTOR_PORT);
-    ShooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
+    shooterMotor = new CANSparkMax(Ports.MOTOR_SHOOTER_PORT, MotorType.kBrushless);
 
-    ShooterVelocityController = ShooterMotor.getPIDController();
-    ShooterVelocityController.setP(kP);
-    ShooterVelocityController.setI(kI);
-    ShooterVelocityController.setD(kD);
-    ShooterVelocityController.setIZone(kIz);
-    ShooterVelocityController.setFF(kFF);
-    ShooterVelocityController.setOutputRange(kMinOutput, kMaxOutput);
+    shooterVelocityContoller = shooterMotor.getPIDController();
+    shooterVelocityContoller.setP(kP);
+    shooterVelocityContoller.setI(kI);
+    shooterVelocityContoller.setD(kD);
+    shooterVelocityContoller.setIZone(kIz);
+    shooterVelocityContoller.setFF(kFF);
+    shooterVelocityContoller.setOutputRange(kMinOutput, kMaxOutput);
 
     shooterIR = new DigitalInput(Ports.BALL_DETECTOR_PORT);
     intakeIR = new DigitalInput(Ports.INTAKE_DETECTOR_PORT);
@@ -87,13 +90,13 @@ public class ShooterSubsystem extends SubsystemBase {
    * }
    */
 
-  public static void setShooterMode(boolean value) {
-    runShooter = value;
-  }
+  // public void setShooterMode(boolean value) {
+  //   runShooter = value;
+  // }
 
-  public static boolean getShooterMode() {
-    return runShooter;
-  }
+  // public boolean getShooterMode() {
+  //   return runShooter;
+  // }
 
   // public static double getLidarDistance() {
   //   /*
@@ -117,69 +120,67 @@ public class ShooterSubsystem extends SubsystemBase {
      * 2)*(y-yNot-(Math.tan(Math.toRadians(theta))*in)))); //converts our lidar
      * distance to a setpoint for the motor using kinematics setpoint =
      * (setpoint*10)/Math.PI; //converts inches per second to rotations per minute
-     * setpoint = Math.min(setpoint, MAX_SPEED); startMotor(setpoint);
+     * setpoint = Math.min(setpoint, MAX_SPEED); startShooterMotor(setpoint);
      */
-    // startMotor();
+    // startShooterMotor();
   }
 
   // }
 
-  public static void startMotor(double MotorVelocity) {
+  public void startShooterMotor(double MotorVelocity) {
 
-    ShooterVelocityController.setReference(MotorVelocity, ControlType.kVelocity);
-    System.out.println("Being run");
+    shooterVelocityContoller.setReference(MotorVelocity, ControlType.kVelocity);
 
   }
   public double getShooterSpeed() {
 
-    return ShooterMotor.getEncoder().getVelocity();
+    return shooterMotor.getEncoder().getVelocity();
 
   }
 
-  public static void startFeederMotor(double feederMotorSpeed) {
+  public void startFeederMotor(double feederMotorSpeed) {
 
     feederMotor.set(ControlMode.PercentOutput, feederMotorSpeed);
-    System.out.println("Being Run");
 
   }
 
 
-  public static boolean ballInPlace() {
+  public boolean ballInPlace() {
 
-    return !shooterIR.get();
-
-  }
-  public static void stopMotor() {
-
-    ShooterMotor.set(0);
+    return !shooterIR.get(); //.get() returns false when the sensor is blocked by a ball
 
   }
+  public void stopShooterMotor() {
 
-  public static boolean getIntakeIR(){
+    shooterMotor.set(0);
+
+  }
+
+  public boolean getIntakeIR(){
+
     return intakeIR.get();
+    
   }
   
-  public static void ballIntakeCount() {
+  public void ballIntakeCount() {
     
-    if(fruitsnack) {    
-      if(!intakeIR.get()) {
+    if(!intakeIR.get()) {    //ball detected
+      if(!ballCounted) {
         if(ballCounter < 5){
           ballCounter++;
         }
-        fruitsnack = false;
+        ballCounted = true;
         System.out.println(ballCounter);
 
       }
     }
-    else {
-      if(intakeIR.get()) {
-        fruitsnack = true;
-      }
+    else { //ball not detected
+      ballCounted = false;
     }
 
   }
 
-  public static void decreaseBallCount() {
+  public void decreaseBallCount() {
 
     if(ballCounter > 0) {
       ballCounter--;

@@ -274,7 +274,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   @Override
   public void periodic(){
-    setDefaultCommand(new GetTriggerCommand());
   }
 
 

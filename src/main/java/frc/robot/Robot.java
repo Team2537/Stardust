@@ -137,7 +137,6 @@ public class Robot extends TimedRobot {
   public void testInit() {
 
     ShooterSubsystem.getInstance();
-    
     CommandScheduler.getInstance().run();
   }
 
@@ -148,7 +147,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    Robot.drivesys.setMecanumDriveSpeed(-0.3, 0, 0);
+    ShooterSubsystem.getInstance().startFeederMotor(0.3);
+    ShooterSubsystem.getInstance().startShooterMotor(1000);
+    System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run(); 
   }
 

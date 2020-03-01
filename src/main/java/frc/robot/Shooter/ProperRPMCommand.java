@@ -12,9 +12,9 @@ import frc.robot.Robot;
 import frc.robot.input.Ports;
 
 public class ProperRPMCommand extends CommandBase {
-  private double waitTime = 100;
-  private final int TOLERANCE = 100;
-  private long currentTime;
+  private double waitTime = 100; //time for the pid loop to stabilize within the tolerance in milliseconds
+  private final int TOLERANCE = 100; //target range in rpm (50 rpm total)
+  private long startTime;
   /**
    * Creates a new ProperRPMCommand.
    */
@@ -26,7 +26,7 @@ public class ProperRPMCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentTime = System.currentTimeMillis();
+    startTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,8 +43,8 @@ public class ProperRPMCommand extends CommandBase {
   // Returns true when the command should end.
   @Override 
   public boolean isFinished() {
-    return (Robot.shooter.TARGET_SPEED - TOLERANCE <= ShooterSubsystem.getInstance().getShooterSpeed()  
-            && ShooterSubsystem.getInstance().getShooterSpeed() <= Robot.shooter.TARGET_SPEED + TOLERANCE
-            && System.currentTimeMillis() - currentTime >= waitTime);
+    return ((Robot.shooter.TARGET_SPEED - TOLERANCE <= ShooterSubsystem.getInstance().getShooterSpeed()) 
+            && (ShooterSubsystem.getInstance().getShooterSpeed() <= Robot.shooter.TARGET_SPEED + TOLERANCE)
+            && (System.currentTimeMillis() - startTime >= waitTime)); //makes sure the pid loop has stabilized
   }
 }

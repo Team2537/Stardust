@@ -8,19 +8,17 @@
 package frc.robot.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+// Connects the different steps in the shooting process into a loopable single command, starting the shooter, waiting until it's up to speed,
+// feeding a ball to fire, and loading a new ball into position so the shooter is ready to loop again
 public class ShootingCommandGroup extends SequentialCommandGroup {
   /**
-   * Creates a new CommandGroup.
+   * The command is a singleton to allow the command to loop on a button without constantly restarting
    */
   private static ShootingCommandGroup instance = null;
 
-  public ShootingCommandGroup() {
-    super(new StartShooterCommand(), new ProperRPMCommand(), new FeedBallCommand(), new LoadBallCommand());
+  private ShootingCommandGroup() {
 
-    //super(new TestCommmand("Hi"), new WaitCommand(1), new TestCommmand("Bye"));
+    super(new StartShooterCommand(), new ProperRPMCommand(), new FeedBallCommand(), new LoadBallCommand());
     
   }
 

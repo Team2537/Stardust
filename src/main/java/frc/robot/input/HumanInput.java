@@ -30,9 +30,9 @@ public class HumanInput {
   XboxController xbox;
   Button tankButton;
   Button intakeButton;
-  JoystickButton shooterButton;
+  JoystickButton fullAutoShooterButton;
   JoystickButton stopShooterButton;
-  JoystickButton startShooterButton;
+  JoystickButton semiAutoShooterButton;
   public static JoystickButton cameraSwitchButton;
 
   //// controlpanel
@@ -68,9 +68,9 @@ public class HumanInput {
       presetClimbPosition = new JoystickButton(xbox, Ports.PRESET_CLIMB_POSITION_BUTTON); //RB //checked
       enableClimb = new JoystickButton(xbox, Ports.ENABLE_CLIMB_BUTTON); //LB hold and use LT to set winch speed and use right joystick for telescope speed//checked
 
-      shooterButton = new JoystickButton(xbox, Ports.SHOOTER_BUTTON); //A //checked //hold and shoots until released
+      fullAutoShooterButton = new JoystickButton(xbox, Ports.SHOOTER_BUTTON); //A //checked //hold and shoots until released
 
-      startShooterButton = new JoystickButton(xbox, Ports.START_SHOOTER_BUTTON); //START checked //shoots constantly
+      semiAutoShooterButton = new JoystickButton(xbox, Ports.START_SHOOTER_BUTTON); //START checked //shoots once
       //stopShooterButton = new JoystickButton(xbox, Ports.STOP_SHOOTER_BUTTON); //BACK checked
       
       spinXTimesBtn = new JoystickButton(xbox, Ports.SPIN_X_TIMES_BUTTON); //X checked
@@ -130,11 +130,11 @@ public class HumanInput {
     intakeButton.whenPressed(new MoveIntakeCommand()); //Y toggle between true and false
     tankButton.whenPressed(new SwitchDriveCommand());
     
-    shooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
-    shooterButton.whenReleased(new StopShooterCommand());
-    shooterButton.whenReleased(new LoadBallCommand());
+    fullAutoShooterButton.whileHeld(ShootingCommandGroup.getInstance(), false);
+    fullAutoShooterButton.whenReleased(new StopShooterCommand());
+    fullAutoShooterButton.whenReleased(new LoadBallCommand());
     //stopShooterButton.whenPressed(new StopShooterCommand());
-    startShooterButton.whenPressed(ShootingCommandGroup.getInstance());
+    semiAutoShooterButton.whenPressed(ShootingCommandGroup.getInstance());
     
     enableClimb.whenHeld(new ClimbCommand());
     presetClimbPosition.whenPressed(new PresetPositionCommand());

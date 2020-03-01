@@ -30,9 +30,9 @@ public class GetTriggerCommand extends CommandBase {
   @Override
   public void execute() {
     if (triggerpos > 0.1){
-      Robot.controlsubsys.startMotors(triggerpos);
+      Robot.controlsubsys.startShooterMotors(triggerpos);
     } else {
-     Robot.controlsubsys.stopMotors();
+     Robot.controlsubsys.stopShooterMotors();
     }
   }
 
