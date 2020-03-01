@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     //Robot.shooter.ballIntakeCount();
-    System.out.println("Yaw" + Navx.getInstance().getYaw());
+    //System.out.println("Yaw" + Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
 
     Robot.controlsubsys.updateSmartDashboard();
