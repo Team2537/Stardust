@@ -17,9 +17,9 @@ public class TestPath extends SequentialCommandGroup {
             new WaitCommand(.5),
             new MecanumDriveStraightCommand(62, 270),
             new MecanumDriveStraightCommand(30, 180),
-            new ShootingCommandGroup(),
-            new ShootingCommandGroup(),
-            new ShootingCommandGroup(),
+            ShootingCommandGroup.getInstance(),
+            ShootingCommandGroup.getInstance(),
+            ShootingCommandGroup.getInstance(),
             new StopShooterCommand()
         );
 
