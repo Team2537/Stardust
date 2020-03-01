@@ -41,9 +41,10 @@ public class ProperRPMCommand extends CommandBase {
   }
 
   // Returns true when the command should end.
-  @Override
+  @Override 
   public boolean isFinished() {
-    return (Robot.shooter.TARGET_SPEED - TOLERANCE <= ShooterSubsystem.getInstance().getShooterSpeed() && ShooterSubsystem.getInstance().getShooterSpeed() <= Robot.shooter.TARGET_SPEED + TOLERANCE
+    return (Robot.shooter.TARGET_SPEED - TOLERANCE <= ShooterSubsystem.getInstance().getShooterSpeed()  
+            && ShooterSubsystem.getInstance().getShooterSpeed() <= Robot.shooter.TARGET_SPEED + TOLERANCE
             && System.currentTimeMillis() - currentTime >= waitTime);
   }
 }
