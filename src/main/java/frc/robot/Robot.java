@@ -30,6 +30,7 @@ import frc.robot.nav.Navx;
 import frc.robot.nav.RotateCommand;
 
 import frc.robot.controlpanel.ControlPanelSubsystem;
+import frc.robot.controlpanel.SpinXTimesCommand;
 import frc.robot.input.Ports;
 
 /**
@@ -67,6 +68,8 @@ public class Robot extends TimedRobot {
     cameras = Cameras.getInstance();
     Cameras.getInstance().startCameras();
 
+    SmartDashboard.putData("Control Panel Motor Test ", new SpinXTimesCommand());// full power
+    SmartDashboard.putString("Control Panel Color Sensor Test ", Robot.controlsubsys.detectColor());
 
   }
 
@@ -77,6 +80,7 @@ public class Robot extends TimedRobot {
     System.out.println("Yaw" + Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
 
+    Robot.controlsubsys.updateSmartDashboard();
   }
 
   @Override
@@ -132,15 +136,13 @@ public class Robot extends TimedRobot {
     
   }
 
-
   @Override
   public void testInit() {
 
     ShooterSubsystem.getInstance();
     CommandScheduler.getInstance().run();
-  }
 
-  
+  }
 
   /**
    * This function is called periodically during test mode.

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.climb.*;
 import frc.robot.drive.SwitchDriveCommand;
@@ -27,7 +28,7 @@ public class HumanInput {
   public static final int AXIS_X = 0, AXIS_Y = 1, AXIS_Z = 2;
   public static final double DEADZONE = 0.05;
   public final Joystick joystickLeft, joystickRight;
-  XboxController xbox;
+  public XboxController xbox;
   Button tankButton;
   Button intakeButton;
   JoystickButton fullAutoShooterButton;
@@ -36,16 +37,13 @@ public class HumanInput {
   public static JoystickButton cameraSwitchButton;
 
   //// controlpanel
-
   Button manuallySpinBtn, spinToColorBtn, spinXTimesBtn;
   boolean gameDataRegistered = false;
   boolean manualSpinRegistered = false;
-  ///
-
 
   Button presetClimbPosition;
   Button enableClimb;
-  
+
   public final double climbDEADZONE = .1;
   
   private static JoystickButton realignButton, rotate90BUtton, rotateneg90Button, driveStraightButton, testPathButton, runIntakeButton;/*, testCom*/;
@@ -90,8 +88,9 @@ public class HumanInput {
 
 
 
-  public double getJoystickAxis(int axis, GenericHID joystick, double deadzone){
+  public double getJoystickAxis(int axis, GenericHID joystick, double deadzone) {
     double val = joystick.getRawAxis(axis);
+
     if (Math.abs(val) <= deadzone){
       return 0;
     } else {
@@ -111,6 +110,7 @@ public class HumanInput {
       return 0;
     }
   }
+
 
   public double getXboxLeftTrigger() {
     double val = xbox.getTriggerAxis(Hand.kLeft);
@@ -145,17 +145,12 @@ public class HumanInput {
     runIntakeButton.toggleWhenPressed(new IntakeMotorCommand());
   }
 
-public double getJoystickAxisRight(int axisY) {
-	return getJoystickAxis(axisY, joystickRight, DEADZONE);
+public double getJoystickAxisRight(int axis) {
+	return getJoystickAxis(axis, joystickRight, DEADZONE);
 }
 
-public double getJoystickAxisLeft(int axisY) {
-	return getJoystickAxis(axisY, joystickLeft, DEADZONE);
-}
-
-
-public double getXboxRightTrigger(){
-  return xbox.getTriggerAxis(Hand.kRight);
+public double getJoystickAxisLeft(int axis) {
+	return getJoystickAxis(axis, joystickLeft, DEADZONE);
 }
 
 
