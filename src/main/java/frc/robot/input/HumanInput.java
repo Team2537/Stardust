@@ -57,14 +57,15 @@ public class HumanInput {
     
       //JOYSTICK KOLYA
       cameraSwitchButton = new JoystickButton(joystickLeft, Ports.CAMERA_BUTTON);
-      tankButton = new JoystickButton(joystickLeft, Ports.TANK_BUTTON);
+      tankButton = new JoystickButton(joystickLeft, Ports.TANK_BUTTON); //fat left button on top of joystick
       
      
       //XBOX KINSLEY
-      intakeButton = new JoystickButton(xbox, Ports.STOP_SHOOTER_BUTTON); //Y //checked
+      intakeButton = new JoystickButton(xbox, Ports.LOWER_INTAKE_BUTTON); //back //checked
+      runIntakeButton = new JoystickButton(xbox, Ports.INTAKE_BUTTON); //Y
 
       presetClimbPosition = new JoystickButton(xbox, Ports.PRESET_CLIMB_POSITION_BUTTON); //RB //checked
-      enableClimb = new JoystickButton(xbox, Ports.ENABLE_CLIMB_BUTTON); //LB hold and use LT to set winch speed and use right joystick for telescope speed//checked
+      enableClimb = new JoystickButton(xbox, Ports.ENABLE_CLIMB_BUTTON); //LB hold and use LT to set winch speed and use right joystick for telescope speed //checked
 
       fullAutoShooterButton = new JoystickButton(xbox, Ports.SHOOTER_BUTTON); //A //checked //hold and shoots until released
 
@@ -73,11 +74,10 @@ public class HumanInput {
       
       spinXTimesBtn = new JoystickButton(xbox, Ports.SPIN_X_TIMES_BUTTON); //X checked
       spinToColorBtn = new JoystickButton(xbox, Ports.SPIN_TO_COLOR_BUTTON); // B checked
-      //use RT to control speed of spin manually
+      //USE left joystick for controlpanel
 
-      //Button to allow winch and telescope to be run
 
-      runIntakeButton = new JoystickButton(xbox, Ports.INTAKE_BUTTON);
+      
     
       
       

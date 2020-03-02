@@ -2,6 +2,7 @@ package frc.robot.cameras;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import edu.wpi.cscore.UsbCamera;
 
 
@@ -55,6 +56,20 @@ public class Cameras extends Thread {
             camServer.getServer().setSource(cam0);
             currentCam = 0;
         }
+       
+        // double joyx = Robot.humanInput.joystickRight.getX();
+        // double joyy = Robot.humanInput.joystickRight.getY();
+
+        // if(Math.signum(joyx) == 1){
+        //     camServer.getServer().setSource(cam1);
+        //     SmartDashboard.putString("CamSelection", "CLIMB");
+        // }else if(Math.signum(joyx) == -1){
+        //     camServer.getServer().setSource(cam2);
+        //     SmartDashboard.putString("CamSelection", "CONTROL PANEL");
+        // }else if(Math.signum(joyy) == 1){
+        //     SmartDashboard.putString("CamSelection", "DRIVE");
+        //     camServer.getServer().setSource(cam0);
+        // }
 
 
     }

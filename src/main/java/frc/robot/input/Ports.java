@@ -10,12 +10,16 @@ public class Ports {
     public static int PRESET_CLIMB_POSITION_BUTTON = 6; //checked //RB
     public static int ENABLE_CLIMB_BUTTON = 5; //checked //LB for both clim and winch
     public static int INTAKE_BUTTON = 4; //Y checked
+    public static int LOWER_INTAKE_BUTTON = 7; //BACK checked
+
+    public static int START_SHOOTER_BUTTON = 8; //START checked
     public static int SHOOTER_BUTTON = 1; //A //CHECKED
+    
     public static int SPIN_X_TIMES_BUTTON = 3; //X checked
     public static int SPIN_TO_COLOR_BUTTON = 2; //B checked
 
-    public static int STOP_SHOOTER_BUTTON = 7; //BACK checked
-    public static int START_SHOOTER_BUTTON = 8; //START checked
+    
+    
 
     //JOYSTICK
     //LEFT
