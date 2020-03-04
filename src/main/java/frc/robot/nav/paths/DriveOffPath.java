@@ -16,7 +16,7 @@ public class DriveOffPath extends SequentialCommandGroup {
             new LoadBallCommand(),
             new WaitCommand(0.5),
             new MecanumDriveStraightCommand(20, 0),
-            new WaitCommand(.5),
+            new WaitCommand(.5)
             
         );
 
