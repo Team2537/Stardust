@@ -25,7 +25,7 @@ public class ClimbCommand extends CommandBase {
   public void execute() {
     //Checks if telescope is fully extended; if not, runs telescope
     if(!Robot.climbsys.isFullyExtended()) { //this makes 
-      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getXboxRightJoystickAxis() /(.75));
+      Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getXboxRightJoystickAxis());
     } 
     else {
       Robot.climbsys.setTelescopeSpeed(0);

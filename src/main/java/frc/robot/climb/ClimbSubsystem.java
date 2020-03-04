@@ -29,6 +29,7 @@ public class ClimbSubsystem extends SubsystemBase {
     climbCANWinch = new CANSparkMax(Ports.CLIMB_WINCH, MotorType.kBrushless);
     climbCANTelescope = new CANTalon(Ports.CLIMB_TELESCOPE);
     climbDITelescope = new DigitalInput(Ports.TOP_SENSOR);
+    climbCANTelescope.configFactoryDefault();
   }
 
   public static ClimbSubsystem getInstance() {

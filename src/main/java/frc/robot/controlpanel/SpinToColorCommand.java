@@ -45,6 +45,7 @@ public class SpinToColorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(Robot.controlsubsys.detectColor());
     if((!colorFound) && Robot.controlsubsys.isOnTargetColor()){
       timer.start();
       colorFound = true;

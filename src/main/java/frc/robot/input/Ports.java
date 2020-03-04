@@ -24,7 +24,7 @@ public class Ports {
     //JOYSTICK
     //LEFT
     public static int TANK_BUTTON = 1;
-    public static int CAMERA_BUTTON = 6; //weird middle button
+    public static int CAMERA_BUTTON = 2; //weird middle button
     //RIGHT
 
 
