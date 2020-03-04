@@ -36,7 +36,12 @@ public class IntakeSubsystem extends SubsystemBase {
   public void setSpeed(double speed){
     flywheel1.set(speed);
    
-  }   
+  } 
+  
+  public double getSpeed(){
+    return flywheel1.getSupplyCurrent();
+   
+  } 
 
   public static IntakeSubsystem getInstance() {
     if (instance == null) {
@@ -59,6 +64,15 @@ public class IntakeSubsystem extends SubsystemBase {
     return engaged;
   }
 
+  public boolean getMotorStatus(){
+    if(getSpeed() !=0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   /**
    * @param engaged the engaged to set
    */
@@ -73,4 +87,5 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     //setDefaultCommand(new IntakeMotorCommand());
   }
+
 }

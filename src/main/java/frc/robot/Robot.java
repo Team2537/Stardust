@@ -47,9 +47,6 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;
   public static DriveSubsystem drivesys = DriveSubsystem.getInstance();
-  private UsbCamera camera0;
-  private UsbCamera camera1;
-  private VideoSink camServer;
 
   public static IntakeSubsystem intakesys = IntakeSubsystem.getInstance();
 
@@ -59,6 +56,7 @@ public class Robot extends TimedRobot {
   
   public static ControlPanelSubsystem controlsubsys = ControlPanelSubsystem.getInstance();
 
+  public static CustomDashboardLogger logger;
   public Cameras cameras;
   
   @Override
@@ -72,6 +70,7 @@ public class Robot extends TimedRobot {
     cameras = Cameras.getInstance();
     Cameras.getInstance().startCameras();
 
+    logger = new CustomDashboardLogger();
 
   }
 
@@ -79,14 +78,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     //Robot.shooter.ballIntakeCount();
-
+    logger.log();
     // camera code for testing cvsource
-    camera0 = CameraServer.getInstance().startAutomaticCapture(0);
-    camera1 = CameraServer.getInstance().startAutomaticCapture(1);
-    camServer = CameraServer.getInstance().getServer();
-    camServer.setSource(camera0);
-    camera0.setResolution(160, 120);
-    camera1.setResolution(160, 120);
 
     //shuffledash info
     SmartDashboard.putBoolean("DriveMode", true);
@@ -109,17 +102,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    Navx.getInstance().zeroYaw();
-    Navx.getInstance().reset();
-    Navx.getInstance().reset();
-    CommandScheduler.getInstance().schedule(new LoadBallCommand());
-    CommandScheduler.getInstance().schedule(new RotateCommand(90, DriveMode.kTank));
-    
-   
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
-    //CommandScheduler.getInstance().schedule(/*new SwitchDriveCommand(), */new DriveStraightCommand(100));
+
   }
 
   /**
@@ -127,10 +110,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Robot.drivesys.putEncodersToDash();
-    System.out.println(Navx.getInstance().getYaw());
-    CommandScheduler.getInstance().run();
-    
+
   }
 
   /**
@@ -138,18 +118,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-    Navx.getInstance().reset();
-    Robot.drivesys.resetEncoders();
-    CommandScheduler.getInstance().schedule(new LoadBallCommand());
-    CommandScheduler.getInstance().run();
+
   }
 
   @Override
   public void teleopPeriodic() {
-    Robot.drivesys.periodic();
-    Robot.intakesys.periodic();
-    Robot.controlsubsys.periodic();
-    CommandScheduler.getInstance().run(); 
+
     
   }
 
@@ -157,9 +131,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
 
-    ShooterSubsystem.getInstance();
-
-    CommandScheduler.getInstance().run();
   }
 
   
@@ -169,8 +140,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    System.out.println(Navx.getInstance().getYaw());
-    CommandScheduler.getInstance().run(); 
+
   }
 
 }
