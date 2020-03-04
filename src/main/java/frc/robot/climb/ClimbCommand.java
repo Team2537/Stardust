@@ -30,7 +30,7 @@ public class ClimbCommand extends CommandBase {
     //The Hall Effect Sensors return false when a magnet is nearby (cause that makes sense) so 
     //when the sensor returns true, the motor should continue running. If it is false, that's when 
     //we abort mission before the telescope turns into a projectile
-    if(Robot.climbsys.getClimbDITelescope()) {
+    if(Robot.climbsys.isFullyExtended()) {
       Robot.climbsys.setTelescopeSpeed(Robot.humanInput.getJoystickAxis() / 3);
     }
     else {
@@ -48,6 +48,8 @@ public class ClimbCommand extends CommandBase {
     //it kills the motors which is always a good idea. 
     Robot.climbsys.setTelescopeSpeed(0);
     Robot.climbsys.setWinchSpeed(0);
+
+    System.out.println("Climb Command Ended");
   }
 
   // Returns true when the command should end.

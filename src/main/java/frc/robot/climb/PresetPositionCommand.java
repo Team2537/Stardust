@@ -21,6 +21,7 @@ public class PresetPositionCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Preset Initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +36,7 @@ public class PresetPositionCommand extends CommandBase {
   public void end(boolean interrupted) {
     //This is what actually stops the motors once it realizes it's near the sensors, i.e. very important shit
     Robot.climbsys.setTelescopeSpeed(0);
-    System.out.println("ENDED");
+    System.out.println("Preset Ended");
   }
 
   // Returns true when the command should end.
@@ -44,13 +45,11 @@ public class PresetPositionCommand extends CommandBase {
     //The Hall Effect Sensors return false when a magnet is nearby (cause that makes sense) so 
     //when the sensor returns true, the motor should continue running. If it is false, that's when 
     //we abort mission before the telescope turns into a projectile
-   if(Robot.climbsys.getClimbDITelescope()) {
-    System.out.println("FALSE");
-     return false;
+   if(Robot.climbsys.isFullyExtended()) {
+     return true;
    }
    else {
-    System.out.println("TRUE");
-     return true;
+     return false;
    }
   }
 }
