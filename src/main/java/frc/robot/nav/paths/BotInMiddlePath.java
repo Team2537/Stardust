@@ -17,10 +17,11 @@ public class BotInMiddlePath extends SequentialCommandGroup {
             new MecanumDriveStraightCommand(75, 180),
             new WaitCommand(.5),
             new MecanumDriveStraightCommand(62, 270),
+            new WaitCommand(.5),
             new MecanumDriveStraightCommand(30, 180),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
             new StopShooterCommand()
         );
 

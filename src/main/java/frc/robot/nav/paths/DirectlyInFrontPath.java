@@ -15,9 +15,9 @@ public class DirectlyInFrontPath extends SequentialCommandGroup {
         addCommands(
             new LoadBallCommand(),
             new MecanumDriveStraightCommand(110, 180),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
             new StopShooterCommand()
         );
 

@@ -13,13 +13,10 @@ public class TestPath extends SequentialCommandGroup {
     public TestPath() {
         addCommands(
             new LoadBallCommand(),
-            new MecanumDriveStraightCommand(75, 180),
-            new WaitCommand(.5),
-            new MecanumDriveStraightCommand(62, 270),
-            new MecanumDriveStraightCommand(30, 180),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
+            new MecanumDriveStraightCommand(110, 180),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
             new StopShooterCommand()
         );
 

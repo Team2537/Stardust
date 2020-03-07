@@ -18,9 +18,9 @@ public class BotOnLeftPath extends SequentialCommandGroup {
             new WaitCommand(.5),
             new MecanumDriveStraightCommand(120, 270),
             new MecanumDriveStraightCommand(30, 180),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
-            ShootingCommandGroup.getInstance(),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
+            new ShootingCommandGroup(),
             new StopShooterCommand()
         );
 

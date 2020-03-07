@@ -52,7 +52,7 @@ public class HumanInput {
   public HumanInput() {
       joystickLeft = new Joystick(Ports.JOYL);
       joystickRight = new Joystick(Ports.JOYR);
-
+      intakeButton = new JoystickButton(joystickRight, Ports.LOWER_INTAKE_BUTTON); //back //checked
       xbox = new XboxController(Ports.XBOX_CONTROLLER);
     
       //JOYSTICK KOLYA
@@ -61,7 +61,7 @@ public class HumanInput {
       
      
       //XBOX KINSLEY
-      intakeButton = new JoystickButton(xbox, Ports.LOWER_INTAKE_BUTTON); //back //checked
+      
       runIntakeButton = new JoystickButton(xbox, Ports.INTAKE_BUTTON); //Y
 
       presetClimbPosition = new JoystickButton(xbox, Ports.PRESET_CLIMB_POSITION_BUTTON); //RB //checked

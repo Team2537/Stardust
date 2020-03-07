@@ -24,6 +24,7 @@ import frc.robot.Shooter.LoadBallCommand;
 import frc.robot.Shooter.ShooterSubsystem;
 import frc.robot.cameras.Cameras;
 import frc.robot.climb.*;
+import frc.robot.nav.AutoChooser;
 import frc.robot.nav.DriveStraightCommand;
 import frc.robot.nav.MecanumDriveStraightCommand;
 import frc.robot.nav.Navx;
@@ -55,6 +56,8 @@ public class Robot extends TimedRobot {
   
   public static ControlPanelSubsystem controlsubsys = ControlPanelSubsystem.getInstance();
 
+  public static AutoChooser autoChooser = AutoChooser.getInstance();
+  
   public Cameras cameras;
   
   @Override
@@ -99,11 +102,11 @@ public class Robot extends TimedRobot {
     Navx.getInstance().zeroYaw();
     Navx.getInstance().reset();
     Navx.getInstance().reset();
-    CommandScheduler.getInstance().schedule(new TestPath());
+    // CommandScheduler.getInstance().schedule(new TestPath());
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
-    //CommandScheduler.getInstance().schedule(/*new SwitchDriveCommand(), */new DriveStraightCommand(100));
+    CommandScheduler.getInstance().schedule(AutoChooser.getInstance().getPath());
   }
 
   /**

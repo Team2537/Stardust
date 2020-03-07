@@ -28,7 +28,7 @@ public class IntakeMotorCommand extends CommandBase {
   @Override
   public void initialize() {
     
-      Robot.intakesys.setSpeed(-0.6);
+      Robot.intakesys.setSpeed(-0.3);
     
   }
 

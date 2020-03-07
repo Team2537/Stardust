@@ -5,12 +5,13 @@ public class Ports {
     public static int XBOX_CONTROLLER = 2;
     public static int JOYR = 1; 
     public static int JOYL = 0;
+    public static int LOWER_INTAKE_BUTTON = 1; //Kolya Right Trigger
 
     //XBOX
     public static int PRESET_CLIMB_POSITION_BUTTON = 6; //checked //RB
     public static int ENABLE_CLIMB_BUTTON = 5; //checked //LB for both clim and winch
     public static int INTAKE_BUTTON = 4; //Y checked
-    public static int LOWER_INTAKE_BUTTON = 7; //BACK checked
+    
 
     public static int START_SHOOTER_BUTTON = 8; //START checked
     public static int SHOOTER_BUTTON = 1; //A //CHECKED

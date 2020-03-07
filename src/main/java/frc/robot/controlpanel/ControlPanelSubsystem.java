@@ -283,7 +283,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
       c.cancel();
       stopMotors();
     }
-    startMotors(joystickPos / 3);
+    startMotors(-joystickPos / 3);
 
    } else if (!isSpinCommandRunning) {
      stopMotors();
