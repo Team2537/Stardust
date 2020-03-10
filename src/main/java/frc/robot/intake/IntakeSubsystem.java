@@ -7,6 +7,7 @@
 
 package frc.robot.intake;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.input.Ports;
 import frc.robot.util.CANTalon;
@@ -16,6 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private static IntakeSubsystem instance = null;
   private boolean engaged;
   private CANTalon flywheel1;
+  
   //private CANTalon flywheel2;
   
   Solenoid solenoid1;
@@ -28,6 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
      //solenoid2 = new Solenoid(Ports.SOLENOID_PORT2);
      flywheel1 = new CANTalon(Ports.FLYWHEEL_PORT);
      //flywheel2 = new CANTalon(2);
+     SmartDashboard.putBoolean("Intake On", false);
      engaged = false;
  
   }

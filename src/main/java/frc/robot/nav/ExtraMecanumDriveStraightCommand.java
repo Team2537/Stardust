@@ -15,25 +15,26 @@ public class ExtraMecanumDriveStraightCommand extends CommandBase {
     private double aggregateError;
     private double speed;
 
-    private static final double DEFAULT_PERCENT_OUTPUT = 0.30;
-    private static final double MIN_PERCENT_OUTPUT = 0.20;
+    private static final double DEFAULT_PERCENT_OUTPUT = 0.15;
+    private static final double MIN_PERCENT_OUTPUT = 0.2;
     private static final double ANGLE_kP = 2.30;
     private static final double ANGLE_kI = 0.03;
     private static final double DISTANCE_kP = 1;
     private static final double SLOWING_ADJUSTMENT = 2;
     private static final double TOLERANCE = 0.5; // degrees
     private static final double DISTANCE_TOLERANCE = 3;
-    private static final double SLOWING_DISTANCE = 10;
+    private static final double SLOWING_DISTANCE = 5;
 
-    public ExtraMecanumDriveStraightCommand(double targetSpeed, double targetDirection) {
+    public ExtraMecanumDriveStraightCommand(double targetDistance, double targetSpeed, double targetDirection) {
     addRequirements(Robot.drivesys);
     direction = targetDirection;
     speed = targetSpeed;
-    // if (direction == 90 || direction == 270){
-    //   vertical = false;
-    // } else {
-    //   vertical = true;
-    // }
+    distance = targetDistance;
+    if (direction == 90 || direction == 270){
+      vertical = false;
+    } else {
+      vertical = true;
+    }
   }
 
   // Called when the command is initially scheduled.
@@ -54,12 +55,12 @@ public class ExtraMecanumDriveStraightCommand extends CommandBase {
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
       double power = speed * Math.signum(distance);
-      //remainingDistance = distance - Robot.drivesys.getEncoderDistance(vertical);
+      remainingDistance = distance - Robot.drivesys.getEncoderDistance(vertical);
   
 
-    //   if (remainingDistance <= SLOWING_DISTANCE) {
-    //     power *= (remainingDistance + SLOWING_ADJUSTMENT) / (SLOWING_DISTANCE + SLOWING_ADJUSTMENT) * DISTANCE_kP;
-    //   }
+      if (remainingDistance <= SLOWING_DISTANCE) {
+        power *= (remainingDistance + SLOWING_ADJUSTMENT) / (SLOWING_DISTANCE + SLOWING_ADJUSTMENT) * DISTANCE_kP;
+      }
       
       
       double zRotationAdjustment = 0;

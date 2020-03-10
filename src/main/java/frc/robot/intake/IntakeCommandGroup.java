@@ -10,6 +10,9 @@ package frc.robot.intake;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Shooter.LoadBallCommand;
+import frc.robot.drive.DriveCommand;
+import frc.robot.nav.ExtraMecanumDriveStraightCommand;
+import frc.robot.nav.MecanumDriveStraightCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,6 +24,6 @@ public class IntakeCommandGroup extends ParallelCommandGroup {
   public IntakeCommandGroup() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new MoveIntakeCommand(), new LoadBallCommand());
+    super(new MecanumDriveStraightCommand(60, 180), new MoveIntakeCommand(), new IntakeMotorCommand(), new LoadBallCommand());
   }
 }

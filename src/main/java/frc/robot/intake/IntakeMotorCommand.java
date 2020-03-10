@@ -7,6 +7,7 @@
 
 package frc.robot.intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
@@ -19,7 +20,6 @@ public class IntakeMotorCommand extends CommandBase {
    */
   public IntakeMotorCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.intakesys);
     
 
   }
@@ -28,7 +28,8 @@ public class IntakeMotorCommand extends CommandBase {
   @Override
   public void initialize() {
     
-      Robot.intakesys.setSpeed(-0.3);
+      Robot.intakesys.setSpeed(-0.6);
+      SmartDashboard.putBoolean("Intake On", true);
     
   }
 
@@ -42,6 +43,7 @@ public class IntakeMotorCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Robot.intakesys.setSpeed(0);
+    SmartDashboard.putBoolean("Intake On", false);
   }
 
   // Returns true when the command should end.

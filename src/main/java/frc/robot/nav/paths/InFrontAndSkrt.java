@@ -9,20 +9,17 @@ import frc.robot.Shooter.ShootingCommandGroup;
 import frc.robot.Shooter.StopShooterCommand;
 import frc.robot.nav.MecanumDriveStraightCommand;
 
-public class BotOnLeftPath extends SequentialCommandGroup {
+public class InFrontAndSkrt extends SequentialCommandGroup {
 
-    public BotOnLeftPath() {
-        addCommands( 
+    public InFrontAndSkrt() {
+        addCommands(
             new LoadBallCommand(),
-            new WaitCommand(3),
-            new MecanumDriveStraightCommand(75, 180),
-            new WaitCommand(.5),
-            new MecanumDriveStraightCommand(120, 270),
-            new MecanumDriveStraightCommand(30, 180),
+            new MecanumDriveStraightCommand(110, 180),
             new ShootingCommandGroup(),
             new ShootingCommandGroup(),
             new ShootingCommandGroup(),
-            new StopShooterCommand()
+            new StopShooterCommand(),
+            new MecanumDriveStraightCommand(60, 270)
         );
 
 

@@ -7,6 +7,8 @@ import frc.robot.nav.paths.BotInMiddlePath;
 import frc.robot.nav.paths.BotOnLeftPath;
 import frc.robot.nav.paths.DirectlyInFrontPath;
 import frc.robot.nav.paths.DriveOffPath;
+import frc.robot.nav.paths.InFrontAndSkrt;
+import frc.robot.nav.paths.InFrontGetTrench;
 
 public class AutoChooser {
 
@@ -21,6 +23,8 @@ public class AutoChooser {
         startingPosition.addOption("Directly in Front", new DirectlyInFrontPath());
         startingPosition.addOption("In the Middle", new BotInMiddlePath());
         startingPosition.addOption("On the Left", new BotOnLeftPath());
+        startingPosition.addOption("That shooty trenchy boi", new InFrontGetTrench());
+        startingPosition.addOption("In Front and Skrt", new InFrontAndSkrt());
 
         SmartDashboard.putData("AutoChoose", startingPosition);
     }
