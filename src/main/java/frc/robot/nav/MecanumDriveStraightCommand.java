@@ -21,7 +21,7 @@ public class MecanumDriveStraightCommand extends CommandBase {
   private static final double ANGLE_kI = 0.03;
   private static final double DISTANCE_kP = 1;
   private static final double SLOWING_ADJUSTMENT = 2;
-  private static final double TOLERANCE = 0.5; // degrees
+  private static final double TOLERANCE = 0.3; // degrees
   private static final double DISTANCE_TOLERANCE = 2.50;
   private static final double SLOWING_DISTANCE = 10;
  

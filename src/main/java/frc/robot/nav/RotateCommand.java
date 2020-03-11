@@ -16,7 +16,7 @@ public class RotateCommand extends CommandBase {
   private double deltaAngle;
   private DriveMode mode;
   private static final double DEFAULT_PERCENT_OUTPUT = 0.2;
-  private static final double MIN_PERCENT_OUTPUT = 0.15;
+  private static final double MIN_PERCENT_OUTPUT = 0.10;
   private static final double ANGLE_kP = 1.30;
 	private static final double TOLERANCE = 1.5; // degrees
 

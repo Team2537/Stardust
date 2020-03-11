@@ -17,12 +17,12 @@ public class ExtraMecanumDriveStraightCommand extends CommandBase {
 
     private static final double DEFAULT_PERCENT_OUTPUT = 0.15;
     private static final double MIN_PERCENT_OUTPUT = 0.2;
-    private static final double ANGLE_kP = 2.30;
-    private static final double ANGLE_kI = 0.03;
+    private static final double ANGLE_kP = 4;
+    private static final double ANGLE_kI = 0.05;
     private static final double DISTANCE_kP = 1;
     private static final double SLOWING_ADJUSTMENT = 2;
-    private static final double TOLERANCE = 0.5; // degrees
-    private static final double DISTANCE_TOLERANCE = 3;
+    private static final double TOLERANCE = 0.2; // degrees
+    private static final double DISTANCE_TOLERANCE = 2;
     private static final double SLOWING_DISTANCE = 5;
 
     public ExtraMecanumDriveStraightCommand(double targetDistance, double targetSpeed, double targetDirection) {
@@ -87,6 +87,6 @@ public class ExtraMecanumDriveStraightCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (Math.abs(Robot.drivesys.getEncoderDistance(vertical) - distance)) <= DISTANCE_TOLERANCE;
   }
 }

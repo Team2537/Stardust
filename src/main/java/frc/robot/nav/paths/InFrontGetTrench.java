@@ -13,6 +13,7 @@ import frc.robot.intake.IntakeMotorCommand;
 import frc.robot.intake.MoveIntakeCommand;
 import frc.robot.nav.ExtraMecanumDriveStraightCommand;
 import frc.robot.nav.MecanumDriveStraightCommand;
+import frc.robot.nav.ResetNavxCommand;
 import frc.robot.nav.RotateCommand;
 
 public class InFrontGetTrench extends SequentialCommandGroup {
@@ -26,9 +27,11 @@ public class InFrontGetTrench extends SequentialCommandGroup {
             new ShootingCommandGroup(),
             new StopShooterCommand(),
             new MecanumDriveStraightCommand(90, 0),
-            new MecanumDriveStraightCommand(44, 270),
+            new ExtraMecanumDriveStraightCommand(82, 0.6, 270),
             new RotateCommand(90, DriveMode.kMecanum),
             new RotateCommand(90, DriveMode.kMecanum),
+            new ResetNavxCommand(),
+            new WaitCommand(0.2),
             new IntakeCommandGroup()
         );
 

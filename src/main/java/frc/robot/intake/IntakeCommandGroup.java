@@ -24,6 +24,6 @@ public class IntakeCommandGroup extends ParallelCommandGroup {
   public IntakeCommandGroup() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new MecanumDriveStraightCommand(60, 180), new MoveIntakeCommand(), new IntakeMotorCommand(), new LoadBallCommand());
+    super(new ExtraMecanumDriveStraightCommand(150, 0.3, 180), new MoveIntakeCommand(), new IntakeMotorCommand(), new LoadBallCommand());
   }
 }

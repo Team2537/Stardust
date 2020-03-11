@@ -115,6 +115,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Robot.drivesys.putEncodersToDash();
+    SmartDashboard.putNumber("Navx Yaw", Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run();
     
   }

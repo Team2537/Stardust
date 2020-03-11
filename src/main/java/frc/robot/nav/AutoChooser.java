@@ -18,14 +18,12 @@ public class AutoChooser {
 
     public AutoChooser() {
         startingPosition = new SendableChooser<>();
-
         startingPosition.setDefaultOption("Drive Off Line", new DriveOffPath());
         startingPosition.addOption("Directly in Front", new DirectlyInFrontPath());
         startingPosition.addOption("In the Middle", new BotInMiddlePath());
         startingPosition.addOption("On the Left", new BotOnLeftPath());
         startingPosition.addOption("That shooty trenchy boi", new InFrontGetTrench());
         startingPosition.addOption("In Front and Skrt", new InFrontAndSkrt());
-
         SmartDashboard.putData("AutoChoose", startingPosition);
     }
 
@@ -37,13 +35,7 @@ public class AutoChooser {
     }
 
     public CommandGroupBase getPath() {
-        CommandGroupBase chosenPath = startingPosition.getSelected();
-        
+        CommandGroupBase chosenPath = startingPosition.getSelected();        
         return chosenPath;
     }
-
-
-
-
-
 }
