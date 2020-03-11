@@ -15,7 +15,7 @@ public class RotateCommand extends CommandBase {
   private double targetAngle;
   private double deltaAngle;
   private DriveMode mode;
-  private static final double DEFAULT_PERCENT_OUTPUT = 0.2;
+  private static final double DEFAULT_PERCENT_OUTPUT = 0.3;
   private static final double MIN_PERCENT_OUTPUT = 0.10;
   private static final double ANGLE_kP = 1.30;
 	private static final double TOLERANCE = 1.5; // degrees
@@ -42,6 +42,11 @@ public class RotateCommand extends CommandBase {
   @Override
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
+      if(targetAngle >= 175 && currentAngle < 0) {
+        currentAngle = 360 + Navx.getInstance().getYaw();
+      } else if (targetAngle <= -175 && currentAngle > 0){
+        currentAngle = Navx.getInstance().getYaw() - 360;
+      }
       deltaAngle = (targetAngle - currentAngle);
       double power = DEFAULT_PERCENT_OUTPUT;
       power = Math.min(Math.abs(power), (Math.abs(deltaAngle) / (targetAngle - startingAngle) * power * ANGLE_kP)) * Math.signum(deltaAngle);

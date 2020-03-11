@@ -1,36 +1,36 @@
-package frc.robot.nav;
+package frc.robot.nav.drivestraight;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.nav.Navx;
 
 
-public class MecanumDriveStraightCommand extends CommandBase {
+public class ExtraMecanumDriveStraightCommand extends CommandBase {
 
-  
-  private double currentAngle;
-  private double distance;
-  private double remainingDistance;
-  private double direction;
-  private double xMultiplier, yMultiplier;
-  private boolean vertical;
-  private double aggregateError;
-  
-  private static final double DEFAULT_PERCENT_OUTPUT = 0.30;
-  private static final double MIN_PERCENT_OUTPUT = 0.20;
-  private static final double ANGLE_kP = 2.30;
-  private static final double ANGLE_kI = 0.03;
-  private static final double DISTANCE_kP = 1;
-  private static final double SLOWING_ADJUSTMENT = 2;
-  private static final double TOLERANCE = 0.3; // degrees
-  private static final double DISTANCE_TOLERANCE = 2.50;
-  private static final double SLOWING_DISTANCE = 10;
- 
+    private double currentAngle;
+    private double distance;
+    private double remainingDistance;
+    private double direction;
+    private double xMultiplier, yMultiplier;
+    private boolean vertical;
+    private double aggregateError;
+    private double speed;
 
+    private static final double DEFAULT_PERCENT_OUTPUT = 0.15;
+    private static final double MIN_PERCENT_OUTPUT = 0.2;
+    private static final double ANGLE_kP = 4;
+    private static final double ANGLE_kI = 0.05;
+    private static final double DISTANCE_kP = 1;
+    private static final double SLOWING_ADJUSTMENT = 2;
+    private static final double TOLERANCE = 0.2; // degrees
+    private static final double DISTANCE_TOLERANCE = 2;
+    private static final double SLOWING_DISTANCE = 5;
 
-  public MecanumDriveStraightCommand(double targetDistance, double targetDirection) {
+    public ExtraMecanumDriveStraightCommand(double targetDistance, double targetSpeed, double targetDirection) {
     addRequirements(Robot.drivesys);
-    distance = targetDistance;
     direction = targetDirection;
+    speed = targetSpeed;
+    distance = targetDistance;
     if (direction == 90 || direction == 270){
       vertical = false;
     } else {
@@ -55,7 +55,7 @@ public class MecanumDriveStraightCommand extends CommandBase {
   @Override
   public void execute() {
       currentAngle = Navx.getInstance().getYaw();
-      double power = DEFAULT_PERCENT_OUTPUT * Math.signum(distance);
+      double power = speed * Math.signum(distance);
       remainingDistance = distance - Robot.drivesys.getEncoderDistance(vertical);
   
 
@@ -75,7 +75,6 @@ public class MecanumDriveStraightCommand extends CommandBase {
       }
 
       System.out.println("Encoders: " + Robot.drivesys.getEncoderAverage());
-      
       Robot.drivesys.setPolarDriveSpeed(power, direction, zRotationAdjustment);
   }
 

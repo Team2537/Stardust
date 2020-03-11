@@ -8,16 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.nav.TestCommand;
-import frc.robot.nav.TestPath;
 import frc.robot.drive.DriveSubsystem;
-import frc.robot.drive.SwitchDriveCommand;
-import frc.robot.drive.TempDriveCommand;
-import frc.robot.drive.DriveSubsystem.DriveMode;
 import frc.robot.input.HumanInput;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.Shooter.LoadBallCommand;
@@ -25,14 +19,9 @@ import frc.robot.Shooter.ShooterSubsystem;
 import frc.robot.cameras.Cameras;
 import frc.robot.climb.*;
 import frc.robot.nav.AutoChooser;
-import frc.robot.nav.DriveStraightCommand;
-import frc.robot.nav.MecanumDriveStraightCommand;
 import frc.robot.nav.Navx;
-import frc.robot.nav.RotateCommand;
-
 import frc.robot.controlpanel.ControlPanelSubsystem;
 import frc.robot.controlpanel.SpinXTimesCommand;
-import frc.robot.input.Ports;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -41,8 +30,6 @@ import frc.robot.input.Ports;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static HumanInput humanInput;

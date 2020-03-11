@@ -11,8 +11,8 @@ import frc.robot.drive.DriveSubsystem.DriveMode;
 import frc.robot.intake.IntakeCommandGroup;
 import frc.robot.intake.IntakeMotorCommand;
 import frc.robot.intake.MoveIntakeCommand;
-import frc.robot.nav.ExtraMecanumDriveStraightCommand;
-import frc.robot.nav.MecanumDriveStraightCommand;
+import frc.robot.nav.drivestraight.ExtraMecanumDriveStraightCommand;
+import frc.robot.nav.drivestraight.MecanumDriveStraightCommand;
 import frc.robot.nav.ResetNavxCommand;
 import frc.robot.nav.RotateCommand;
 

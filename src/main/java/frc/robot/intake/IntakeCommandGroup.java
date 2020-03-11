@@ -11,8 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Shooter.LoadBallCommand;
 import frc.robot.drive.DriveCommand;
-import frc.robot.nav.ExtraMecanumDriveStraightCommand;
-import frc.robot.nav.MecanumDriveStraightCommand;
+import frc.robot.nav.drivestraight.ExtraMecanumDriveStraightCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

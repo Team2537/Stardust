@@ -1,7 +1,8 @@
-package frc.robot.nav;
+package frc.robot.nav.drivestraight;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.nav.Navx;
 
 
 public class DriveStraightCommand extends CommandBase {

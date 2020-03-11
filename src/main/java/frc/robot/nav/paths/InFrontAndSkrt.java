@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Shooter.LoadBallCommand;
 import frc.robot.Shooter.ShootingCommandGroup;
 import frc.robot.Shooter.StopShooterCommand;
-import frc.robot.nav.MecanumDriveStraightCommand;
+import frc.robot.nav.drivestraight.MecanumDriveStraightCommand;
 
 public class InFrontAndSkrt extends SequentialCommandGroup {
 
