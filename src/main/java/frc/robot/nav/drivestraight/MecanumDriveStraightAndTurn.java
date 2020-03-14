@@ -17,10 +17,15 @@ public class MecanumDriveStraightAndTurn extends CommandBase {
   private double deltaDistance, deltaDirection, deltaYaw;
   private double aeYaw;
 
-
+  private static final double Enc0Target = -75;
+  private static final double Enc1Target = -50;
+  private static final double Enc2Target = 14;
+  private static final double Enc3Target = 27.50;
+  private static final double ENC_VALUE_TOLERANCE = 1.00;
+  
   private static final double YAW_TOLERANCE = 0.4;
-  private static final double YAW_kP = 4;
-  private static final double YAW_kI = 0.05;
+  private static final double YAW_kP = 0.3;
+  private static final double YAW_kI = 0.000000;
 
   private static final double DISTANCE_kP = 1;
   private static final double DISTANCE_TOLERANCE = 8;
@@ -51,14 +56,16 @@ public class MecanumDriveStraightAndTurn extends CommandBase {
   public void execute() {
   double power = targetSpeed * Math.signum(targetDistance);
 
+  System.out.println("Yaw: " + Navx.getInstance().getAngle());
+
   //Yaw adjustment
-  currentYaw = Navx.getInstance().getYaw();
-  if(targetYaw >= 175 && currentYaw < 0) {
-    currentYaw = 360 + Navx.getInstance().getYaw();
-  } else if (targetYaw <= -175 && currentYaw > 0){
-    currentYaw = Navx.getInstance().getYaw() - 360;
-  } 
-  deltaYaw = targetYaw - currentYaw;
+  currentYaw = Navx.getInstance().getAngle();
+  // if(targetYaw >= 175 && currentYaw < 0) {
+  //   currentYaw = Navx.getInstance().getAngle();
+  // } else if (targetYaw <= -175 && currentYaw > 0){
+  //   currentYaw = Navx.getInstance().getYaw() - 360;
+  // } 
+  deltaYaw = -targetYaw + currentYaw;
   double zRotationAdjustment = 0;
   if (Math.abs(deltaYaw) >= YAW_TOLERANCE){
     aeYaw += deltaYaw;
@@ -79,6 +86,7 @@ public class MecanumDriveStraightAndTurn extends CommandBase {
   deltaDirection = targetDirection - currentDirection;
 
   Robot.drivesys.setPolarDriveSpeed(power, deltaDirection, zRotationAdjustment);
+  System.out.println("working");
 
 }
 
@@ -86,11 +94,12 @@ public class MecanumDriveStraightAndTurn extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Robot.drivesys.setTankDrive(0, 0);
+    System.out.println("BAD");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(deltaDistance) <= DISTANCE_TOLERANCE);
+    return false;
   }
 }

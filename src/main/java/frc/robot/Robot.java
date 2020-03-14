@@ -20,6 +20,7 @@ import frc.robot.cameras.Cameras;
 import frc.robot.climb.*;
 import frc.robot.nav.AutoChooser;
 import frc.robot.nav.Navx;
+import frc.robot.nav.drivestraight.MecanumDriveStraightAndTurn;
 import frc.robot.controlpanel.ControlPanelSubsystem;
 import frc.robot.controlpanel.SpinXTimesCommand;
 
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     Robot.controlsubsys.updateSmartDashboard();
+    Robot.drivesys.putEncodersToDash();
   }
 
   @Override
@@ -93,7 +95,10 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
-    CommandScheduler.getInstance().schedule(AutoChooser.getInstance().getPath());
+    
+    CommandScheduler.getInstance().schedule(new MecanumDriveStraightAndTurn(121, 319, 180, 0.4));
+
+    // CommandScheduler.getInstance().schedule(AutoChooser.getInstance().getPath());
   }
 
   /**
@@ -124,13 +129,12 @@ public class Robot extends TimedRobot {
     Robot.intakesys.periodic();
     Robot.controlsubsys.periodic();
     CommandScheduler.getInstance().run(); 
+    Robot.drivesys.putEncodersToDash();
     
   }
 
   @Override
   public void testInit() {
-
-    ShooterSubsystem.getInstance();
     CommandScheduler.getInstance().run();
 
   }
@@ -140,8 +144,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    ShooterSubsystem.getInstance().startFeederMotor(0.3);
-    ShooterSubsystem.getInstance().startShooterMotor(1000);
     System.out.println(Navx.getInstance().getYaw());
     CommandScheduler.getInstance().run(); 
   }
